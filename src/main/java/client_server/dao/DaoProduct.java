@@ -1,5 +1,7 @@
-package client_server.entities;
+package client_server.dao;
 
+import client_server.domain.Product;
+import client_server.domain.ProductFilter;
 import org.json.JSONObject;
 
 import java.sql.*;

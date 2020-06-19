@@ -1,6 +1,9 @@
 package client_server;
 
 import client_server.client.StoreClientTCP;
+import client_server.dao.UserDao;
+import client_server.domain.Packet;
+import client_server.domain.User;
 import client_server.entities.*;
 import com.google.common.primitives.UnsignedLong;
 
@@ -9,16 +12,19 @@ import java.nio.charset.StandardCharsets;
 public class Main {
 
     public static void main(String[] args) {
+//        UserDao daoUser = new UserDao("file.db");
+//        User user = new User(1,"admin", "admin", "admin");
+//        daoUser.insert(user);
         StoreClientTCP client = new StoreClientTCP();
         final byte[] packet = MessageGenerator.generate((byte)1, UnsignedLong.valueOf(1));
 
 
         Packet receivedPacket = client.sendPacket(packet);
 
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!\n" +
-                "Response from server: " + new String(receivedPacket.getBMsq().getMessage(), StandardCharsets.UTF_8)
-                + "\t for user with ID: " + receivedPacket.getSrcId()
-                + "\t for packet with ID: " + receivedPacket.getbPktId());
+//        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!\n" +
+//                "Response from server: " + new String(receivedPacket.getBMsq().getMessage(), StandardCharsets.UTF_8)
+//                + "\t for user with ID: " + receivedPacket.getSrcId()
+//                + "\t for packet with ID: " + receivedPacket.getbPktId());
 
 //        final DaoGroup daoGroup = new DaoGroup("file.db");
 //        for(int i = 0; i < 30; i++){

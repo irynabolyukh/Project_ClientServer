@@ -1,4 +1,4 @@
-package client_server.entities;
+package client_server.domain;
 
 
 public class JsonResponse{
