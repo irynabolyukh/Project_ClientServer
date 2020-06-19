@@ -1,4 +1,5 @@
 package client_server.client;
+
 import com.google.common.primitives.UnsignedLong;
 import client_server.entities.MessageGenerator;
 import client_server.entities.Packet;
@@ -14,37 +15,34 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class StoreClientTCP {
     private static final int CLIENT_PORT = 2222;
     private static final int RECONNECT_MAX = 3;
-    private static final int AMOUNT_OF_CLIENTS = 50;
 
-    //variables to check whether right amount of packets was (not) delivered
-    //AMOUNT_OF_CLIENTS = NUMBER_RECEIVED + NUMBER_DEAD
     private static final AtomicInteger NUMBER_RECEIVED = new AtomicInteger(0);
     private static final AtomicInteger NUMBER_DEAD = new AtomicInteger(0);
 
+    public Socket socket;
 
-    public static void main(String[] args) {
-        for (int i = 1; i < AMOUNT_OF_CLIENTS+1; i++) {
-            final int srcID = i;//userId
-            final int pktID = 1;
+    public StoreClientTCP() {
+    }
+
+    public void sendPacket(byte[] packet) {
             final int reconnect_num = 1;
 
             new Thread(() -> {
                 try (final Socket socket = new Socket(InetAddress.getByName(null), CLIENT_PORT)) {
-                    clientTCP(socket,srcID,pktID);
+                    clientTCP(socket,packet);
                 }  catch (IOException e) {
                     //e.printStackTrace();
                     System.out.println("Reconnecting");
-                    reconnect(srcID, pktID, reconnect_num);
+                    reconnect(packet, reconnect_num);
                 }
             }).start();
-        }
     }
 
-    private static void reconnect(int srcID, int pktID, int reconnect_num) {
+    private void reconnect(byte[] packet, int reconnect_num) {
         try {
-            final Socket socket = new Socket(InetAddress.getByName(null), CLIENT_PORT);
+            socket = new Socket(InetAddress.getByName(null), CLIENT_PORT);
             socket.setSoTimeout(3_000*reconnect_num);
-            clientTCP(socket, srcID, pktID);
+            clientTCP(socket, packet);
         } catch (IOException e) {
             // e.printStackTrace();
             System.out.println("Reconnecting\tSERVER IS OFFLINE!!!");
@@ -54,22 +52,19 @@ public class StoreClientTCP {
                 System.out.println("SERVER IS DEAD:( \t\t NUMBER of DEAD connections: "+ NUMBER_DEAD);
             }
             else{
-                int newPktId = pktID + 1;
                 int reconnect = reconnect_num + 1;
-
-                reconnect(srcID, newPktId, reconnect);
+                reconnect(packet, reconnect);
             }
         }
     }
 
-    private static void clientTCP(Socket socket, int srcID, int pktID) throws IOException {
+    private void clientTCP(Socket socket, byte[] packet) throws IOException {
         final InputStream inputStream = socket.getInputStream();
         final OutputStream outputStream = socket.getOutputStream();
 
-        final byte[] message_from_user = MessageGenerator.generate((byte)srcID, UnsignedLong.valueOf(pktID));
-        outputStream.write(message_from_user);
+        outputStream.write(packet);
         outputStream.flush();
-        Packet packetFromUser = new Packet(message_from_user);
+        Packet packetFromUser = new Packet(packet);
 
         final byte[] inputMessage = new byte[20000];
         final int messageSize = inputStream.read(inputMessage);
