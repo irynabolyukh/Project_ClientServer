@@ -49,7 +49,7 @@ public class MessageGenerator {
 
         //Message[] msgArray = {msg1, msg2, msg3, msg4, msg5, msg6, msg7, msg8, msg9, msg10, msg11};
 
-        Packet packet = new Packet(srcId, bPktId, msg7);
+        Packet packet = new Packet(srcId, bPktId, msg3);
 
         return packet.toPacket();
     }
