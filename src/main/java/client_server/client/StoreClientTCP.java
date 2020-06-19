@@ -11,7 +11,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.atomic.AtomicInteger;
-
+//CLIENT
 public class StoreClientTCP {
     private static final int CLIENT_PORT = 2222;
     private static final int RECONNECT_MAX = 3;
