@@ -2,6 +2,7 @@ package client_server.entities;
 
 import client_server.domain.*;
 import com.google.common.primitives.UnsignedLong;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.json.JSONObject;
 
 import java.nio.charset.StandardCharsets;
@@ -35,7 +36,7 @@ public class MessageGenerator {
         JSONObject jsonObj = new JSONObject("{"+"\"page\":"+0+", \"size\":"+10+
                 ", \"productFilter\":"+ fl.toJSON().toString() +"}");
 
-        UserCredentials user = new UserCredentials("admin", "admin");
+        UserCredentials user = new UserCredentials("admin", DigestUtils.md5Hex("admin"));
 
         Message msg1 = new Message(Message.cTypes.DELETE_ALL_IN_GROUP.ordinal() , 1, "2".getBytes(StandardCharsets.UTF_8));
         Message msg2 = new Message(Message.cTypes.DELETE_GROUP.ordinal() , 1, "1".getBytes(StandardCharsets.UTF_8));
