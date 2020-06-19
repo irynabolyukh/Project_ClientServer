@@ -1,6 +1,7 @@
 package client_server.client;
 
 import client_server.entities.Packet;
+import lombok.Data;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,19 +10,21 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
+@Data
 public class StoreClientTCP {
     private static final int CLIENT_PORT = 2222;
     private static final int RECONNECT_MAX = 3;
 
-    public Socket socket;
+    private Socket socket;
+    private Packet response;
 
     public StoreClientTCP() {
     }
 
-    public void sendPacket(byte[] packet) {
+    public Packet sendPacket(byte[] packet) {
         final int reconnect_num = 1;
 
-        new Thread(() -> {
+//        new Thread(() -> {
             try (final Socket socket = new Socket(InetAddress.getByName(null), CLIENT_PORT)) {
                 clientTCP(socket,packet);
             }  catch (IOException e) {
@@ -29,7 +32,9 @@ public class StoreClientTCP {
                 System.out.println("Reconnecting");
                 reconnect(packet, reconnect_num);
             }
-        }).start();
+
+            return response;
+//        }).start();
     }
 
     private void reconnect(byte[] packet, int reconnect_num) {
@@ -63,7 +68,12 @@ public class StoreClientTCP {
         final int messageSize = inputStream.read(inputMessage);
         byte[] fullPacket = new byte[messageSize];
         System.arraycopy(inputMessage, 0, fullPacket, 0, messageSize);
+
+
         Packet receivedPacket = new Packet(fullPacket);
+
+        this.response = receivedPacket;
+
 
         if(packetFromUser.getbPktId().equals(receivedPacket.getbPktId()))
             System.out.println("CORRECT response!");

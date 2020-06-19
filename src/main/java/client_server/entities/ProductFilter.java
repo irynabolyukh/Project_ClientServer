@@ -75,7 +75,7 @@ public class ProductFilter {
         JSONObject json = new JSONObject("{"+"\"ids\":"+arr+", \"query\":\""+query+
                 "\", \"fromPrice\":"+ fromPrice+", \"toPrice\":"+toPrice+
                 ", \"manufacturer\":\""+ manufacturer+"\", \"group_id\":"+ group_id+"}");
-        System.out.println(json);
+//        System.out.println(json);
         return json;
     }
 }

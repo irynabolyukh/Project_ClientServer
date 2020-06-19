@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kma.cs.sample.desktop.ui.products.ListProductsWindow">
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client_server.client.controllers.GroupsListController">
    <children>
       <VBox layoutY="48.0" prefHeight="498.0" prefWidth="782.0" spacing="10">
           <style>
@@ -27,9 +27,9 @@
           <children>
               <HBox alignment="CENTER" prefHeight="54.0" prefWidth="747.0" spacing="20.0">
                   <children>
-                      <Button mnemonicParsing="false" onAction="#addNewProductWindow" prefHeight="54.0" prefWidth="150.0" text="Add new group" />
-                  <Button mnemonicParsing="false" onAction="#addNewProductWindow" prefHeight="54.0" prefWidth="150.0" text="Delete group" />
-                  <Button mnemonicParsing="false" onAction="#addNewProductWindow" prefHeight="54.0" prefWidth="150.0" text="Update group" />
+                      <Button mnemonicParsing="false" onAction="#addNewGroupWindow" prefHeight="54.0" prefWidth="150.0" text="Add new group" />
+                  <Button mnemonicParsing="false" onAction="#deleteGroup" prefHeight="54.0" prefWidth="150.0" text="Delete group" />
+                  <Button mnemonicParsing="false" onAction="#updateGroupWindow" prefHeight="54.0" prefWidth="150.0" text="Update group" />
                   </children>
               </HBox>
               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
@@ -37,29 +37,29 @@
                       <VBox alignment="CENTER" prefHeight="54.0" prefWidth="144.0">
                           <children>
                               <Label text="ID" />
-                              <TextField fx:id="nameFilter" />
+                              <TextField fx:id="idFilterField" />
                           </children>
                       </VBox>
-                  <Button mnemonicParsing="false" onAction="#reloadProducts" prefHeight="54.0" prefWidth="133.0" text="Filter">
+                  <Button mnemonicParsing="false" onAction="#filterGroups" prefHeight="54.0" prefWidth="133.0" text="Filter">
                      <HBox.margin>
                         <Insets bottom="10.0" top="10.0" />
                      </HBox.margin>
                   </Button>
                   </children>
               </HBox>
-              <TableView fx:id="productsTable" prefHeight="459.0" prefWidth="747.0">
+              <TableView fx:id="groupsTable" prefHeight="459.0" prefWidth="747.0">
                   <columns>
-                      <TableColumn prefWidth="70.40001755952835" text="ID">
+                      <TableColumn fx:id="idCol" prefWidth="70.40001755952835" text="ID">
                           <cellValueFactory>
                               <PropertyValueFactory property="id" />
                           </cellValueFactory>
                       </TableColumn>
-                      <TableColumn prefWidth="225.60003662109375" text="Name">
+                      <TableColumn fx:id="nameCol" prefWidth="225.60003662109375" text="Name">
                           <cellValueFactory>
                               <PropertyValueFactory property="name" />
                           </cellValueFactory>
                       </TableColumn>
-                  <TableColumn prefWidth="451.1999755859375" text="Description" />
+                  <TableColumn fx:id="descrCol" prefWidth="451.1999755859375" text="Description" />
                   </columns>
               </TableView>
           </children>
@@ -74,7 +74,7 @@
                   <Insets left="20.0" />
                </padding>
             </Label>
-            <Button mnemonicParsing="false" onAction="#reloadProducts" prefHeight="32.0" prefWidth="151.0" text="To products list">
+            <Button mnemonicParsing="false" onAction="#toProductsList" prefHeight="32.0" prefWidth="151.0" text="To products list">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>

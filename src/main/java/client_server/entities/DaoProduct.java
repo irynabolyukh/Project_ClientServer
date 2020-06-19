@@ -247,7 +247,6 @@ public class DaoProduct {
         }
         stringBuffer.delete(stringBuffer.length()-1, stringBuffer.length()-1);
         stringBuffer.append("]}");
-        System.out.println(stringBuffer.toString());
         return new JSONObject(stringBuffer.toString());
     }
 }
