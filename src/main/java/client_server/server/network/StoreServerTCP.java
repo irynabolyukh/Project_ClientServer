@@ -30,7 +30,7 @@ public class StoreServerTCP {
 
         try (final ServerSocket serverSocket = new ServerSocket(SERVER_PORT)) {
 
-            serverSocket.setSoTimeout(100_000);
+            serverSocket.setSoTimeout(1000_000);
 
             while (isRun.get()) {
                 try{

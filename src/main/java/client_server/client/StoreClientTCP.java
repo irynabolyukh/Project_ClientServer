@@ -1,7 +1,5 @@
 package client_server.client;
 
-import com.google.common.primitives.UnsignedLong;
-import client_server.entities.MessageGenerator;
 import client_server.entities.Packet;
 
 import java.io.IOException;
@@ -10,14 +8,10 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class StoreClientTCP {
     private static final int CLIENT_PORT = 2222;
     private static final int RECONNECT_MAX = 3;
-
-    private static final AtomicInteger NUMBER_RECEIVED = new AtomicInteger(0);
-    private static final AtomicInteger NUMBER_DEAD = new AtomicInteger(0);
 
     public Socket socket;
 
@@ -48,8 +42,7 @@ public class StoreClientTCP {
             System.out.println("Reconnecting\tSERVER IS OFFLINE!!!");
 
             if(reconnect_num == RECONNECT_MAX){
-                NUMBER_DEAD.incrementAndGet();
-                System.out.println("SERVER IS DEAD:( \t\t NUMBER of DEAD connections: "+ NUMBER_DEAD);
+                System.out.println("SERVER IS DEAD:(");
             }
             else{
                 int reconnect = reconnect_num + 1;
@@ -77,10 +70,8 @@ public class StoreClientTCP {
         else
             System.out.println("WRONG response!");
 
-        NUMBER_RECEIVED.incrementAndGet();
         System.out.println("Response from server: " + new String(receivedPacket.getBMsq().getMessage(), StandardCharsets.UTF_8)
                 + "\t for user with ID: " + receivedPacket.getSrcId()
-                + "\t for packet with ID: " + receivedPacket.getbPktId()
-                + "\t\tNUMBER of RECEIVED:" + NUMBER_RECEIVED);
+                + "\t for packet with ID: " + receivedPacket.getbPktId());
     }
 }
