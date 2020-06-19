@@ -8,15 +8,13 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client_server.client.controllers.GroupsListController">
-   <children>
-      <VBox layoutY="48.0" prefHeight="498.0" prefWidth="782.0" spacing="10">
-          <style>
+<VBox prefHeight="498.0" prefWidth="782.0" spacing="10" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client_server.client.controllers.GroupsListController">
+    <style>
         -fx-padding: 10;
         -fx-border-style: solid inside;
         -fx-border-width: 2;
@@ -24,47 +22,8 @@
         -fx-border-radius: 5;
         -fx-border-color: blue;
     </style>
-          <children>
-              <HBox alignment="CENTER" prefHeight="54.0" prefWidth="747.0" spacing="20.0">
-                  <children>
-                      <Button mnemonicParsing="false" onAction="#addNewGroupWindow" prefHeight="54.0" prefWidth="150.0" text="Add new group" />
-                  <Button mnemonicParsing="false" onAction="#deleteGroup" prefHeight="54.0" prefWidth="150.0" text="Delete group" />
-                  <Button mnemonicParsing="false" onAction="#updateGroupWindow" prefHeight="54.0" prefWidth="150.0" text="Update group" />
-                  </children>
-              </HBox>
-              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
-                  <children>
-                      <VBox alignment="CENTER" prefHeight="54.0" prefWidth="144.0">
-                          <children>
-                              <Label text="ID" />
-                              <TextField fx:id="idFilterField" />
-                          </children>
-                      </VBox>
-                  <Button mnemonicParsing="false" onAction="#filterGroups" prefHeight="54.0" prefWidth="133.0" text="Filter">
-                     <HBox.margin>
-                        <Insets bottom="10.0" top="10.0" />
-                     </HBox.margin>
-                  </Button>
-                  </children>
-              </HBox>
-              <TableView fx:id="groupsTable" prefHeight="459.0" prefWidth="747.0">
-                  <columns>
-                      <TableColumn fx:id="idCol" prefWidth="70.40001755952835" text="ID">
-                          <cellValueFactory>
-                              <PropertyValueFactory property="id" />
-                          </cellValueFactory>
-                      </TableColumn>
-                      <TableColumn fx:id="nameCol" prefWidth="225.60003662109375" text="Name">
-                          <cellValueFactory>
-                              <PropertyValueFactory property="name" />
-                          </cellValueFactory>
-                      </TableColumn>
-                  <TableColumn fx:id="descrCol" prefWidth="451.1999755859375" text="Description" />
-                  </columns>
-              </TableView>
-          </children>
-      </VBox>
-      <HBox alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0" prefHeight="32.0" prefWidth="760.0">
+    <children>
+      <HBox alignment="TOP_CENTER" prefHeight="32.0" prefWidth="760.0">
          <children>
             <Label prefHeight="32.0" prefWidth="611.0" text="Groups list">
                <font>
@@ -81,5 +40,52 @@
             </Button>
          </children>
       </HBox>
-   </children>
-</AnchorPane>
+      <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Line endX="644.9857788085938" endY="1.656916856765747" fill="#0040ff" startX="-100.0" stroke="#0900ff" strokeWidth="2.0" />
+         </children>
+      </HBox>
+        <HBox alignment="CENTER" prefHeight="54.0" prefWidth="747.0" spacing="20.0">
+            <children>
+                <Button mnemonicParsing="false" onAction="#addNewGroupWindow" prefHeight="54.0" prefWidth="150.0" text="Add new group" />
+            <Button mnemonicParsing="false" onAction="#deleteGroup" prefHeight="54.0" prefWidth="150.0" text="Delete group" />
+            <Button mnemonicParsing="false" onAction="#updateGroupWindow" prefHeight="54.0" prefWidth="150.0" text="Update group" />
+            </children>
+        </HBox>
+        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+            <children>
+            <Button mnemonicParsing="false" onAction="#showAllGroups" prefHeight="54.0" prefWidth="133.0" text="Show all">
+               <HBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </HBox.margin>
+            </Button>
+                <VBox alignment="CENTER" prefHeight="54.0" prefWidth="144.0">
+                    <children>
+                        <Label text="ID" />
+                        <TextField fx:id="idFilterField" />
+                    </children>
+                </VBox>
+            <Button mnemonicParsing="false" onAction="#filterGroups" prefHeight="54.0" prefWidth="133.0" text="Filter">
+               <HBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </HBox.margin>
+            </Button>
+            </children>
+        </HBox>
+        <TableView fx:id="groupsTable" prefHeight="459.0" prefWidth="747.0">
+            <columns>
+                <TableColumn fx:id="idCol" prefWidth="70.40001755952835" text="ID">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="id" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="nameCol" prefWidth="225.60003662109375" text="Name">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="name" />
+                    </cellValueFactory>
+                </TableColumn>
+            <TableColumn fx:id="descrCol" prefWidth="451.1999755859375" text="Description" />
+            </columns>
+        </TableView>
+    </children>
+</VBox>

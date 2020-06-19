@@ -8,15 +8,14 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="602.0" prefWidth="782.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client_server.client.controllers.ProductsListController">
-   <children>
-      <VBox layoutY="48.0" prefHeight="554.0" prefWidth="782.0" spacing="10">
-          <style>
+
+<VBox prefHeight="554.0" prefWidth="782.0" spacing="10" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client_server.client.controllers.ProductsListController">
+    <style>
         -fx-padding: 10;
         -fx-border-style: solid inside;
         -fx-border-width: 2;
@@ -24,83 +23,8 @@
         -fx-border-radius: 5;
         -fx-border-color: blue;
     </style>
-          <children>
-              <HBox alignment="CENTER" prefHeight="54.0" prefWidth="747.0">
-                  <children>
-                      <Button mnemonicParsing="false" onAction="#addNewProductWindow" prefHeight="54.0" prefWidth="133.0" text="Add new product" />
-                      <Button mnemonicParsing="false" onAction="#deleteProduct" prefHeight="54.0" prefWidth="133.0" text="Delete product" />
-                  <Button mnemonicParsing="false" onAction="#updateProductWindow" prefHeight="54.0" prefWidth="133.0" text="Update product" />
-                  </children>
-              </HBox>
-              <HBox prefHeight="100.0" prefWidth="200.0">
-                  <children>
-                      <VBox prefHeight="54.0" prefWidth="144.0">
-                          <children>
-                              <Label text="ID" />
-                              <TextField fx:id="idFilter" />
-                          </children>
-                      </VBox>
-                      <VBox prefHeight="54.0" prefWidth="145.0">
-                          <children>
-                              <Label text="Price from" />
-                              <TextField fx:id="priceFromFilter" />
-                          </children>
-                      </VBox>
-                      <VBox prefHeight="54.0" prefWidth="154.0">
-                          <children>
-                              <Label text="Price to" />
-                              <TextField fx:id="priceToFilter" />
-                          </children>
-                      </VBox>
-                      <VBox prefHeight="54.0" prefWidth="137.0">
-                          <children>
-                              <Label text="Manufacturer" />
-                              <TextField fx:id="manufacturerFilter" />
-                          </children>
-                      </VBox>
-                      <VBox prefHeight="54.0" prefWidth="164.0">
-                          <children>
-                              <Label text="Group ID" />
-                              <TextField fx:id="groupIdFilter" />
-                          </children>
-                      </VBox>
-                  </children>
-              </HBox>
-            <HBox alignment="CENTER" prefHeight="54.0" prefWidth="747.0">
-               <children>
-                  <Button mnemonicParsing="false" onAction="#filterProducts" prefHeight="54.0" prefWidth="133.0" text="Filter" />
-               </children>
-            </HBox>
-              <TableView fx:id="productsTable" prefHeight="451.0" prefWidth="750.0">
-                  <columns>
-                      <TableColumn fx:id="idCol" prefWidth="40.00000077486038" text="ID">
-                          <cellValueFactory>
-                              <PropertyValueFactory property="id" />
-                          </cellValueFactory>
-                      </TableColumn>
-                      <TableColumn fx:id="nameCol" prefWidth="137.5999984741211" text="Name">
-                          <cellValueFactory>
-                              <PropertyValueFactory property="name" />
-                          </cellValueFactory>
-                      </TableColumn>
-                      <TableColumn fx:id="priceCol" prefWidth="101.60000610351562" text="Price">
-                          <cellValueFactory>
-                              <PropertyValueFactory property="price" />
-                          </cellValueFactory>
-                      </TableColumn>
-                      <TableColumn fx:id="amountCol" prefWidth="97.59991455078125" text="Amount">
-                          <cellValueFactory>
-                              <PropertyValueFactory property="total" />
-                          </cellValueFactory>
-                      </TableColumn>
-                  <TableColumn fx:id="descrCol" prefWidth="300.0" text="Description" />
-                  <TableColumn fx:id="manufacturerCol" minWidth="0.0" prefWidth="150.0" text="Manufacturer" />
-                  <TableColumn fx:id="groupIdCol" minWidth="0.0" prefWidth="90.0" text="Group ID" />
-                  </columns>
-              </TableView>
-          </children>
-      </VBox>
-      <HBox alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0" prefHeight="32.0" prefWidth="760.0">
+    <children>
+      <HBox alignment="TOP_CENTER" prefHeight="32.0" prefWidth="760.0">
          <children>
             <Label prefHeight="32.0" prefWidth="611.0" text="Products list">
                <font>
@@ -117,5 +41,84 @@
             </Button>
          </children>
       </HBox>
-   </children>
-</AnchorPane>
+      <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Line endX="639.2929077148438" endY="-0.8284515142440796" startX="-100.0" stroke="#0900ff" strokeWidth="2.0" />
+         </children>
+      </HBox>
+        <HBox alignment="CENTER" prefHeight="54.0" prefWidth="747.0">
+            <children>
+                <Button mnemonicParsing="false" onAction="#addNewProductWindow" prefHeight="54.0" prefWidth="133.0" text="Add new product" />
+                <Button mnemonicParsing="false" onAction="#deleteProduct" prefHeight="54.0" prefWidth="133.0" text="Delete product" />
+            <Button mnemonicParsing="false" onAction="#updateProductWindow" prefHeight="54.0" prefWidth="133.0" text="Update product" />
+            </children>
+        </HBox>
+        <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
+            <children>
+                <VBox alignment="TOP_CENTER" prefHeight="54.0" prefWidth="144.0">
+                    <children>
+                        <Label text="ID" />
+                        <TextField fx:id="idFilter" />
+                    </children>
+                </VBox>
+                <VBox alignment="TOP_CENTER" prefHeight="54.0" prefWidth="145.0">
+                    <children>
+                        <Label text="Price from" />
+                        <TextField fx:id="priceFromFilter" />
+                    </children>
+                </VBox>
+                <VBox alignment="TOP_CENTER" prefHeight="54.0" prefWidth="154.0">
+                    <children>
+                        <Label alignment="TOP_CENTER" text="Price to" />
+                        <TextField fx:id="priceToFilter" />
+                    </children>
+                </VBox>
+                <VBox alignment="TOP_CENTER" prefHeight="54.0" prefWidth="137.0">
+                    <children>
+                        <Label text="Manufacturer" />
+                        <TextField fx:id="manufacturerFilter" />
+                    </children>
+                </VBox>
+                <VBox alignment="TOP_CENTER" prefHeight="54.0" prefWidth="164.0">
+                    <children>
+                        <Label text="Group ID" />
+                        <TextField fx:id="groupIdFilter" />
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+      <HBox alignment="CENTER" prefHeight="54.0" prefWidth="747.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#filterProducts" prefHeight="54.0" prefWidth="133.0" text="Filter" />
+            <Button mnemonicParsing="false" onAction="#showAllProducts" prefHeight="54.0" prefWidth="133.0" text="Show all" />
+         </children>
+      </HBox>
+        <TableView fx:id="productsTable" prefHeight="451.0" prefWidth="750.0">
+            <columns>
+                <TableColumn fx:id="idCol" prefWidth="40.00000077486038" text="ID">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="id" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="nameCol" prefWidth="137.5999984741211" text="Name">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="name" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="priceCol" prefWidth="101.60000610351562" text="Price">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="price" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="amountCol" prefWidth="97.59991455078125" text="Amount">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="total" />
+                    </cellValueFactory>
+                </TableColumn>
+            <TableColumn fx:id="descrCol" prefWidth="300.0" text="Description" />
+            <TableColumn fx:id="manufacturerCol" minWidth="0.0" prefWidth="150.0" text="Manufacturer" />
+            <TableColumn fx:id="groupIdCol" minWidth="0.0" prefWidth="90.0" text="Group ID" />
+            </columns>
+        </TableView>
+    </children>
+</VBox>
