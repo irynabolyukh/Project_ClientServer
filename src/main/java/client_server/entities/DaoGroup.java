@@ -92,7 +92,9 @@ public class DaoGroup {
             preparedStatement.executeUpdate();
             return id;
         } catch (SQLException e) {
-            throw new RuntimeException("Can't delete group", e);
+            e.printStackTrace();
+            return -1;
+//            throw new RuntimeException("Can't delete group", e);
         }
     }
 
