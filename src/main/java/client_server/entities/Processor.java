@@ -20,7 +20,9 @@ public class Processor{
 
         JSONObject information;
         int success;
-        String reply;
+
+        JsonResponse reply = new JsonResponse();
+
         DaoProduct daoProduct;
         DaoGroup daoGroup;
 
@@ -33,10 +35,10 @@ public class Processor{
                 daoProduct = new DaoProduct("file.db");
                 success = daoProduct.insertProduct(product);
                 if(success == -1){
-                    reply = "Insertion failed";
+                    reply.putField("Insertion failed!");
                 }
                 else{
-                    reply = "Successfully inserted product";
+                    reply.putField("Successfully inserted product!");
                 }
                 break;
 
@@ -48,10 +50,10 @@ public class Processor{
                 daoProduct = new DaoProduct("file.db");
                 success = daoProduct.updateProduct(product2);
                 if(success == -1){
-                    reply = "Update failed";
+                    reply.putField("Update failed");
                 }
                 else{
-                    reply = "Successfully updated product";
+                    reply.putField( "Successfully updated product");
                 }
                 break;
 
@@ -60,10 +62,10 @@ public class Processor{
                 daoProduct = new DaoProduct("file.db");
                 success = daoProduct.deleteProduct(id3);
                 if(success == -1){
-                    reply = "Deletion failed";
+                    reply.putField("Deletion failed");
                 }
                 else{
-                    reply = "Successfully deleted product with id " + success;
+                    reply.putField("Successfully deleted product with id " + success);
                 }
                 break;
 
@@ -72,10 +74,10 @@ public class Processor{
                 daoProduct = new DaoProduct("file.db");
                 Product product4 = daoProduct.getProduct(id4);
                 if(product4 == null){
-                    reply = "Invalid product id";
+                    reply.putField("Invalid product id");
                 }
                 else{
-                    reply = product4.toJSON().toString();
+                    reply.putObject(product4.toJSON().toString());
                 }
                 break;
 
@@ -109,9 +111,12 @@ public class Processor{
                     filter.setQuery("query");
                 }
                 daoProduct = new DaoProduct("file.db");
-                reply = daoProduct.toJSONObject(daoProduct.getList(page, size, filter)).toString();
-                if(reply == null){
-                    reply = "Invalid filters";
+                List<Product> products = daoProduct.getList(page, size, filter);
+                if(products == null){
+                    reply.putField("Invalid filters");
+                }
+                else{
+                    reply.putObject(daoProduct.toJSONObject(products).toString());
                 }
                 break;
 
@@ -120,10 +125,10 @@ public class Processor{
                 daoProduct = new DaoProduct("file.db");
                 success = daoProduct.deleteAllInGroup(id6);
                 if(success == 1){
-                    reply = "Products in group " + id6 + "were deleted";
+                    reply.putField("Products in group " + id6 + "were deleted");
                 }
                 else{
-                    reply = "Deletion failed";
+                    reply.putField("Deletion failed");
                 }
                 break;
 
@@ -134,10 +139,10 @@ public class Processor{
                 daoGroup = new DaoGroup("file.db");
                 success = daoGroup.insertGroup(group);
                 if(success == -1){
-                    reply = "Invalid name of group";
+                    reply.putField("Invalid name of group");
                 }
                 else{
-                    reply = "Successfully inserted group";
+                    reply.putField("Successfully inserted group");
                 }
                 break;
             case DELETE_GROUP:
@@ -145,10 +150,10 @@ public class Processor{
                 daoGroup = new DaoGroup("file.db");
                 success = daoGroup.deleteGroup(group_id);
                 if(success == -1){
-                    reply = "Can't delete group";
+                    reply.putField("Can't delete group");
                 }
                 else{
-                    reply = "Successfully deleted group";
+                    reply.putField("Successfully deleted group");
                 }
                 break;
             case UPDATE_GROUP:
@@ -158,10 +163,10 @@ public class Processor{
                 daoGroup = new DaoGroup("file.db");
                 success = daoGroup.updateGroup(group1);
                 if(success == -1){
-                    reply = "Invalid name of group";
+                    reply.putField("Invalid name of group");
                 }
                 else{
-                    reply = "Successfully updated group";
+                    reply.putField("Successfully updated group");
                 }
                 break;
             case GET_GROUP:
@@ -169,21 +174,24 @@ public class Processor{
                 daoGroup = new DaoGroup("file.db");
                 Group resGroup = daoGroup.getGroup(group_id1);
                 if(resGroup == null){
-                    reply = "Invalid groud id";
+                    reply.putField("Invalid groud id");
                 }
                 else{
-                    reply = resGroup.toJSON().toString();
+                    reply.putObject(resGroup.toJSON().toString());
                 }
                 break;
             case GET_LIST_GROUPS:
                 daoGroup = new DaoGroup("file.db");
-                reply = daoGroup.toJSONObject(daoGroup.getAll()).toString();
-                if(reply == null){
-                    reply = "Cant get groups";
+                List<Group> groups = daoGroup.getAll();
+                if(groups == null){
+                    reply.putField("Cant get groups");
+                }
+                else{
+                    reply.putObject(daoGroup.toJSONObject(groups).toString());
                 }
                 break;
             default:
-                reply = "INVALID COMMAND";
+                reply.putField("INVALID COMMAND");
         }
 
         System.out.println("Message from client: " + new String(packet.getBMsq().getMessage(), StandardCharsets.UTF_8)
@@ -191,7 +199,7 @@ public class Processor{
                 + "\t\t\t and with packet ID: " + packet.getbPktId());
 
 
-        Message answerMessage = new Message(packet.getBMsq().getcType(), packet.getBMsq().getbUserId(), reply.getBytes(StandardCharsets.UTF_8));
+        Message answerMessage = new Message(packet.getBMsq().getcType(), packet.getBMsq().getbUserId(), reply.toString().getBytes(StandardCharsets.UTF_8));
         Packet answerPacket = new Packet(packet.getSrcId(), packet.getbPktId(), answerMessage);
 
         return answerPacket.toPacket(); //returns encoded response for USER
