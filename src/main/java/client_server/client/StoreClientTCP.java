@@ -19,17 +19,17 @@ public class StoreClientTCP {
     }
 
     public void sendPacket(byte[] packet) {
-            final int reconnect_num = 1;
+        final int reconnect_num = 1;
 
-            new Thread(() -> {
-                try (final Socket socket = new Socket(InetAddress.getByName(null), CLIENT_PORT)) {
-                    clientTCP(socket,packet);
-                }  catch (IOException e) {
-                    //e.printStackTrace();
-                    System.out.println("Reconnecting");
-                    reconnect(packet, reconnect_num);
-                }
-            }).start();
+        new Thread(() -> {
+            try (final Socket socket = new Socket(InetAddress.getByName(null), CLIENT_PORT)) {
+                clientTCP(socket,packet);
+            }  catch (IOException e) {
+                //e.printStackTrace();
+                System.out.println("Reconnecting");
+                reconnect(packet, reconnect_num);
+            }
+        }).start();
     }
 
     private void reconnect(byte[] packet, int reconnect_num) {
