@@ -70,4 +70,13 @@ public class UserDao {
         }
     }
 
+    public void deleteTable(){
+        try(final Statement statement = connection.createStatement()){
+            String query = "drop table 'users'";
+            statement.execute(query);
+        } catch (SQLException e) {
+            throw new RuntimeException("Can't delete table", e);
+        }
+    }
+
 }

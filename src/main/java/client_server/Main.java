@@ -6,14 +6,16 @@ import client_server.domain.Packet;
 import client_server.domain.User;
 import client_server.entities.*;
 import com.google.common.primitives.UnsignedLong;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import java.nio.charset.StandardCharsets;
 
 public class Main {
 
     public static void main(String[] args) {
-//        UserDao daoUser = new UserDao("file.db");
-//        User user = new User(1,"admin", "admin", "admin");
+        UserDao daoUser = new UserDao("file.db");
+//        daoUser.deleteTable();
+//        User user = new User(3,"admin", DigestUtils.md5Hex("admin"), "admin");
 //        daoUser.insert(user);
         StoreClientTCP client = new StoreClientTCP();
         final byte[] packet = MessageGenerator.generate((byte)1, UnsignedLong.valueOf(1));
