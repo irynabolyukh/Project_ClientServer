@@ -1,6 +1,6 @@
 package client_server.client;
 
-import client_server.entities.Packet;
+import client_server.domain.Packet;
 import lombok.Data;
 
 import java.io.IOException;

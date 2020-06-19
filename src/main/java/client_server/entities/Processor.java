@@ -1,5 +1,9 @@
 package client_server.entities;
 
+import client_server.dao.DaoGroup;
+import client_server.dao.DaoProduct;
+import client_server.dao.UserDao;
+import client_server.domain.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -25,8 +29,25 @@ public class Processor{
 
         DaoProduct daoProduct;
         DaoGroup daoGroup;
+        UserDao daoUser;
 
         switch(command_type){
+            case LOGIN:
+                information = new JSONObject(message);
+                UserCredentials userCred = new UserCredentials(information.getString("login"), information.getString("password"));
+                daoUser = new UserDao("file.db");
+                User user = daoUser.getByLogin(userCred.getLogin());
+                if(user != null){
+                    if(userCred.getPassword().equals(user.getPassword())){
+                        reply.putObject("{\"role\":\""+user.getRole()+"\"}");
+                    }
+                    else{
+                        reply.putField("Wrong password!");
+                    }
+                }else{
+                    reply.putField("No such user!");
+                }
+                break;
             case INSERT_PRODUCT:
                 information = new JSONObject(message);
                 Product product = new Product( information.getInt("id"),information.getString("name"),

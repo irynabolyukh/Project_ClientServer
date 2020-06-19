@@ -1,4 +1,4 @@
-package client_server.entities;
+package client_server.domain;
 
 import lombok.Data;
 import client_server.entities.DeEncriptor;
@@ -42,7 +42,7 @@ public class Message {
         UPDATE_GROUP,
         GET_GROUP,
         GET_LIST_GROUPS,
-
+        LOGIN,
     }
 
     byte[] whole;

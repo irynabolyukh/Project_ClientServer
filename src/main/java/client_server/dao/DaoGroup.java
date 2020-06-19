@@ -1,5 +1,6 @@
-package client_server.entities;
+package client_server.dao;
 
+import client_server.domain.Group;
 import org.json.JSONObject;
 
 import java.sql.*;
