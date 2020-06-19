@@ -1,4 +1,4 @@
-package client_server.server.network;
+package client_server.client;
 
 import com.google.common.primitives.UnsignedLong;
 import client_server.entities.MessageGenerator;
