@@ -81,6 +81,11 @@ public class ProductsListController {
     }
 
     @FXML
+    void showAllProducts(ActionEvent event) {
+
+    }
+
+    @FXML
     void initialize() {
 
     }

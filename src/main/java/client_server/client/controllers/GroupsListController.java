@@ -57,6 +57,11 @@ public class GroupsListController {
     }
 
     @FXML
+    void showAllGroups(ActionEvent event) {
+
+    }
+
+    @FXML
     void initialize() {
     }
 }
