@@ -19,14 +19,14 @@ public class StoreServerTCP {
 
         final AtomicBoolean isRun = new AtomicBoolean(true);
 
-        new Thread(() ->  {
-            try{
-                Thread.sleep(10_000L);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            isRun.set(false);
-        }).start();
+//        new Thread(() ->  {
+//            try{
+//                Thread.sleep(10_000L);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//            isRun.set(false);
+//        }).start();
 
         try (final ServerSocket serverSocket = new ServerSocket(SERVER_PORT)) {
 

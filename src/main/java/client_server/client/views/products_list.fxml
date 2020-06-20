@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="602.0" prefWidth="782.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kma.cs.sample.desktop.ui.products.ListProductsWindow">
+<AnchorPane prefHeight="602.0" prefWidth="782.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client_server.client.controllers.ProductsListController">
    <children>
       <VBox layoutY="48.0" prefHeight="554.0" prefWidth="782.0" spacing="10">
           <style>
@@ -28,16 +28,16 @@
               <HBox alignment="CENTER" prefHeight="54.0" prefWidth="747.0">
                   <children>
                       <Button mnemonicParsing="false" onAction="#addNewProductWindow" prefHeight="54.0" prefWidth="133.0" text="Add new product" />
-                      <Button mnemonicParsing="false" onAction="#reloadProducts" prefHeight="54.0" prefWidth="133.0" text="Delete product" />
-                  <Button mnemonicParsing="false" onAction="#reloadProducts" prefHeight="54.0" prefWidth="133.0" text="Update product" />
+                      <Button mnemonicParsing="false" onAction="#deleteProduct" prefHeight="54.0" prefWidth="133.0" text="Delete product" />
+                  <Button mnemonicParsing="false" onAction="#updateProductWindow" prefHeight="54.0" prefWidth="133.0" text="Update product" />
                   </children>
               </HBox>
               <HBox prefHeight="100.0" prefWidth="200.0">
                   <children>
                       <VBox prefHeight="54.0" prefWidth="144.0">
                           <children>
-                              <Label text="Name" />
-                              <TextField fx:id="nameFilter" />
+                              <Label text="ID" />
+                              <TextField fx:id="idFilter" />
                           </children>
                       </VBox>
                       <VBox prefHeight="54.0" prefWidth="145.0">
@@ -54,48 +54,48 @@
                       </VBox>
                       <VBox prefHeight="54.0" prefWidth="137.0">
                           <children>
-                              <Label text="Total from" />
-                              <TextField fx:id="totalFromFilter" />
+                              <Label text="Manufacturer" />
+                              <TextField fx:id="manufacturerFilter" />
                           </children>
                       </VBox>
                       <VBox prefHeight="54.0" prefWidth="164.0">
                           <children>
-                              <Label text="Total to" />
-                              <TextField fx:id="totalToFilter" />
+                              <Label text="Group ID" />
+                              <TextField fx:id="groupIdFilter" />
                           </children>
                       </VBox>
                   </children>
               </HBox>
             <HBox alignment="CENTER" prefHeight="54.0" prefWidth="747.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#reloadProducts" prefHeight="54.0" prefWidth="133.0" text="Filter" />
+                  <Button mnemonicParsing="false" onAction="#filterProducts" prefHeight="54.0" prefWidth="133.0" text="Filter" />
                </children>
             </HBox>
               <TableView fx:id="productsTable" prefHeight="451.0" prefWidth="750.0">
                   <columns>
-                      <TableColumn prefWidth="40.00000077486038" text="ID">
+                      <TableColumn fx:id="idCol" prefWidth="40.00000077486038" text="ID">
                           <cellValueFactory>
                               <PropertyValueFactory property="id" />
                           </cellValueFactory>
                       </TableColumn>
-                      <TableColumn prefWidth="137.5999984741211" text="Name">
+                      <TableColumn fx:id="nameCol" prefWidth="137.5999984741211" text="Name">
                           <cellValueFactory>
                               <PropertyValueFactory property="name" />
                           </cellValueFactory>
                       </TableColumn>
-                      <TableColumn prefWidth="101.60000610351562" text="Price">
+                      <TableColumn fx:id="priceCol" prefWidth="101.60000610351562" text="Price">
                           <cellValueFactory>
                               <PropertyValueFactory property="price" />
                           </cellValueFactory>
                       </TableColumn>
-                      <TableColumn prefWidth="97.59991455078125" text="Amount">
+                      <TableColumn fx:id="amountCol" prefWidth="97.59991455078125" text="Amount">
                           <cellValueFactory>
                               <PropertyValueFactory property="total" />
                           </cellValueFactory>
                       </TableColumn>
-                  <TableColumn prefWidth="300.0" text="Description" />
-                  <TableColumn minWidth="0.0" prefWidth="150.0" text="Manufacturer" />
-                  <TableColumn minWidth="0.0" prefWidth="90.0" text="Group ID" />
+                  <TableColumn fx:id="descrCol" prefWidth="300.0" text="Description" />
+                  <TableColumn fx:id="manufacturerCol" minWidth="0.0" prefWidth="150.0" text="Manufacturer" />
+                  <TableColumn fx:id="groupIdCol" minWidth="0.0" prefWidth="90.0" text="Group ID" />
                   </columns>
               </TableView>
           </children>
@@ -110,7 +110,7 @@
                   <Insets left="20.0" />
                </padding>
             </Label>
-            <Button mnemonicParsing="false" onAction="#reloadProducts" prefHeight="32.0" prefWidth="151.0" text="To groups list">
+            <Button mnemonicParsing="false" onAction="#toGroupList" prefHeight="32.0" prefWidth="151.0" text="To groups list">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
