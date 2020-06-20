@@ -45,7 +45,9 @@ public class DaoGroup {
                     resultSet.getString("description"));
             return group;
         } catch (SQLException e) {
-            throw new RuntimeException("Can't get group", e);
+            e.printStackTrace();
+            return null;
+            //throw new RuntimeException("Can't get group", e);
         }
     }
 
@@ -108,7 +110,9 @@ public class DaoGroup {
             }
             return groups;
         } catch (SQLException e) {
-            throw new RuntimeException("Can't get list of groups", e);
+            e.printStackTrace();
+            return null;
+//            throw new RuntimeException("Can't get list of groups", e);
         }
     }
 

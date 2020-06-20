@@ -30,7 +30,7 @@ public class MessageGenerator {
         fl.setIds(list);
         fl.setFromPrice(3.99);
         fl.setToPrice(1000.99);
-        fl.setManufacturer("Родина");
+        fl.setManufacturer("Rodyna");
 
         JSONObject jsonObj = new JSONObject("{"+"\"page\":"+0+", \"size\":"+10+
                 ", \"productFilter\":"+ fl.toJSON().toString() +"}");
@@ -49,7 +49,7 @@ public class MessageGenerator {
 
         //Message[] msgArray = {msg1, msg2, msg3, msg4, msg5, msg6, msg7, msg8, msg9, msg10, msg11};
 
-        Packet packet = new Packet(srcId, bPktId, msg7);
+        Packet packet = new Packet(srcId, bPktId, msg11);
 
         return packet.toPacket();
     }

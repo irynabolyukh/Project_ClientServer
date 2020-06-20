@@ -1,6 +1,5 @@
 package client_server.entities;
 
-import client_server.entities.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -34,7 +33,7 @@ public class Processor{
                 daoProduct = new DaoProduct("file.db");
                 success = daoProduct.insertProduct(product);
                 if(success == -1){
-                    reply = "Invalid name of product";
+                    reply = "Insertion failed";
                 }
                 else{
                     reply = "Successfully inserted product";
@@ -49,7 +48,7 @@ public class Processor{
                 daoProduct = new DaoProduct("file.db");
                 success = daoProduct.updateProduct(product2);
                 if(success == -1){
-                    reply = "Invalid name of product";
+                    reply = "Update failed";
                 }
                 else{
                     reply = "Successfully updated product";
@@ -61,10 +60,10 @@ public class Processor{
                 daoProduct = new DaoProduct("file.db");
                 success = daoProduct.deleteProduct(id3);
                 if(success == -1){
-                    reply = "Invalid name of product";
+                    reply = "Deletion failed";
                 }
                 else{
-                    reply = "Successfully updated product with id " + success;
+                    reply = "Successfully deleted product with id " + success;
                 }
                 break;
 
@@ -72,7 +71,12 @@ public class Processor{
                 int id4 = Integer.parseInt(message);
                 daoProduct = new DaoProduct("file.db");
                 Product product4 = daoProduct.getProduct(id4);
-                reply = product4.toJSON().toString();
+                if(product4 == null){
+                    reply = "Invalid product id";
+                }
+                else{
+                    reply = product4.toJSON().toString();
+                }
                 break;
 
             case GET_LIST_PRODUCTS:
@@ -106,13 +110,21 @@ public class Processor{
                 }
                 daoProduct = new DaoProduct("file.db");
                 reply = daoProduct.toJSONObject(daoProduct.getList(page, size, filter)).toString();
+                if(reply == null){
+                    reply = "Invalid filters";
+                }
                 break;
 
             case DELETE_ALL_IN_GROUP:
                 int id6 = Integer.parseInt(message);
                 daoProduct = new DaoProduct("file.db");
-                daoProduct.deleteAllInGroup(id6);
-                reply = "Products in group " + id6 + "were deleted";
+                success = daoProduct.deleteAllInGroup(id6);
+                if(success == 1){
+                    reply = "Products in group " + id6 + "were deleted";
+                }
+                else{
+                    reply = "Deletion failed";
+                }
                 break;
 
             case INSERT_GROUP:
@@ -156,12 +168,19 @@ public class Processor{
                 int group_id1 = Integer.parseInt(message);
                 daoGroup = new DaoGroup("file.db");
                 Group resGroup = daoGroup.getGroup(group_id1);
-
-                reply = resGroup.toJSON().toString();
+                if(resGroup == null){
+                    reply = "Invalid groud id";
+                }
+                else{
+                    reply = resGroup.toJSON().toString();
+                }
                 break;
             case GET_LIST_GROUPS:
                 daoGroup = new DaoGroup("file.db");
                 reply = daoGroup.toJSONObject(daoGroup.getAll()).toString();
+                if(reply == null){
+                    reply = "Cant get groups";
+                }
                 break;
             default:
                 reply = "INVALID COMMAND";
