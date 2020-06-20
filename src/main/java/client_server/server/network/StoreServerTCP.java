@@ -1,5 +1,4 @@
 package client_server.server.network;
-
 import client_server.entities.Processor;
 
 import java.io.IOException;
@@ -30,20 +29,24 @@ public class StoreServerTCP {
         }).start();
 
         try (final ServerSocket serverSocket = new ServerSocket(SERVER_PORT)) {
+
             serverSocket.setSoTimeout(2_000);
+
             while (isRun.get()) {
                 try{
                     Socket socket = serverSocket.accept();
-                    final byte[] inputMessage = new byte[300];
+
+                    final byte[] inputMessage = new byte[20000];
                     final InputStream inputStream = socket.getInputStream();
                     final int messageSize = inputStream.read(inputMessage);
+
                     new Thread(() -> {
                         try {
                             byte[] fullPacket = new byte[messageSize];
                             System.arraycopy(inputMessage, 0, fullPacket, 0, messageSize);
-
                             final OutputStream outputStream = socket.getOutputStream();
                             outputStream.write(Processor.process(fullPacket));
+
                             SENT.incrementAndGet();
                             outputStream.flush();
                         } catch (Exception e) {
