@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class StoreClientTCP {
     private static final int CLIENT_PORT = 2222;
     private static final int RECONNECT_MAX = 3;
-    private static final int AMOUNT_OF_CLIENTS = 1000;
+    private static final int AMOUNT_OF_CLIENTS = 100;
 
     private static final AtomicInteger NUMBER_RECEIVED = new AtomicInteger(0);
     private static final AtomicInteger NUMBER_DEAD = new AtomicInteger(0);
