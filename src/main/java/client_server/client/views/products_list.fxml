@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="554.0" prefWidth="782.0" spacing="10" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client_server.client.controllers.ProductsListController">
+<VBox prefHeight="554.0" prefWidth="782.0" spacing="10" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client_server.client.controllers.ProductsListController">
     <style>
         -fx-padding: 10;
         -fx-border-style: solid inside;
@@ -25,7 +25,7 @@
     <children>
       <HBox alignment="TOP_CENTER" prefHeight="32.0" prefWidth="760.0">
          <children>
-            <Label prefHeight="32.0" prefWidth="611.0" text="Products list">
+            <Label prefHeight="30.0" prefWidth="488.0" text="Products list">
                <font>
                   <Font size="18.0" />
                </font>
@@ -33,10 +33,18 @@
                   <Insets left="20.0" />
                </padding>
             </Label>
-            <Button mnemonicParsing="false" onAction="#toGroupList" prefHeight="32.0" prefWidth="151.0" text="To groups list">
+            <Button mnemonicParsing="false" onAction="#toGroupList" prefHeight="30.0" prefWidth="216.0" text="To groups list">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#logOut" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: red;" text="Log out" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
             </Button>
          </children>
       </HBox>
@@ -119,21 +127,16 @@
             <TableColumn fx:id="groupIdCol" minWidth="0.0" prefWidth="90.0" text="Group ID" />
             </columns>
         </TableView>
-      <HBox prefHeight="100.0" prefWidth="200.0">
+      <HBox prefWidth="749.0">
          <children>
-            <Label fx:id="statusLabel" prefHeight="45.0" prefWidth="664.0" textFill="#e10000">
+            <Label fx:id="statusLabel" prefHeight="18.0" prefWidth="752.0" textFill="#e10000">
                <padding>
-                  <Insets bottom="20.0" left="5.0" right="20.0" top="5.0" />
+                  <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
                </padding>
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="81.0" style="-fx-background-color: red;" text="Log out" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Button>
          </children>
       </HBox>
     </children>
