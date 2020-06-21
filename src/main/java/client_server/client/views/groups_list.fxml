@@ -47,9 +47,9 @@
       </HBox>
         <HBox alignment="CENTER" prefHeight="54.0" prefWidth="747.0" spacing="20.0">
             <children>
-                <Button mnemonicParsing="false" onAction="#addNewGroupWindow" prefHeight="54.0" prefWidth="150.0" text="Add new group" />
-            <Button mnemonicParsing="false" onAction="#deleteGroup" prefHeight="54.0" prefWidth="150.0" text="Delete group" />
-            <Button mnemonicParsing="false" onAction="#updateGroupWindow" prefHeight="54.0" prefWidth="150.0" text="Update group" />
+                <Button fx:id="addNewGroupBtn" mnemonicParsing="false" onAction="#addNewGroupWindow" prefHeight="54.0" prefWidth="150.0" text="Add new group" />
+            <Button fx:id="deleteGroupBtn" mnemonicParsing="false" onAction="#deleteGroup" prefHeight="54.0" prefWidth="150.0" text="Delete group" />
+            <Button fx:id="updateGroupBtn" mnemonicParsing="false" onAction="#updateGroupWindow" prefHeight="54.0" prefWidth="150.0" text="Update group" />
             </children>
         </HBox>
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
@@ -87,5 +87,17 @@
             <TableColumn fx:id="descrCol" prefWidth="451.1999755859375" text="Description" />
             </columns>
         </TableView>
+      <HBox prefHeight="66.0" prefWidth="750.0">
+         <children>
+            <Label fx:id="statusLabel" prefHeight="18.0" prefWidth="770.0" textFill="#dd0000">
+               <padding>
+                  <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
+               </padding>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
     </children>
 </VBox>

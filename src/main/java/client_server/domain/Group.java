@@ -1,5 +1,6 @@
 package client_server.domain;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Group {
@@ -7,6 +8,12 @@ public class Group {
     private final Integer id;
     private final String name;
     private final String description;
+
+    public Group(JSONObject group){
+        this.id = group.getInt("id");
+        this.name = group.getString("name");
+        this.description = group.getString("description");
+    }
 
     public Group(final Integer id, final String name, final String description) {
         this.id = id;
