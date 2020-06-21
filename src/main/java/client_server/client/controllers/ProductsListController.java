@@ -2,13 +2,23 @@ package client_server.client.controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import client_server.client.GlobalContext;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 public class ProductsListController {
+
+
+    @FXML
+    private Button addNewProductBtn;
+
+    @FXML
+    private Button deleteProductBtn;
+
+    @FXML
+    private Button updateProductBtn;
 
     @FXML
     private ResourceBundle resources;
@@ -56,6 +66,9 @@ public class ProductsListController {
     private TableColumn<?, ?> groupIdCol;
 
     @FXML
+    private Label statusLabel;
+
+    @FXML
     void addNewProductWindow(ActionEvent event) {
 
     }
@@ -87,6 +100,11 @@ public class ProductsListController {
 
     @FXML
     void initialize() {
+        if(GlobalContext.role.equals("user")){
+            addNewProductBtn.setDisable(true);
+            deleteProductBtn.setDisable(true);
+            updateProductBtn.setDisable(true);
+        }
 
     }
 }

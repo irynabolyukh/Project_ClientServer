@@ -7,6 +7,7 @@ import client_server.domain.UserCredentials;
 import com.google.common.primitives.UnsignedLong;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -15,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.apache.commons.codec.digest.DigestUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -53,6 +55,7 @@ public class LoginWindowController {
                 "Response from server: " + new String(receivedPacket.getBMsq().getMessage(), StandardCharsets.UTF_8)
                 + "\t for user with ID: " + receivedPacket.getSrcId()
                 + "\t for packet with ID: " + receivedPacket.getbPktId());
+
 
 //        FXMLLoader loader = new FXMLLoader();
 //        Stage stage = (Stage) loginField.getScene().getWindow();
