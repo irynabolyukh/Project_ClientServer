@@ -146,11 +146,6 @@ public class GroupsListController {
     }
 
     @FXML
-    void logOut(ActionEvent event) {
-
-    }
-
-    @FXML
     void showAllGroups(ActionEvent event) {
         statusLabel.setText(" ");
         resetTable();

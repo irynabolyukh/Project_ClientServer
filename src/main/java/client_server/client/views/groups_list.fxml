@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="498.0" prefWidth="782.0" spacing="10" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client_server.client.controllers.GroupsListController">
+<VBox prefHeight="498.0" prefWidth="782.0" spacing="10" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client_server.client.controllers.GroupsListController">
     <style>
         -fx-padding: 10;
         -fx-border-style: solid inside;
@@ -87,9 +87,9 @@
             <TableColumn fx:id="descrCol" prefWidth="451.1999755859375" text="Description" />
             </columns>
         </TableView>
-      <HBox prefHeight="66.0" prefWidth="750.0">
+      <HBox prefHeight="51.0" prefWidth="748.0">
          <children>
-            <Label fx:id="statusLabel" prefHeight="18.0" prefWidth="770.0" textFill="#dd0000">
+            <Label fx:id="statusLabel" prefHeight="30.0" prefWidth="679.0" textFill="#dd0000">
                <padding>
                   <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
                </padding>
@@ -97,6 +97,11 @@
                   <Font size="14.0" />
                </font>
             </Label>
+            <Button mnemonicParsing="false" onAction="#logOut" prefHeight="45.0" prefWidth="85.0" style="-fx-background-color: red;" text="Log out" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
          </children>
       </HBox>
     </children>
