@@ -96,6 +96,8 @@ public class UpdateProductController {
                 } else {
                     statusLabel.setText("Can't update product.");
                 }
+            }else {
+                statusLabel.setText("Price and amount should be positive.");
             }
         }
     }

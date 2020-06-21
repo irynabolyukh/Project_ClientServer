@@ -292,7 +292,6 @@ public class GroupsListController {
                 groupsTable.getItems().clear();
                 groupsTable.getItems().addAll(groups);
 
-                System.out.println(groups.get(0).toString());
             } catch (JSONException e) {
                 e.printStackTrace();
                 statusLabel.setText("Can't show groups.");
