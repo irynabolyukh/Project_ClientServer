@@ -1,5 +1,8 @@
 package client_server.client.controllers;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -13,8 +16,12 @@ import client_server.domain.Packet;
 import com.google.common.primitives.UnsignedLong;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -115,8 +122,22 @@ public class GroupsListController {
     }
 
     @FXML
-    void toProductsList(ActionEvent event) {
+    void toProductsList(ActionEvent event) throws MalformedURLException {
+        FXMLLoader loader = new FXMLLoader();
+        Stage stage = (Stage) idFilterField.getScene().getWindow();
+        URL url = null;
 
+        url = new File("src/main/java/client_server/client/views/products_list.fxml").toURI().toURL();
+
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+            statusLabel.setText("Can't open products.");
+        }
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
     }
 
     @FXML
