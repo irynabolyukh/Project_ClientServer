@@ -1,15 +1,20 @@
 package client_server.client;
 
+import client_server.dao.UserDao;
+import client_server.domain.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+
+//public class Main{
 
 public class Main extends Application {
 
@@ -36,15 +41,15 @@ public class Main extends Application {
 
 //    public static void main(String[] args) {
 //
-////        UserDao daoUser = new UserDao("file.db");
+//        UserDao daoUser = new UserDao("file.db");
 ////        daoUser.deleteTable();
-////        User user = new User(3,"admin", DigestUtils.md5Hex("admin"), "admin");
-////        daoUser.insert(user);
-//        StoreClientTCP client = new StoreClientTCP();
-//        final byte[] packet = MessageGenerator.generate((byte)1, UnsignedLong.valueOf(1));
-//
-//
-//        Packet receivedPacket = client.sendPacket(packet);
+//        User user = new User(4,"user", DigestUtils.md5Hex("user"), "user");
+//        daoUser.insert(user);
+////        StoreClientTCP client = new StoreClientTCP();
+////        final byte[] packet = MessageGenerator.generate((byte)1, UnsignedLong.valueOf(1));
+////
+////
+////        Packet receivedPacket = client.sendPacket(packet);
 //
 ////        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!\n" +
 ////                "Response from server: " + new String(receivedPacket.getBMsq().getMessage(), StandardCharsets.UTF_8)
