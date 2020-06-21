@@ -62,19 +62,34 @@ public class ProductFilter {
 
     public JSONObject toJSON(){
 
-        Object[] objArr = ids.toArray();
+        String arr;
 
-        String arr = "[";
-
-        for (int i=0; i<objArr.length-1; i++) {
-            //intArr[i] = ((Integer) objArr[i]);
-            arr += (Integer) objArr[i] + ", ";
+        if(ids == null || ids.isEmpty()){
+            arr = "null";
         }
-        arr += (Integer) objArr[objArr.length-1] + "]";
+        else {
+            Object[] objArr = ids.toArray();
+
+            arr = "[";
+
+            for (int i = 0; i < objArr.length - 1; i++) {
+                //intArr[i] = ((Integer) objArr[i]);
+                arr += (Integer) objArr[i] + ", ";
+            }
+            arr += (Integer) objArr[objArr.length - 1] + "]";
+        }
+        String manuf;
+
+        if(manufacturer == null || manufacturer.isEmpty()){
+            manuf = "null";
+        }
+        else{
+            manuf = "\""+manufacturer+"\"";
+        }
 
         JSONObject json = new JSONObject("{"+"\"ids\":"+arr+", \"query\":\""+query+
                 "\", \"fromPrice\":"+ fromPrice+", \"toPrice\":"+toPrice+
-                ", \"manufacturer\":\""+ manufacturer+"\", \"group_id\":"+ group_id+"}");
+                ", \"manufacturer\":"+ manuf+", \"group_id\":"+ group_id+"}");
 //        System.out.println(json);
         return json;
     }

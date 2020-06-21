@@ -108,8 +108,8 @@ public class Processor{
                 int size = information.getInt("size");
                 JSONObject filtr = information.getJSONObject("productFilter");
                 ProductFilter filter = new ProductFilter();
-                JSONArray array = filtr.getJSONArray("ids");
                 if(!filtr.isNull("ids")){
+                    JSONArray array = filtr.getJSONArray("ids");
                     List<Integer> arrayList = new ArrayList<>();
                     for(int i = 0; i < array.length(); i++){
                         arrayList.add((Integer)(array.get(i)));

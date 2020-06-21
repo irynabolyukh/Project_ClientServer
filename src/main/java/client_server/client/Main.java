@@ -1,6 +1,8 @@
 package client_server.client;
 
+import client_server.dao.DaoProduct;
 import client_server.dao.UserDao;
+import client_server.domain.Product;
 import client_server.domain.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -40,7 +42,7 @@ public class Main extends Application {
     }
 
 //    public static void main(String[] args) {
-//
+
 //        UserDao daoUser = new UserDao("file.db");
 ////        daoUser.deleteTable();
 //        User user = new User(4,"user", DigestUtils.md5Hex("user"), "user");
@@ -65,10 +67,10 @@ public class Main extends Application {
 ////                .forEach(System.out::println);
 ////
 ////
-////        final DaoProduct daoProduct = new DaoProduct("file.db");
-////        for(int i = 0; i < 30; i++){
-////            daoProduct.insertProduct(new Product("гречка"+i , Math.random()*1000,Math.random()*1000,"very good", "Rodyna",i));
-////        }
+//        final DaoProduct daoProduct = new DaoProduct("file.db");
+//        for(int i = 0; i < 30; i++){
+//            daoProduct.insertProduct(new Product(i,"гречка"+i , Math.random()*1000,Math.random()*1000,"very good", "Rodyna",i));
+//        }
 ////
 ////        daoProduct.getAll(0,30)
 ////                .forEach(System.out::println);
