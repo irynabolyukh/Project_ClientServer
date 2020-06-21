@@ -194,6 +194,11 @@ public class ProductsListController {
     }
 
     @FXML
+    void logOut(ActionEvent event) {
+
+    }
+
+    @FXML
     void showAllProducts(ActionEvent event) {
         statusLabel.setText("");
         resetTable();
