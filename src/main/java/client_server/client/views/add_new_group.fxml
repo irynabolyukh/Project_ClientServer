@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="300.0" spacing="10" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client_server.client.controllers.NewGroupController">
+<VBox prefHeight="200.0" prefWidth="300.0" spacing="10" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client_server.client.controllers.NewGroupController">
     <style>
         -fx-padding: 10;
         -fx-border-style: solid inside;
@@ -21,8 +21,8 @@
         <Label prefHeight="17.0" prefWidth="83.0" text="Name" />
         <TextField fx:id="nameField" />
       <Label text="Description" />
-        <TextField fx:id="descrField" editable="false" />
-        <Button mnemonicParsing="false" text="Create" />
+        <TextField fx:id="descrField" />
+        <Button mnemonicParsing="false" onAction="#createGroup" text="Create" />
       <Label fx:id="statusLabel" textFill="RED" />
     </children>
 </VBox>

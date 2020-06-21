@@ -81,7 +81,8 @@ public class DaoGroup {
 
                 return group.getId();
             } catch (SQLException e) {
-                throw new RuntimeException("Can't insert group", e);
+                e.printStackTrace();
+                return -1;
             }
         }
         return -1;

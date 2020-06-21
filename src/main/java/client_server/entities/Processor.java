@@ -160,7 +160,7 @@ public class Processor{
                 daoGroup = new DaoGroup("file.db");
                 success = daoGroup.insertGroup(group);
                 if(success == -1){
-                    reply.putField("Invalid name of group");
+                    reply.putField("ID and name should be unique!");
                 }
                 else{
                     reply.putField("Successfully inserted group");
