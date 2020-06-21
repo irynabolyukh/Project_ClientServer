@@ -13,6 +13,7 @@ import client_server.client.GlobalContext;
 import client_server.domain.*;
 import com.google.common.primitives.UnsignedLong;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,6 +21,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -104,17 +106,28 @@ public class ProductsListController {
 
     @FXML
     void updateProductWindow(ActionEvent event) throws MalformedURLException {
+        FXMLLoader loader = new FXMLLoader();
         URL url = new File("src/main/java/client_server/client/views/update_product.fxml").toURI().toURL();
-        Parent root = null;
+        loader.setLocation(url);
         try {
-            root = FXMLLoader.load(url);
+            loader.load();
         } catch (IOException e) {
             e.printStackTrace();
-            statusLabel.setText("Function is not available.");
         }
+        Parent root = loader.getRoot();
         Stage stage = new Stage();
-        stage.setTitle("Update Product");
         stage.setScene(new Scene(root));
+        stage.setTitle("Update Product");
+
+        UpdateProductController controller = loader.getController();
+        controller.initData(productsTable.getSelectionModel().getSelectedItem());
+
+        stage.setOnHiding(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent we) {
+                resetTable();
+            }
+        });
+
         stage.show();
     }
 
