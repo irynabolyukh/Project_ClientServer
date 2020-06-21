@@ -92,8 +92,71 @@ public class ProductsListController {
 
     @FXML
     void filterProducts(ActionEvent event) {
+        statusLabel.setText("");
+
+        List<Integer> listId = new ArrayList<Integer>();
+        ProductFilter fl = new ProductFilter();
+        if(!idFilter.getText().isEmpty()){
+            try{
+                int id = Integer.parseInt(idFilter.getText());
+                if(id >= 0){
+                    listId.add(id);
+                    fl.setIds(listId);
+                }else{
+                    statusLabel.setText("Incorrect product ID.");
+                }
+            }catch (NumberFormatException e) {
+                statusLabel.setText("Incorrect product ID.");
+            }
+        }
+
+        if(!priceFromFilter.getText().isEmpty()){
+            try{
+                double price = Double.parseDouble(priceFromFilter.getText());
+                if(price >= 0){
+                    fl.setFromPrice(price);
+                }else{
+                    statusLabel.setText("Incorrect price \"from\".");
+                }
+            }catch (NumberFormatException e) {
+                statusLabel.setText("Incorrect price \"from\".");
+            }
+        }
+
+        if(!priceToFilter.getText().isEmpty()){
+            try{
+                double price = Double.parseDouble(priceToFilter.getText());
+                if(price >= 0){
+                    fl.setToPrice(price);
+                }else{
+                    statusLabel.setText("Incorrect price \"to\".");
+                }
+            }catch (NumberFormatException e) {
+                statusLabel.setText("Incorrect price \"to\".");
+            }
+        }
+
+        if(!manufacturerFilter.getText().isEmpty()){
+           fl.setManufacturer(manufacturerFilter.getText());
+        }
+
+        if(!groupIdFilter.getText().isEmpty()){
+            try{
+                int gr_id = Integer.parseInt(groupIdFilter.getText());
+                if(gr_id >= 0){
+                    fl.setGroup_id(gr_id);
+                }else{
+                    statusLabel.setText("Incorrect group ID.");
+                }
+            }catch (NumberFormatException e) {
+                statusLabel.setText("Incorrect group ID.");
+            }
+        }
+
+        showFilteredProducts(fl);
 
     }
+
 
     @FXML
     void toGroupList(ActionEvent event) {
@@ -107,7 +170,8 @@ public class ProductsListController {
 
     @FXML
     void showAllProducts(ActionEvent event) {
-
+        statusLabel.setText("");
+        resetTable();
     }
 
     @FXML
@@ -126,12 +190,16 @@ public class ProductsListController {
         manufacturerCol.setCellValueFactory(new PropertyValueFactory<>("manufacturer"));
         groupIdCol.setCellValueFactory(new PropertyValueFactory<>("group_id"));
 
-        System.out.println("init");
         resetTable();
     }
 
     private void resetTable() {
         ProductFilter fl = new ProductFilter();
+        showFilteredProducts(fl);
+    }
+
+
+    private void showFilteredProducts(ProductFilter fl) {
         JSONObject jsonObj = new JSONObject("{"+"\"page\":"+0+", \"size\":"+1000+
                 ", \"productFilter\":"+ fl.toJSON().toString() +"}");
         Message msg = new Message(GET_LIST_PRODUCTS.ordinal() , 1, jsonObj.toString().getBytes(StandardCharsets.UTF_8));
@@ -166,10 +234,11 @@ public class ProductsListController {
 
             } catch (JSONException e) {
                 e.printStackTrace();
+                statusLabel.setText("Can't show products!");
             }
 
         } else {
-
+            statusLabel.setText("Can't show products!");
         }
     }
 }
