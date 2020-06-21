@@ -121,7 +121,7 @@
         </TableView>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Label fx:id="statusLabel" textFill="#e10000">
+            <Label fx:id="statusLabel" prefHeight="45.0" prefWidth="664.0" textFill="#e10000">
                <padding>
                   <Insets bottom="20.0" left="5.0" right="20.0" top="5.0" />
                </padding>
@@ -129,6 +129,11 @@
                   <Font size="14.0" />
                </font>
             </Label>
+            <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="81.0" style="-fx-background-color: red;" text="Log out" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Button>
          </children>
       </HBox>
     </children>
