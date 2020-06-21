@@ -81,7 +81,7 @@ public class LoginWindowController {
         if(loggedIn){
             FXMLLoader loader = new FXMLLoader();
             Stage stage = (Stage) loginField.getScene().getWindow();
-            URL url = new File("src/main/java/client_server/client/views/groups_list.fxml").toURI().toURL();
+            URL url = new File("src/main/java/client_server/client/views/products_list.fxml").toURI().toURL();
             Parent root = FXMLLoader.load(url);
             Scene scene = new Scene(root);
             stage.setScene(scene);
