@@ -24,8 +24,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static client_server.domain.Message.cTypes.GET_LIST_GROUPS;
-import static client_server.domain.Message.cTypes.GET_LIST_PRODUCTS;
+import static client_server.domain.Message.cTypes.*;
 
 public class ProductsListController {
 
@@ -88,13 +87,64 @@ public class ProductsListController {
     private Label statusLabel;
 
     @FXML
-    void addNewProductWindow(ActionEvent event) {
+    void addNewProductWindow(ActionEvent event) throws MalformedURLException {
+        URL url = new File("src/main/java/client_server/client/views/add_product.fxml").toURI().toURL();
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+            statusLabel.setText("Function is not available.");
+        }
+        Stage stage = new Stage();
+        stage.setTitle("New Product");
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
 
+    @FXML
+    void updateProductWindow(ActionEvent event) throws MalformedURLException {
+        URL url = new File("src/main/java/client_server/client/views/update_product.fxml").toURI().toURL();
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+            statusLabel.setText("Function is not available.");
+        }
+        Stage stage = new Stage();
+        stage.setTitle("Update Product");
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     @FXML
     void deleteProduct(ActionEvent event) {
+        Product product = productsTable.getSelectionModel().getSelectedItem();
 
+        Message msg = new Message(Message.cTypes.DELETE_PRODUCT.ordinal() , 1, product.getId().toString().getBytes(StandardCharsets.UTF_8));
+        Packet packet = new Packet((byte) 1, UnsignedLong.valueOf(GlobalContext.packetId++), msg);
+
+
+        Packet receivedPacket = GlobalContext.clientTCP.sendPacket(packet.toPacket());
+
+        int command = receivedPacket.getBMsq().getcType();
+        Message.cTypes[] val = Message.cTypes.values();
+        Message.cTypes command_type = val[command];
+
+
+        if (command_type == DELETE_PRODUCT) {
+            String message = new String(receivedPacket.getBMsq().getMessage(), StandardCharsets.UTF_8);
+            JSONObject information = new JSONObject(message);
+            try {
+                statusLabel.setText(information.getString("message"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            statusLabel.setText("Can't delete product.");
+        }
+        resetTable();
     }
 
     @FXML
@@ -188,14 +238,23 @@ public class ProductsListController {
         stage.setScene(scene);
     }
 
-    @FXML
-    void updateProductWindow(ActionEvent event) {
 
-    }
 
     @FXML
-    void logOut(ActionEvent event) {
+    void logOut(ActionEvent event) throws MalformedURLException {
+        FXMLLoader loader = new FXMLLoader();
+        Stage stage = (Stage) deleteProductBtn.getScene().getWindow();
+        URL url = new File("src/main/java/client_server/client/views/login-window.fxml").toURI().toURL();
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
 
+        GlobalContext.role = "";
     }
 
     @FXML
@@ -243,7 +302,6 @@ public class ProductsListController {
         Message.cTypes[] val = Message.cTypes.values();
         Message.cTypes command_type = val[command];
 
-        System.out.println("reset1");
 
         if (command_type == GET_LIST_PRODUCTS) {
             String message = new String(receivedPacket.getBMsq().getMessage(), StandardCharsets.UTF_8);
