@@ -92,21 +92,28 @@ public class DaoProduct {
     }
 
     public int updateProduct(Product product){
-        try (final PreparedStatement preparedStatement =
-                     connection.prepareStatement("update 'products' set name = ?, price = ?, amount = ?, description = ?, manufacturer = ?, group_id = ?  where id = ?")) {
-            preparedStatement.setString(1, product.getName());
-            preparedStatement.setDouble(2, product.getPrice());
-            preparedStatement.setDouble(3, product.getAmount());
-            preparedStatement.setString(4, product.getDescription());
-            preparedStatement.setString(5, product.getManufacturer());
-            preparedStatement.setInt(6, product.getGroup_id());
-            preparedStatement.setDouble(7, product.getId());
-            preparedStatement.executeUpdate();
-            return product.getId();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return -1;
+        Product product1 = getProductByName(product.getName());
+
+        if(isNameMentionedOnce(product.getName()) && (product.getId()==product1.getId())){
+            try (final PreparedStatement preparedStatement =
+                         connection.prepareStatement("update 'products' set name = ?, price = ?, amount = ?, description = ?, manufacturer = ?, group_id = ?  where id = ?")) {
+                preparedStatement.setString(1, product.getName());
+                preparedStatement.setDouble(2, product.getPrice());
+                preparedStatement.setDouble(3, product.getAmount());
+                preparedStatement.setString(4, product.getDescription());
+                preparedStatement.setString(5, product.getManufacturer());
+                preparedStatement.setInt(6, product.getGroup_id());
+                preparedStatement.setDouble(7, product.getId());
+                preparedStatement.executeUpdate();
+                return product.getId();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return -1;
 //                throw new RuntimeException("Can't update product", e);
+            }
+        }
+        else{
+            return -1;
         }
     }
 
@@ -132,7 +139,19 @@ public class DaoProduct {
             resultSet.next();
             return resultSet.getInt("num_of_products") == 0;
         } catch (SQLException e) {
-            throw new RuntimeException("Can't insert product", e);
+            throw new RuntimeException("Can't check name", e);
+        }
+    }
+
+    public boolean isNameMentionedOnce(final String productName){
+        try(final Statement statement = connection.createStatement()){
+            final ResultSet resultSet = statement.executeQuery(
+                    String.format("select count(*) as num_of_products from 'products' where name = '%s'", productName)
+            );
+            resultSet.next();
+            return resultSet.getInt("num_of_products") == 1;
+        } catch (SQLException e) {
+            throw new RuntimeException("Can't check name", e);
         }
     }
 
@@ -189,6 +208,27 @@ public class DaoProduct {
             e.printStackTrace();
             return null;
             //throw new RuntimeException("Can't create table", e);
+        }
+    }
+
+    public Product getProductByName(final String name){
+        try(final Statement statement = connection.createStatement()){
+
+            final String sql = String.format("select * from 'products' where name = '%s'", name);
+            final ResultSet resultSet = statement.executeQuery(sql);
+
+            Product product = new Product(resultSet.getInt("id"),
+                    resultSet.getString("name"),
+                    resultSet.getDouble("price"),
+                    resultSet.getDouble("amount"),
+                    resultSet.getString("description"),
+                    resultSet.getString("manufacturer"),
+                    resultSet.getInt("group_id"));
+            return product;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+//            throw new RuntimeException("Can't get product", e);
         }
     }
 

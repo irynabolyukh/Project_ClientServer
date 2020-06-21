@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" prefHeight="280.0" prefWidth="341.0" spacing="10" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client_server.client.controllers.LoginWindowController">
+<VBox alignment="TOP_CENTER" prefHeight="280.0" prefWidth="341.0" spacing="10" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client_server.client.controllers.LoginWindowController">
     <style>
         -fx-padding: 10;
         -fx-border-style: solid inside;
@@ -23,7 +23,7 @@
             <Font size="14.0" />
          </font></Label>
         <TextField fx:id="loginField" prefWidth="100.0" />
-        <Label alignment="CENTER_LEFT" cache="true" cacheHint="SCALE" prefHeight="30.0" prefWidth="58.0" text="Password" textAlignment="LEFT">
+        <Label alignment="CENTER_LEFT" cache="true" cacheHint="SCALE" prefHeight="30.0" prefWidth="64.0" text="Password" textAlignment="LEFT">
          <font>
             <Font size="14.0" />
          </font></Label>

@@ -52,6 +52,22 @@ public class DaoGroup {
         }
     }
 
+    public Group getGroupByName(final String name) {
+        try (final Statement statement = connection.createStatement()) {
+            final String sql = String.format("select * from 'groups' where name = '%s'", name);
+            final ResultSet resultSet = statement.executeQuery(sql);
+
+            Group group = new Group(resultSet.getInt("id"),
+                    resultSet.getString("name"),
+                    resultSet.getString("description"));
+            return group;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+            //throw new RuntimeException("Can't get group", e);
+        }
+    }
+
     public int insertGroup(final Group group) {
         if (isNameUnique(group.getName())) {
             String query = "insert into 'groups' ('id', 'name', 'description') values (?, ?, ?);";
@@ -65,14 +81,16 @@ public class DaoGroup {
 
                 return group.getId();
             } catch (SQLException e) {
-                throw new RuntimeException("Can't insert group", e);
+                e.printStackTrace();
+                return -1;
             }
         }
         return -1;
     }
 
     public int updateGroup(Group group) {
-        if (isNameMentionedOnce(group.getName())) {
+        Group group1 = getGroupByName(group.getName());
+        if (isNameMentionedOnce(group.getName()) && (group.getId() == group1.getId())) {
             try (final PreparedStatement preparedStatement =
                          connection.prepareStatement("update 'groups' set name = ?, description = ?  where id = ?")) {
                 preparedStatement.setString(1, group.getName());

@@ -29,6 +29,15 @@ public class Product {
         this.group_id = product.getInt("group_id");
     }
 
+    public Product(String name, double price, double amount, String description, String manufacturer, Integer group_id) {
+        this.name = name;
+        this.price = price;
+        this.amount = amount;
+        this.description = description;
+        this.manufacturer = manufacturer;
+        this.group_id = group_id;
+    }
+
     public JSONObject toJSON() {
 
         JSONObject json = new JSONObject("{" + "\"id\":" + id + ", \"name\":\"" + name +

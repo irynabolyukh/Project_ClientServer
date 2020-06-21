@@ -50,13 +50,13 @@ public class Processor{
                 break;
             case INSERT_PRODUCT:
                 information = new JSONObject(message);
-                Product product = new Product( information.getInt("id"),information.getString("name"),
+                 Product product = new Product(information.getString("name"),
                         information.getDouble("price"),information.getDouble("amount"),information.getString("description"),
                         information.getString("manufacturer"),information.getInt("group_id"));
                 daoProduct = new DaoProduct("file.db");
                 success = daoProduct.insertProduct(product);
                 if(success == -1){
-                    reply.putField("Insertion failed!");
+                    reply.putField("Failed to add product!");
                 }
                 else{
                     reply.putField("Successfully inserted product!");
@@ -160,7 +160,7 @@ public class Processor{
                 daoGroup = new DaoGroup("file.db");
                 success = daoGroup.insertGroup(group);
                 if(success == -1){
-                    reply.putField("Invalid name of group");
+                    reply.putField("ID and name should be unique!");
                 }
                 else{
                     reply.putField("Successfully inserted group");
