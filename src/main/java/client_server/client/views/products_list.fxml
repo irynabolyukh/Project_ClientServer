@@ -13,8 +13,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox prefHeight="554.0" prefWidth="782.0" spacing="10" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client_server.client.controllers.ProductsListController">
+<VBox prefHeight="554.0" prefWidth="782.0" spacing="10" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client_server.client.controllers.ProductsListController">
     <style>
         -fx-padding: 10;
         -fx-border-style: solid inside;
@@ -48,9 +47,9 @@
       </HBox>
         <HBox alignment="CENTER" prefHeight="54.0" prefWidth="747.0">
             <children>
-                <Button mnemonicParsing="false" onAction="#addNewProductWindow" prefHeight="54.0" prefWidth="133.0" text="Add new product" />
-                <Button mnemonicParsing="false" onAction="#deleteProduct" prefHeight="54.0" prefWidth="133.0" text="Delete product" />
-            <Button mnemonicParsing="false" onAction="#updateProductWindow" prefHeight="54.0" prefWidth="133.0" text="Update product" />
+                <Button fx:id="addNewProductBtn" mnemonicParsing="false" onAction="#addNewProductWindow" prefHeight="54.0" prefWidth="133.0" text="Add new product" />
+                <Button fx:id="deleteProductBtn" mnemonicParsing="false" onAction="#deleteProduct" prefHeight="54.0" prefWidth="133.0" text="Delete product" />
+            <Button fx:id="updateProductBtn" mnemonicParsing="false" onAction="#updateProductWindow" prefHeight="54.0" prefWidth="133.0" text="Update product" />
             </children>
         </HBox>
         <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
@@ -120,5 +119,17 @@
             <TableColumn fx:id="groupIdCol" minWidth="0.0" prefWidth="90.0" text="Group ID" />
             </columns>
         </TableView>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Label fx:id="statusLabel" textFill="#e10000">
+               <padding>
+                  <Insets bottom="20.0" left="5.0" right="20.0" top="5.0" />
+               </padding>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
     </children>
 </VBox>

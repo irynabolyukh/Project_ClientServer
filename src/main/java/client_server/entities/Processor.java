@@ -4,7 +4,6 @@ import client_server.dao.DaoGroup;
 import client_server.dao.DaoProduct;
 import client_server.dao.UserDao;
 import client_server.domain.*;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -109,8 +108,8 @@ public class Processor{
                 int size = information.getInt("size");
                 JSONObject filtr = information.getJSONObject("productFilter");
                 ProductFilter filter = new ProductFilter();
-                JSONArray array = filtr.getJSONArray("ids");
                 if(!filtr.isNull("ids")){
+                    JSONArray array = filtr.getJSONArray("ids");
                     List<Integer> arrayList = new ArrayList<>();
                     for(int i = 0; i < array.length(); i++){
                         arrayList.add((Integer)(array.get(i)));

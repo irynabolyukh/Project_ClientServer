@@ -92,6 +92,7 @@ public class LoginWindowController {
 //                + "\t for user with ID: " + receivedPacket.getSrcId()
 //                + "\t for packet with ID: " + receivedPacket.getbPktId());
 
+
 //        FXMLLoader loader = new FXMLLoader();
 //        Stage stage = (Stage) loginField.getScene().getWindow();
 //        VBox root = loader.load(getClass().getResourceAsStream("/ui/products/list.fxml"));
