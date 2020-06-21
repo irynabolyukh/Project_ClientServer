@@ -65,13 +65,84 @@ public class GroupsListController {
 
 
     @FXML
-    void addNewGroupWindow(ActionEvent event) {
+    void addNewGroupWindow(ActionEvent event) throws MalformedURLException {
+        URL url = new File("src/main/java/client_server/client/views/add_new_group.fxml").toURI().toURL();
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+            statusLabel.setText("Function is not available.");
+        }
+        Stage stage = new Stage();
+        stage.setTitle("New Group");
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
 
+    @FXML
+    void updateGroupWindow(ActionEvent event) throws MalformedURLException {
+        URL url = new File("src/main/java/client_server/client/views/update_group.fxml").toURI().toURL();
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+            statusLabel.setText("Function is not available.");
+        }
+        Stage stage = new Stage();
+        stage.setTitle("Updating Group");
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     @FXML
     void deleteGroup(ActionEvent event) {
+        Group group = groupsTable.getSelectionModel().getSelectedItem();
 
+        Message msg = new Message(Message.cTypes.DELETE_GROUP.ordinal() , 1, group.getId().toString().getBytes(StandardCharsets.UTF_8));
+        Packet packet = new Packet((byte) 1, UnsignedLong.valueOf(GlobalContext.packetId++), msg);
+
+
+        Packet receivedPacket = GlobalContext.clientTCP.sendPacket(packet.toPacket());
+        packet.getBMsq().setCType(DELETE_ALL_IN_GROUP.ordinal());
+        Packet receivedPacket2 = GlobalContext.clientTCP.sendPacket(packet.toPacket());
+
+        int command = receivedPacket.getBMsq().getcType();
+        Message.cTypes[] val = Message.cTypes.values();
+        Message.cTypes command_type = val[command];
+
+
+        if (command_type == DELETE_GROUP) {
+            String message = new String(receivedPacket.getBMsq().getMessage(), StandardCharsets.UTF_8);
+            JSONObject information = new JSONObject(message);
+            try {
+                statusLabel.setText(information.getString("message"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            statusLabel.setText("Can't delete group.");
+        }
+
+
+        command = receivedPacket2.getBMsq().getcType();
+        command_type = val[command];
+
+
+        if (command_type == DELETE_ALL_IN_GROUP) {
+            String message = new String(receivedPacket.getBMsq().getMessage(), StandardCharsets.UTF_8);
+            JSONObject information = new JSONObject(message);
+            try {
+                statusLabel.setText(information.getString("message"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            statusLabel.setText("Can't delete products from group.");
+        }
+
+        resetTable();
     }
 
     @FXML
@@ -141,8 +212,20 @@ public class GroupsListController {
     }
 
     @FXML
-    void updateGroupWindow(ActionEvent event) {
+    void logOut(ActionEvent event) throws MalformedURLException {
+        FXMLLoader loader = new FXMLLoader();
+        Stage stage = (Stage) addNewGroupBtn.getScene().getWindow();
+        URL url = new File("src/main/java/client_server/client/views/login-window.fxml").toURI().toURL();
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
 
+        GlobalContext.role = "";
     }
 
     @FXML

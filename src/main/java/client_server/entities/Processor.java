@@ -86,7 +86,7 @@ public class Processor{
                     reply.putField("Deletion failed");
                 }
                 else{
-                    reply.putField("Successfully deleted product with id " + success);
+                    reply.putField("Successfully deleted product with ID " + success);
                 }
                 break;
 
@@ -146,7 +146,7 @@ public class Processor{
                 daoProduct = new DaoProduct("file.db");
                 success = daoProduct.deleteAllInGroup(id6);
                 if(success == 1){
-                    reply.putField("Products in group " + id6 + "were deleted");
+                    reply.putField("Products in group " + id6 + " were deleted");
                 }
                 else{
                     reply.putField("Deletion failed");
@@ -174,7 +174,7 @@ public class Processor{
                     reply.putField("Can't delete group");
                 }
                 else{
-                    reply.putField("Successfully deleted group");
+                    reply.putField("Successfully deleted group with ID "+success);
                 }
                 break;
             case UPDATE_GROUP:
