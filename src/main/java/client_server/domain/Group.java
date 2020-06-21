@@ -36,9 +36,14 @@ public class Group {
                 this.description.equals(g.getDescription());
     }
 
+//    @Override
+//    public String toString(){
+//        return "{"+"\"id\":\""+id+"\", \"name\":\""+name+"\", \"description\":\""+description+"\"}";
+//    }
+
     @Override
     public String toString(){
-        return "{"+"\"id\":\""+id+"\", \"name\":\""+name+"\", \"description\":\""+description+"\"}";
+        return "id: "+id+", name: "+name;
     }
 
     public JSONObject toJSON(){
