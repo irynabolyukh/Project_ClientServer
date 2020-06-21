@@ -195,7 +195,7 @@ public class Processor{
                 daoGroup = new DaoGroup("file.db");
                 Group resGroup = daoGroup.getGroup(group_id1);
                 if(resGroup == null){
-                    reply.putField("Invalid groud id");
+                    reply.putField("No such group");
                 }
                 else{
                     reply.putObject(resGroup.toJSON().toString());

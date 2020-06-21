@@ -19,8 +19,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static client_server.domain.Message.cTypes.GET_LIST_GROUPS;
-import static client_server.domain.Message.cTypes.LOGIN;
+import static client_server.domain.Message.cTypes.*;
 
 public class GroupsListController {
 
@@ -71,6 +70,48 @@ public class GroupsListController {
     @FXML
     void filterGroups(ActionEvent event) {
 
+        statusLabel.setText("");
+
+        try {
+            int id = Integer.parseInt(idFilterField.getText());
+            if (id >= 0) {
+                Message msg = new Message(Message.cTypes.GET_GROUP.ordinal(), 1, idFilterField.getText().getBytes(StandardCharsets.UTF_8));
+                Packet packet = new Packet((byte) 1, UnsignedLong.valueOf(GlobalContext.packetId++), msg);
+
+
+                Packet receivedPacket = GlobalContext.clientTCP.sendPacket(packet.toPacket());
+
+                int command = receivedPacket.getBMsq().getcType();
+                Message.cTypes[] val = Message.cTypes.values();
+                Message.cTypes command_type = val[command];
+
+
+                if (command_type == GET_GROUP) {
+                    String message = new String(receivedPacket.getBMsq().getMessage(), StandardCharsets.UTF_8);
+                    JSONObject information = new JSONObject(message);
+                    try {
+                        JSONObject object = information.getJSONObject("object");
+                        Group group = new Group(object);
+
+                        groupsTable.getItems().clear();
+                        groupsTable.getItems().add(group);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        statusLabel.setText(information.getString("message"));
+                    }
+                } else {
+                    statusLabel.setText("Can't show group.");
+                }
+            }else{
+                statusLabel.setText("Incorrect group ID.");
+            }
+        } catch (NumberFormatException e) {
+            statusLabel.setText("Incorrect group ID.");
+        }
+
+        idFilterField.clear();
+
     }
 
     @FXML
@@ -85,7 +126,8 @@ public class GroupsListController {
 
     @FXML
     void showAllGroups(ActionEvent event) {
-
+        statusLabel.setText(" ");
+        resetTable();
     }
 
     @FXML
@@ -135,10 +177,10 @@ public class GroupsListController {
                 System.out.println(groups.get(0).toString());
             } catch (JSONException e) {
                 e.printStackTrace();
+                statusLabel.setText("Can't show groups.");
             }
-
         } else {
-
+            statusLabel.setText("Can't show groups.");
         }
     }
 }
