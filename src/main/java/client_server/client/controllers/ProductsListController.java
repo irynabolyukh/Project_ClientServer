@@ -24,8 +24,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static client_server.domain.Message.cTypes.GET_LIST_GROUPS;
-import static client_server.domain.Message.cTypes.GET_LIST_PRODUCTS;
+import static client_server.domain.Message.cTypes.*;
 
 public class ProductsListController {
 
@@ -121,7 +120,31 @@ public class ProductsListController {
 
     @FXML
     void deleteProduct(ActionEvent event) {
+        Product product = productsTable.getSelectionModel().getSelectedItem();
 
+        Message msg = new Message(Message.cTypes.DELETE_PRODUCT.ordinal() , 1, product.getId().toString().getBytes(StandardCharsets.UTF_8));
+        Packet packet = new Packet((byte) 1, UnsignedLong.valueOf(GlobalContext.packetId++), msg);
+
+
+        Packet receivedPacket = GlobalContext.clientTCP.sendPacket(packet.toPacket());
+
+        int command = receivedPacket.getBMsq().getcType();
+        Message.cTypes[] val = Message.cTypes.values();
+        Message.cTypes command_type = val[command];
+
+
+        if (command_type == DELETE_PRODUCT) {
+            String message = new String(receivedPacket.getBMsq().getMessage(), StandardCharsets.UTF_8);
+            JSONObject information = new JSONObject(message);
+            try {
+                statusLabel.setText(information.getString("message"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            statusLabel.setText("Can't delete product.");
+        }
+        resetTable();
     }
 
     @FXML
