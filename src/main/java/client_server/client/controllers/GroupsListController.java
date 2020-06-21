@@ -15,6 +15,7 @@ import client_server.domain.Message;
 import client_server.domain.Packet;
 import com.google.common.primitives.UnsignedLong;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,6 +23,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -82,17 +84,29 @@ public class GroupsListController {
 
     @FXML
     void updateGroupWindow(ActionEvent event) throws MalformedURLException {
+
+        FXMLLoader loader = new FXMLLoader();
         URL url = new File("src/main/java/client_server/client/views/update_group.fxml").toURI().toURL();
-        Parent root = null;
+        loader.setLocation(url);
         try {
-            root = FXMLLoader.load(url);
+            loader.load();
         } catch (IOException e) {
             e.printStackTrace();
-            statusLabel.setText("Function is not available.");
         }
+        Parent root = loader.getRoot();
         Stage stage = new Stage();
-        stage.setTitle("Updating Group");
         stage.setScene(new Scene(root));
+        stage.setTitle("Update group");
+
+        UpdateGroupController controller = loader.getController();
+        controller.initData(groupsTable.getSelectionModel().getSelectedItem());
+
+        stage.setOnHiding(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent we) {
+                resetTable();
+            }
+        });
+
         stage.show();
     }
 

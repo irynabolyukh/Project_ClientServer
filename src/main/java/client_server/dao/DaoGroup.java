@@ -72,7 +72,7 @@ public class DaoGroup {
     }
 
     public int updateGroup(Group group) {
-        if (isNameUnique(group.getName())) {
+        if (isNameMentionedOnce(group.getName())) {
             try (final PreparedStatement preparedStatement =
                          connection.prepareStatement("update 'groups' set name = ?, description = ?  where id = ?")) {
                 preparedStatement.setString(1, group.getName());
@@ -144,6 +144,18 @@ public class DaoGroup {
             );
             resultSet.next();
             return resultSet.getInt("num_of_groups") == 0;
+        } catch (SQLException e) {
+            throw new RuntimeException("Can't find group", e);
+        }
+    }
+
+    public boolean isNameMentionedOnce(final String groupName) {
+        try (final Statement statement = connection.createStatement()) {
+            final ResultSet resultSet = statement.executeQuery(
+                    String.format("select count(*) as num_of_groups from 'groups' where name = '%s'", groupName)
+            );
+            resultSet.next();
+            return resultSet.getInt("num_of_groups") == 1;
         } catch (SQLException e) {
             throw new RuntimeException("Can't find group", e);
         }
