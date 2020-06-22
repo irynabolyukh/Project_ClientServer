@@ -23,53 +23,61 @@
         -fx-border-color: blue;
     </style>
     <children>
-      <HBox alignment="TOP_CENTER" prefHeight="32.0" prefWidth="760.0">
-         <children>
-            <Label prefHeight="32.0" prefWidth="611.0" text="Groups list">
-               <font>
-                  <Font size="18.0" />
-               </font>
-               <padding>
-                  <Insets left="20.0" />
-               </padding>
-            </Label>
-            <Button mnemonicParsing="false" onAction="#toProductsList" prefHeight="32.0" prefWidth="151.0" text="To products list">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
-         </children>
-      </HBox>
-      <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
-         <children>
-            <Line endX="644.9857788085938" endY="1.656916856765747" fill="#0040ff" startX="-100.0" stroke="#0900ff" strokeWidth="2.0" />
-         </children>
-      </HBox>
+        <HBox alignment="TOP_CENTER" prefHeight="32.0" prefWidth="760.0">
+            <children>
+                <Label prefHeight="30.0" prefWidth="507.0" text="Groups list">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                    <padding>
+                        <Insets left="20.0" />
+                    </padding>
+                </Label>
+                <Button mnemonicParsing="false" onAction="#toProductsList" prefHeight="32.0" prefWidth="151.0" text="To products list">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#logOut" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: red;" text="Log out" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="13.0" />
+                    </font>
+                    <HBox.margin>
+                        <Insets left="20.0" />
+                    </HBox.margin>
+                </Button>
+            </children>
+        </HBox>
+        <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
+            <children>
+                <Line endX="644.9857788085938" endY="1.656916856765747" fill="#0040ff" startX="-100.0" stroke="#0900ff" strokeWidth="2.0" />
+            </children>
+        </HBox>
         <HBox alignment="CENTER" prefHeight="54.0" prefWidth="747.0" spacing="20.0">
             <children>
                 <Button fx:id="addNewGroupBtn" mnemonicParsing="false" onAction="#addNewGroupWindow" prefHeight="54.0" prefWidth="150.0" text="Add new group" />
-            <Button fx:id="deleteGroupBtn" mnemonicParsing="false" onAction="#deleteGroup" prefHeight="54.0" prefWidth="150.0" text="Delete group" />
-            <Button fx:id="updateGroupBtn" mnemonicParsing="false" onAction="#updateGroupWindow" prefHeight="54.0" prefWidth="150.0" text="Update group" />
+                <Button fx:id="deleteGroupBtn" mnemonicParsing="false" onAction="#deleteGroup" prefHeight="54.0" prefWidth="150.0" text="Delete group" />
+                <Button fx:id="updateGroupBtn" mnemonicParsing="false" onAction="#updateGroupWindow" prefHeight="54.0" prefWidth="150.0" text="Update group" />
             </children>
         </HBox>
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
             <children>
-            <Button mnemonicParsing="false" onAction="#showAllGroups" prefHeight="54.0" prefWidth="133.0" text="Show all">
-               <HBox.margin>
-                  <Insets bottom="10.0" top="10.0" />
-               </HBox.margin>
-            </Button>
+                <Button mnemonicParsing="false" onAction="#showAllGroups" prefHeight="54.0" prefWidth="133.0" text="Show all">
+                    <HBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                    </HBox.margin>
+                </Button>
                 <VBox alignment="CENTER" prefHeight="54.0" prefWidth="144.0">
                     <children>
                         <Label text="ID" />
                         <TextField fx:id="idFilterField" />
                     </children>
                 </VBox>
-            <Button mnemonicParsing="false" onAction="#filterGroups" prefHeight="54.0" prefWidth="133.0" text="Filter">
-               <HBox.margin>
-                  <Insets bottom="10.0" top="10.0" />
-               </HBox.margin>
-            </Button>
+                <Button mnemonicParsing="false" onAction="#filterGroups" prefHeight="54.0" prefWidth="133.0" text="Filter">
+                    <HBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                    </HBox.margin>
+                </Button>
             </children>
         </HBox>
         <TableView fx:id="groupsTable" prefHeight="459.0" prefWidth="747.0">
@@ -84,20 +92,20 @@
                         <PropertyValueFactory property="name" />
                     </cellValueFactory>
                 </TableColumn>
-            <TableColumn fx:id="descrCol" prefWidth="451.1999755859375" text="Description" />
+                <TableColumn fx:id="descrCol" prefWidth="451.1999755859375" text="Description" />
             </columns>
         </TableView>
-      <HBox prefHeight="66.0" prefWidth="750.0">
-         <children>
-            <Label fx:id="statusLabel" prefHeight="18.0" prefWidth="770.0" textFill="#dd0000">
-               <padding>
-                  <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
-               </padding>
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Label>
-         </children>
-      </HBox>
+        <HBox prefHeight="66.0" prefWidth="750.0">
+            <children>
+                <Label fx:id="statusLabel" prefHeight="18.0" prefWidth="770.0" textFill="#dd0000">
+                    <padding>
+                        <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
+                    </padding>
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+            </children>
+        </HBox>
     </children>
 </VBox>
