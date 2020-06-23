@@ -1,5 +1,6 @@
 package client_server.dao;
 
+import client_server.domain.Group;
 import client_server.domain.Product;
 import client_server.domain.ProductFilter;
 import org.json.JSONObject;
@@ -67,7 +68,9 @@ public class DaoProduct {
     }
 
     public int insertProduct(final Product product){
-        if(isNameUnique(product.getName())){
+        DaoGroup daoGroup = new DaoGroup("file.db");
+        Group group = daoGroup.getGroup(product.getId());
+        if(isNameUnique(product.getName()) && group != null){
             String query = "insert into 'products'" + " ('name', 'price', 'amount', 'description', 'manufacturer', 'group_id') values (?, ?, ?, ?, ?, ?);";
             try(final PreparedStatement insertStatement = connection.prepareStatement(query)) {
 
@@ -94,7 +97,11 @@ public class DaoProduct {
     public int updateProduct(Product product){
         Product product1 = getProductByName(product.getName());
 
-        if(isNameMentionedOnce(product.getName()) && (product.getId()==product1.getId())){
+        DaoGroup daoGroup = new DaoGroup("file.db");
+        Group group = daoGroup.getGroup(product.getId());
+
+        if(isNameMentionedOnce(product.getName()) && (product.getId()==product1.getId())
+                && (product.getAmount()>=0) && (product.getPrice()>=0) && group != null){
             try (final PreparedStatement preparedStatement =
                          connection.prepareStatement("update 'products' set name = ?, price = ?, amount = ?, description = ?, manufacturer = ?, group_id = ?  where id = ?")) {
                 preparedStatement.setString(1, product.getName());

@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="554.0" prefWidth="782.0" spacing="10" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client_server.client.controllers.ProductsListController">
+<VBox prefHeight="554.0" prefWidth="782.0" spacing="10" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client_server.client.controllers.ProductsListController">
     <style>
         -fx-padding: 10;
         -fx-border-style: solid inside;
@@ -129,7 +129,7 @@
         </TableView>
       <HBox prefWidth="749.0">
          <children>
-            <Label fx:id="statusLabel" prefHeight="18.0" prefWidth="752.0" textFill="#e10000">
+            <Label fx:id="statusLabel" prefHeight="30.0" prefWidth="608.0" textFill="#e10000">
                <padding>
                   <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
                </padding>
@@ -137,6 +137,8 @@
                   <Font size="14.0" />
                </font>
             </Label>
+            <Button mnemonicParsing="false" onAction="#addAmount" prefHeight="25.0" prefWidth="71.0" text="Add" />
+            <Button mnemonicParsing="false" onAction="#deductAmount" prefHeight="25.0" prefWidth="74.0" text="Deduct" />
          </children>
       </HBox>
     </children>

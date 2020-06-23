@@ -58,7 +58,7 @@ public class UpdateProductController {
     void updateProduct(ActionEvent event) {
         if(nameField.getText().isEmpty() || descrField.getText().isEmpty() || priceField.getText().isEmpty()
                 || amountField.getText().isEmpty() || manufField.getText().isEmpty()){
-            statusLabel.setText("Fill out all fields before update.");
+            statusLabel.setText("Fill out all fields before updateProduct.");
         }else{
             Double price = null;
             Double amount = null;
@@ -75,27 +75,7 @@ public class UpdateProductController {
             if(price != null && amount != null && price>=0 && amount>=0) {
 
                 Product product = new Product(productID, nameField.getText(), price, amount, descrField.getText(), manufField.getText(), groupIdChoice.getValue().getId());
-                Message msg = new Message(Message.cTypes.UPDATE_PRODUCT.ordinal(), 1, product.toJSON().toString().getBytes(StandardCharsets.UTF_8));
-
-                Packet packet = new Packet((byte) 1, UnsignedLong.valueOf(GlobalContext.packetId++), msg);
-
-                Packet receivedPacket = GlobalContext.clientTCP.sendPacket(packet.toPacket());
-
-                int command = receivedPacket.getBMsq().getcType();
-                Message.cTypes[] val = Message.cTypes.values();
-                Message.cTypes command_type = val[command];
-
-                if (command_type == UPDATE_PRODUCT) {
-                    String message = new String(receivedPacket.getBMsq().getMessage(), StandardCharsets.UTF_8);
-                    JSONObject information = new JSONObject(message);
-                    try {
-                        statusLabel.setText(information.getString("message"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    statusLabel.setText("Can't update product.");
-                }
+                updateProduct(product, statusLabel);
             }else {
                 statusLabel.setText("Price and amount should be positive.");
             }
@@ -151,6 +131,30 @@ public class UpdateProductController {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    static void updateProduct(Product productToUpdate, Label statusLabel) {
+        Message msg = new Message(Message.cTypes.UPDATE_PRODUCT.ordinal(), 1, productToUpdate.toJSON().toString().getBytes(StandardCharsets.UTF_8));
+
+        Packet packet = new Packet((byte) 1, UnsignedLong.valueOf(GlobalContext.packetId++), msg);
+
+        Packet receivedPacket = GlobalContext.clientTCP.sendPacket(packet.toPacket());
+
+        int command = receivedPacket.getBMsq().getcType();
+        Message.cTypes[] val = Message.cTypes.values();
+        Message.cTypes command_type = val[command];
+
+        if (command_type == UPDATE_PRODUCT) {
+            String message = new String(receivedPacket.getBMsq().getMessage(), StandardCharsets.UTF_8);
+            JSONObject information = new JSONObject(message);
+            try {
+                statusLabel.setText(information.getString("message"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            statusLabel.setText("Can't updateProduct product.");
         }
     }
 }

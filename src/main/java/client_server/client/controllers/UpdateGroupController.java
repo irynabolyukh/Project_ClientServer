@@ -16,7 +16,6 @@ import javafx.scene.control.TextField;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static client_server.domain.Message.cTypes.GET_GROUP;
 import static client_server.domain.Message.cTypes.UPDATE_GROUP;
 
 public class UpdateGroupController {
@@ -42,20 +41,18 @@ public class UpdateGroupController {
     @FXML
     void updateGroup(ActionEvent event) {
         if(nameField.getText().isEmpty() || descrField.getText().isEmpty()){
-            statusLabel.setText("Fill out all fields before update.");
+            statusLabel.setText("Fill out all fields before updateProduct.");
         }else{
             Group group = new Group(Integer.parseInt(idLabel.getText()), nameField.getText(), descrField.getText());
             Message msg = new Message(Message.cTypes.UPDATE_GROUP.ordinal() , 1, group.toJSON().toString().getBytes(StandardCharsets.UTF_8));
 
             Packet packet = new Packet((byte) 1, UnsignedLong.valueOf(GlobalContext.packetId++), msg);
 
-
             Packet receivedPacket = GlobalContext.clientTCP.sendPacket(packet.toPacket());
 
             int command = receivedPacket.getBMsq().getcType();
             Message.cTypes[] val = Message.cTypes.values();
             Message.cTypes command_type = val[command];
-
 
             if (command_type == UPDATE_GROUP) {
                 String message = new String(receivedPacket.getBMsq().getMessage(), StandardCharsets.UTF_8);
@@ -66,7 +63,7 @@ public class UpdateGroupController {
                     e.printStackTrace();
                 }
             } else {
-                statusLabel.setText("Can't update group.");
+                statusLabel.setText("Can't updateProduct group.");
             }
         }
     }

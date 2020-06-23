@@ -28,7 +28,7 @@ public class StoreClientTCP {
             try (final Socket socket = new Socket(InetAddress.getByName(null), CLIENT_PORT)) {
                 clientTCP(socket,packet);
             }  catch (IOException e) {
-                //e.printStackTrace();
+//                e.printStackTrace();
                 System.out.println("Reconnecting");
                 reconnect(packet, reconnect_num);
             }
@@ -69,11 +69,9 @@ public class StoreClientTCP {
         byte[] fullPacket = new byte[messageSize];
         System.arraycopy(inputMessage, 0, fullPacket, 0, messageSize);
 
-
         Packet receivedPacket = new Packet(fullPacket);
 
         this.response = receivedPacket;
-
 
         if(packetFromUser.getbPktId().equals(receivedPacket.getbPktId()))
             System.out.println("CORRECT response!");

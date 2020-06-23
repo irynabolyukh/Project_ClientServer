@@ -112,7 +112,6 @@ public class AddProductController {
         Message.cTypes[] val = Message.cTypes.values();
         Message.cTypes command_type = val[command];
 
-
         if (command_type == GET_LIST_GROUPS) {
             String message = new String(receivedPacket.getBMsq().getMessage(), StandardCharsets.UTF_8);
             JSONObject information = new JSONObject(message);
