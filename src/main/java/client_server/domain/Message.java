@@ -40,6 +40,7 @@ public class Message {
         GET_GROUP,
         GET_LIST_GROUPS,
         LOGIN,
+        ADD_USER,
     }
 
     byte[] whole;

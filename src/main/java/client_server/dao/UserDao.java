@@ -35,17 +35,21 @@ public class UserDao {
         }
     }
 
-    public int insert(final User user) {
-        try (final PreparedStatement insertStatement = connection.prepareStatement("insert into 'users'('login', 'password', 'role') values (?, ?, ?)")) {
-            insertStatement.setString(1, user.getLogin());
-            insertStatement.setString(2, user.getPassword());
-            insertStatement.setString(3, user.getRole());
-            insertStatement.execute();
+    public int insertUser(final User user) {
+        if(isLoginUnique(user.getLogin())) {
+            try (final PreparedStatement insertStatement = connection.prepareStatement("insert into 'users'('login', 'password', 'role') values (?, ?, ?)")) {
+                insertStatement.setString(1, user.getLogin());
+                insertStatement.setString(2, user.getPassword());
+                insertStatement.setString(3, user.getRole());
+                insertStatement.execute();
 
-            final ResultSet result = insertStatement.getGeneratedKeys();
-            return result.getInt("last_insert_rowid()");
-        } catch (SQLException e) {
-            throw new RuntimeException("Can't insert user", e);
+                final ResultSet result = insertStatement.getGeneratedKeys();
+                return result.getInt("last_insert_rowid()");
+            } catch (SQLException e) {
+                throw new RuntimeException("Can't insert user", e);
+            }
+        }else{
+            return -1;
         }
     }
 
@@ -66,6 +70,18 @@ public class UserDao {
         } catch (final SQLException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public boolean isLoginUnique(final String login) {
+        try (final Statement statement = connection.createStatement()) {
+            final ResultSet resultSet = statement.executeQuery(
+                    String.format("select count(*) as num_of_users from 'users' where login = '%s'", login)
+            );
+            resultSet.next();
+            return resultSet.getInt("num_of_users") == 0;
+        } catch (SQLException e) {
+            throw new RuntimeException("Can't find user", e);
         }
     }
 

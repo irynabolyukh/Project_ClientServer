@@ -4,6 +4,7 @@ import client_server.dao.DaoGroup;
 import client_server.dao.DaoProduct;
 import client_server.dao.UserDao;
 import client_server.domain.*;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -31,6 +32,19 @@ public class Processor{
         UserDao daoUser;
 
         switch(command_type){
+            case ADD_USER:
+                information = new JSONObject(message);
+                User userToAdd = new User( information.getString("login"), DigestUtils.md5Hex(information.getString("password"))
+                        ,information.getString("role"));
+                daoUser = new UserDao("file.db");
+                success = daoUser.insertUser(userToAdd);
+                if(success == -1){
+                    reply.putField("This user already exists!");
+                }
+                else{
+                    reply.putField("User successfully added!");
+                }
+                break;
             case LOGIN:
                 information = new JSONObject(message);
                 UserCredentials userCred = new UserCredentials(information.getString("login"), information.getString("password"));

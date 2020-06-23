@@ -105,4 +105,18 @@ public class LoginWindowController {
         GlobalContext.role = "";
     }
 
+    public static void addingUser(Label statusLabel) throws MalformedURLException {
+        URL url = new File("src/main/java/client_server/client/views/add_user.fxml").toURI().toURL();
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+            statusLabel.setText("Function is not available.");
+        }
+        Stage stage = new Stage();
+        stage.setTitle("New User");
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
 }
