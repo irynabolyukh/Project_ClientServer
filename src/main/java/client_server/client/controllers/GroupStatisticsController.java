@@ -72,7 +72,7 @@ public class GroupStatisticsController {
 
     @FXML
     void showStatistics(ActionEvent event) {
-
+        resetTable(groupIdChoice.getValue().getId());
     }
 
     @FXML
