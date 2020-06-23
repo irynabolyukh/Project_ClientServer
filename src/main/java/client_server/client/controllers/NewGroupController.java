@@ -17,7 +17,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import static client_server.domain.Message.cTypes.INSERT_GROUP;
-import static client_server.domain.Message.cTypes.UPDATE_GROUP;
 
 public class NewGroupController {
 

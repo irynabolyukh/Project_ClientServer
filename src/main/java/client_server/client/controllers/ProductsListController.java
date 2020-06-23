@@ -89,6 +89,72 @@ public class ProductsListController {
     private Label statusLabel;
 
     @FXML
+    void addAmount(ActionEvent event) throws MalformedURLException {
+        Product product = productsTable.getSelectionModel().getSelectedItem();
+
+        if (product != null) {
+            FXMLLoader loader = new FXMLLoader();
+            URL url = new File("src/main/java/client_server/client/views/add_amount_product.fxml").toURI().toURL();
+            loader.setLocation(url);
+            try {
+                loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Parent root = loader.getRoot();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Add amount");
+
+            AddAmountController controller = loader.getController();
+            controller.initData(product);
+
+            stage.setOnHiding(new EventHandler<WindowEvent>() {
+                public void handle(WindowEvent we) {
+                    resetTable();
+                }
+            });
+
+            stage.show();
+        } else {
+            statusLabel.setText("Choose product first!");
+        }
+    }
+
+    @FXML
+    void deductAmount(ActionEvent event) throws MalformedURLException {
+        Product product = productsTable.getSelectionModel().getSelectedItem();
+
+        if (product != null) {
+            FXMLLoader loader = new FXMLLoader();
+            URL url = new File("src/main/java/client_server/client/views/deduct_amount_product.fxml").toURI().toURL();
+            loader.setLocation(url);
+            try {
+                loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Parent root = loader.getRoot();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Deduct amount");
+
+            DeductAmountController controller = loader.getController();
+            controller.initData(product);
+
+            stage.setOnHiding(new EventHandler<WindowEvent>() {
+                public void handle(WindowEvent we) {
+                    resetTable();
+                }
+            });
+
+            stage.show();
+        }else{
+            statusLabel.setText("Choose product first.");
+        }
+    }
+
+    @FXML
     void addNewProductWindow(ActionEvent event) throws MalformedURLException {
         URL url = new File("src/main/java/client_server/client/views/add_product.fxml").toURI().toURL();
         Parent root = null;
@@ -106,58 +172,67 @@ public class ProductsListController {
 
     @FXML
     void updateProductWindow(ActionEvent event) throws MalformedURLException {
-        FXMLLoader loader = new FXMLLoader();
-        URL url = new File("src/main/java/client_server/client/views/update_product.fxml").toURI().toURL();
-        loader.setLocation(url);
-        try {
-            loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Parent root = loader.getRoot();
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.setTitle("Update Product");
+        Product product = productsTable.getSelectionModel().getSelectedItem();
 
-        UpdateProductController controller = loader.getController();
-        controller.initData(productsTable.getSelectionModel().getSelectedItem());
-
-        stage.setOnHiding(new EventHandler<WindowEvent>() {
-            public void handle(WindowEvent we) {
-                resetTable();
+        if (product != null) {
+            FXMLLoader loader = new FXMLLoader();
+            URL url = new File("src/main/java/client_server/client/views/update_product.fxml").toURI().toURL();
+            loader.setLocation(url);
+            try {
+                loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        });
+            Parent root = loader.getRoot();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Update Product");
 
-        stage.show();
+            UpdateProductController controller = loader.getController();
+            controller.initData(product);
+
+            stage.setOnHiding(new EventHandler<WindowEvent>() {
+                public void handle(WindowEvent we) {
+                    resetTable();
+                }
+            });
+
+            stage.show();
+        } else {
+            statusLabel.setText("Choose product to update!");
+        }
     }
 
     @FXML
     void deleteProduct(ActionEvent event) {
         Product product = productsTable.getSelectionModel().getSelectedItem();
 
-        Message msg = new Message(Message.cTypes.DELETE_PRODUCT.ordinal() , 1, product.getId().toString().getBytes(StandardCharsets.UTF_8));
-        Packet packet = new Packet((byte) 1, UnsignedLong.valueOf(GlobalContext.packetId++), msg);
+        if (product != null) {
+            Message msg = new Message(Message.cTypes.DELETE_PRODUCT.ordinal(), 1, product.getId().toString().getBytes(StandardCharsets.UTF_8));
+            Packet packet = new Packet((byte) 1, UnsignedLong.valueOf(GlobalContext.packetId++), msg);
 
+            Packet receivedPacket = GlobalContext.clientTCP.sendPacket(packet.toPacket());
 
-        Packet receivedPacket = GlobalContext.clientTCP.sendPacket(packet.toPacket());
+            int command = receivedPacket.getBMsq().getcType();
+            Message.cTypes[] val = Message.cTypes.values();
+            Message.cTypes command_type = val[command];
 
-        int command = receivedPacket.getBMsq().getcType();
-        Message.cTypes[] val = Message.cTypes.values();
-        Message.cTypes command_type = val[command];
-
-
-        if (command_type == DELETE_PRODUCT) {
-            String message = new String(receivedPacket.getBMsq().getMessage(), StandardCharsets.UTF_8);
-            JSONObject information = new JSONObject(message);
-            try {
-                statusLabel.setText(information.getString("message"));
-            } catch (JSONException e) {
-                e.printStackTrace();
+            if (command_type == DELETE_PRODUCT) {
+                String message = new String(receivedPacket.getBMsq().getMessage(), StandardCharsets.UTF_8);
+                JSONObject information = new JSONObject(message);
+                try {
+                    statusLabel.setText(information.getString("message"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                statusLabel.setText("Can't delete product.");
             }
-        } else {
-            statusLabel.setText("Can't delete product.");
+            resetTable();
+
+        }else{
+            statusLabel.setText("Choose product to delete!");
         }
-        resetTable();
     }
 
     @FXML
@@ -166,59 +241,59 @@ public class ProductsListController {
 
         List<Integer> listId = new ArrayList<Integer>();
         ProductFilter fl = new ProductFilter();
-        if(!idFilter.getText().isEmpty()){
-            try{
+        if (!idFilter.getText().isEmpty()) {
+            try {
                 int id = Integer.parseInt(idFilter.getText());
-                if(id >= 0){
+                if (id >= 0) {
                     listId.add(id);
                     fl.setIds(listId);
-                }else{
+                } else {
                     statusLabel.setText("Incorrect product ID.");
                 }
-            }catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 statusLabel.setText("Incorrect product ID.");
             }
         }
 
-        if(!priceFromFilter.getText().isEmpty()){
-            try{
+        if (!priceFromFilter.getText().isEmpty()) {
+            try {
                 double price = Double.parseDouble(priceFromFilter.getText());
-                if(price >= 0){
+                if (price >= 0) {
                     fl.setFromPrice(price);
-                }else{
+                } else {
                     statusLabel.setText("Incorrect price \"from\".");
                 }
-            }catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 statusLabel.setText("Incorrect price \"from\".");
             }
         }
 
-        if(!priceToFilter.getText().isEmpty()){
-            try{
+        if (!priceToFilter.getText().isEmpty()) {
+            try {
                 double price = Double.parseDouble(priceToFilter.getText());
-                if(price >= 0){
+                if (price >= 0) {
                     fl.setToPrice(price);
-                }else{
+                } else {
                     statusLabel.setText("Incorrect price \"to\".");
                 }
-            }catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 statusLabel.setText("Incorrect price \"to\".");
             }
         }
 
-        if(!manufacturerFilter.getText().isEmpty()){
-           fl.setManufacturer(manufacturerFilter.getText());
+        if (!manufacturerFilter.getText().isEmpty()) {
+            fl.setManufacturer(manufacturerFilter.getText());
         }
 
-        if(!groupIdFilter.getText().isEmpty()){
-            try{
+        if (!groupIdFilter.getText().isEmpty()) {
+            try {
                 int gr_id = Integer.parseInt(groupIdFilter.getText());
-                if(gr_id >= 0){
+                if (gr_id >= 0) {
                     fl.setGroup_id(gr_id);
-                }else{
+                } else {
                     statusLabel.setText("Incorrect group ID.");
                 }
-            }catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 statusLabel.setText("Incorrect group ID.");
             }
         }
@@ -252,23 +327,12 @@ public class ProductsListController {
     }
 
 
-
     @FXML
     void logOut(ActionEvent event) throws MalformedURLException {
-        FXMLLoader loader = new FXMLLoader();
-        Stage stage = (Stage) deleteProductBtn.getScene().getWindow();
-        URL url = new File("src/main/java/client_server/client/views/login-window.fxml").toURI().toURL();
-        Parent root = null;
-        try {
-            root = FXMLLoader.load(url);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-
-        GlobalContext.role = "";
+        LoginWindowController.logOut(deleteProductBtn);
     }
+
+
 
     @FXML
     void showAllProducts(ActionEvent event) {
@@ -278,7 +342,7 @@ public class ProductsListController {
 
     @FXML
     void initialize() {
-        if(GlobalContext.role.equals("user")){
+        if (GlobalContext.role.equals("user")) {
             addNewProductBtn.setDisable(true);
             deleteProductBtn.setDisable(true);
             updateProductBtn.setDisable(true);
@@ -302,9 +366,9 @@ public class ProductsListController {
 
 
     private void showFilteredProducts(ProductFilter fl) {
-        JSONObject jsonObj = new JSONObject("{"+"\"page\":"+0+", \"size\":"+1000+
-                ", \"productFilter\":"+ fl.toJSON().toString() +"}");
-        Message msg = new Message(GET_LIST_PRODUCTS.ordinal() , 1, jsonObj.toString().getBytes(StandardCharsets.UTF_8));
+        JSONObject jsonObj = new JSONObject("{" + "\"page\":" + 0 + ", \"size\":" + 1000 +
+                ", \"productFilter\":" + fl.toJSON().toString() + "}");
+        Message msg = new Message(GET_LIST_PRODUCTS.ordinal(), 1, jsonObj.toString().getBytes(StandardCharsets.UTF_8));
 
         Packet packet = new Packet((byte) 1, UnsignedLong.valueOf(GlobalContext.packetId++), msg);
         System.out.println("reset");

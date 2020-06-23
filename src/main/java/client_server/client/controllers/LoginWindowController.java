@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -22,6 +23,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ResourceBundle;
@@ -106,6 +108,22 @@ public class LoginWindowController {
     @FXML
     void initialize() {
 
+    }
+
+    public static void logOut(Button button) throws MalformedURLException {
+        FXMLLoader loader = new FXMLLoader();
+        Stage stage = (Stage) button.getScene().getWindow();
+        URL url = new File("src/main/java/client_server/client/views/login-window.fxml").toURI().toURL();
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+
+        GlobalContext.role = "";
     }
 
 }
