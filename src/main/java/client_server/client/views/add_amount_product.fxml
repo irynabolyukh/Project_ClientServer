@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="147.0" prefWidth="383.0" spacing="10" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client_server.client.controllers.AddAmountController">
+<VBox prefHeight="147.0" prefWidth="383.0" spacing="10" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client_server.client.controllers.AddAmountController">
     <style>
         -fx-padding: 10;
         -fx-border-style: solid inside;
@@ -19,18 +19,33 @@
         -fx-border-color: blue;
     </style>
     <children>
-      <HBox prefHeight="44.0" prefWidth="349.0">
+      <HBox alignment="TOP_CENTER" prefHeight="40.0" prefWidth="349.0">
          <children>
-              <Label prefHeight="18.0" prefWidth="56.0" text="AMOUNT:" />
-              <TextField fx:id="amountField" />
+              <Label prefHeight="20.0" prefWidth="79.0" text="AMOUNT:">
+               <HBox.margin>
+                  <Insets bottom="5.0" top="5.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+              <TextField fx:id="amountField" prefHeight="33.0" prefWidth="149.0" />
          </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <VBox.margin>
+            <Insets top="20.0" />
+         </VBox.margin>
       </HBox>
-      <HBox prefHeight="20.0" prefWidth="349.0">
+      <HBox alignment="TOP_CENTER" prefHeight="20.0" prefWidth="349.0">
          <children>
               <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#addAmount" prefHeight="27.0" prefWidth="104.0" text="Add">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
             </Button>
          </children>
       </HBox>

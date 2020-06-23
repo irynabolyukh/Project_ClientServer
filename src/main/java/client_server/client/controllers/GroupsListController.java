@@ -245,6 +245,40 @@ public class GroupsListController {
     }
 
     @FXML
+    void showGroupStatistics(ActionEvent event) throws MalformedURLException {
+        Group group = groupsTable.getSelectionModel().getSelectedItem();
+
+        if(group != null) {
+            FXMLLoader loader = new FXMLLoader();
+            URL url = new File("src/main/java/client_server/client/views/group_statistics.fxml").toURI().toURL();
+            loader.setLocation(url);
+            try {
+                loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Parent root = loader.getRoot();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Storehouse");
+
+            GroupStatisticsController controller = loader.getController();
+            controller.initData(group);
+
+            stage.setOnHiding(new EventHandler<WindowEvent>() {
+                public void handle(WindowEvent we) {
+                    resetTable();
+                }
+            });
+
+            stage.show();
+        }else{
+            statusLabel.setText("Choose group first!");
+        }
+    }
+
+
+    @FXML
     void initialize() {
         if (GlobalContext.role.equals("user")) {
             addNewGroupBtn.setDisable(true);

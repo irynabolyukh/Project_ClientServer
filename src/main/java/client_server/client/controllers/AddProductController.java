@@ -98,7 +98,6 @@ public class AddProductController {
                 statusLabel.setText("Price and amount should be positive.");
             }
         }
-
     }
 
     @FXML
@@ -111,6 +110,7 @@ public class AddProductController {
         int command = receivedPacket.getBMsq().getcType();
         Message.cTypes[] val = Message.cTypes.values();
         Message.cTypes command_type = val[command];
+
 
         if (command_type == GET_LIST_GROUPS) {
             String message = new String(receivedPacket.getBMsq().getMessage(), StandardCharsets.UTF_8);

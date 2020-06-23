@@ -25,11 +25,11 @@ public class Main extends Application {
 
         try {
 
-            URL url = new File("src/main/java/client_server/client/views/login-window.fxml").toURI().toURL();
+            URL url = new File("src/main/java/client_server/client/views/login_window.fxml").toURI().toURL();
             Parent root = FXMLLoader.load(url);
             Scene scene = new Scene(root);
             stage.setScene(scene);
-            stage.setTitle("Warehouse");
+            stage.setTitle("Storehouse");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

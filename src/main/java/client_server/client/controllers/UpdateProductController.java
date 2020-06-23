@@ -154,8 +154,7 @@ public class UpdateProductController {
                 e.printStackTrace();
             }
         } else {
-            statusLabel.setText("Can't updateProduct product.");
+            statusLabel.setText("Can't update product.");
         }
     }
 }
-

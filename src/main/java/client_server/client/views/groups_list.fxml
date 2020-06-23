@@ -105,6 +105,7 @@
                         <Font size="14.0" />
                     </font>
                 </Label>
+            <Button mnemonicParsing="false" onAction="#showGroupStatistics" prefHeight="30.0" prefWidth="381.0" text="Group statistics" />
             </children>
         </HBox>
     </children>

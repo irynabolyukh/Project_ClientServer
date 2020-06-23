@@ -87,6 +87,7 @@ public class LoginWindowController {
             Parent root = FXMLLoader.load(url);
             Scene scene = new Scene(root);
             stage.setScene(scene);
+//            stage.setTitle("Storehouse");
         }
 
 //        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!\n" +
@@ -113,7 +114,7 @@ public class LoginWindowController {
     public static void logOut(Button button) throws MalformedURLException {
         FXMLLoader loader = new FXMLLoader();
         Stage stage = (Stage) button.getScene().getWindow();
-        URL url = new File("src/main/java/client_server/client/views/login-window.fxml").toURI().toURL();
+        URL url = new File("src/main/java/client_server/client/views/login_window.fxml").toURI().toURL();
         Parent root = null;
         try {
             root = FXMLLoader.load(url);
