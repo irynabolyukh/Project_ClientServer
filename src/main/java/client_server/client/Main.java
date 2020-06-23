@@ -1,9 +1,9 @@
 package client_server.client;
 
-import client_server.dao.DaoGroup;
-import client_server.dao.DaoProduct;
-import client_server.domain.Group;
-import client_server.domain.Product;
+//import client_server.dao.DaoGroup;
+//import client_server.dao.DaoProduct;
+//import client_server.domain.Group;
+//import client_server.domain.Product;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
