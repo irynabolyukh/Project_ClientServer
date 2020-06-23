@@ -3,6 +3,8 @@ package client_server.domain;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 public class Group {
 
     private final Integer id;
@@ -36,11 +38,6 @@ public class Group {
                 this.description.equals(g.getDescription());
     }
 
-//    @Override
-//    public String toString(){
-//        return "{"+"\"id\":\""+id+"\", \"name\":\""+name+"\", \"description\":\""+description+"\"}";
-//    }
-
     @Override
     public String toString(){
         return "id: "+id+", name: "+name;
@@ -49,5 +46,20 @@ public class Group {
     public JSONObject toJSON(){
         JSONObject json = new JSONObject("{"+"\"id\":"+id+", \"name\":\""+name+"\", \"description\":\""+description+"\"}");
         return json;
+    }
+
+
+    public static JSONObject toJSONObject(List<Group> groups) {
+        StringBuffer stringBuffer = new StringBuffer();
+
+        stringBuffer.append("{\"list\":[");
+
+        for (Group g : groups) {
+            stringBuffer.append(g.toJSON().toString() + ", ");
+        }
+        stringBuffer.delete(stringBuffer.length() - 2, stringBuffer.length() - 1);
+        stringBuffer.append("]}");
+
+        return new JSONObject(stringBuffer.toString());
     }
 }

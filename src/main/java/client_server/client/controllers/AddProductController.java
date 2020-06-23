@@ -92,7 +92,7 @@ public class AddProductController {
                         e.printStackTrace();
                     }
                 } else {
-                    statusLabel.setText("Can't add product.");
+                    statusLabel.setText("Failed to add product!");
                 }
             }else {
                 statusLabel.setText("Price and amount should be positive.");

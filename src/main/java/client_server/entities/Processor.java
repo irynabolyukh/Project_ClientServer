@@ -17,7 +17,6 @@ public class Processor{
 
         Message.cTypes [] val = Message.cTypes.values();
         int command = packet.getBMsq().getcType();
-
         Message.cTypes command_type = val[command];
 
         String message = new String(packet.getBMsq().getMessage(), StandardCharsets.UTF_8);
@@ -59,7 +58,7 @@ public class Processor{
                     reply.putField("Failed to add product!");
                 }
                 else{
-                    reply.putField("Successfully inserted product!");
+                    reply.putField("Product successfully added!");
                 }
                 break;
 
@@ -71,10 +70,10 @@ public class Processor{
                 daoProduct = new DaoProduct("file.db");
                 success = daoProduct.updateProduct(product2);
                 if(success == -1){
-                    reply.putField("Update failed");
+                    reply.putField("Failed to update product!");
                 }
                 else{
-                    reply.putField( "Successfully updated product");
+                    reply.putField( "Product successfully updated!");
                 }
                 break;
 
@@ -83,10 +82,10 @@ public class Processor{
                 daoProduct = new DaoProduct("file.db");
                 success = daoProduct.deleteProduct(id3);
                 if(success == -1){
-                    reply.putField("Deletion failed");
+                    reply.putField("Failed to delete product!");
                 }
                 else{
-                    reply.putField("Successfully deleted product with ID " + success);
+                    reply.putField("Product with ID " + success + " successfully deleted!");
                 }
                 break;
 
@@ -95,7 +94,7 @@ public class Processor{
                 daoProduct = new DaoProduct("file.db");
                 Product product4 = daoProduct.getProduct(id4);
                 if(product4 == null){
-                    reply.putField("Invalid product id");
+                    reply.putField("Invalid product ID!");
                 }
                 else{
                     reply.putObject(product4.toJSON().toString());
@@ -134,7 +133,7 @@ public class Processor{
                 daoProduct = new DaoProduct("file.db");
                 List<Product> products = daoProduct.getList(page, size, filter);
                 if(products == null){
-                    reply.putField("Invalid filters");
+                    reply.putField("Invalid filters!");
                 }
                 else{
                     reply.putObject(Product.toJSONObject(products).toString());
@@ -161,7 +160,7 @@ public class Processor{
                     reply.putField("Products in group " + id6 + " were deleted");
                 }
                 else{
-                    reply.putField("Deletion failed");
+                    reply.putField("Failed to delete group with products!");
                 }
                 break;
 
@@ -175,7 +174,7 @@ public class Processor{
                     reply.putField("ID and name should be unique!");
                 }
                 else{
-                    reply.putField("Successfully inserted group");
+                    reply.putField("Group successfully added!");
                 }
                 break;
             case DELETE_GROUP:
@@ -183,10 +182,10 @@ public class Processor{
                 daoGroup = new DaoGroup("file.db");
                 success = daoGroup.deleteGroup(group_id);
                 if(success == -1){
-                    reply.putField("Can't delete group");
+                    reply.putField("Failed to delete group!");
                 }
                 else{
-                    reply.putField("Successfully deleted group with ID "+success);
+                    reply.putField("Group with ID "+success + " successfully deleted!");
                 }
                 break;
             case UPDATE_GROUP:
@@ -196,10 +195,10 @@ public class Processor{
                 daoGroup = new DaoGroup("file.db");
                 success = daoGroup.updateGroup(group1);
                 if(success == -1){
-                    reply.putField("Invalid name of group");
+                    reply.putField("Invalid name of group!");
                 }
                 else{
-                    reply.putField("Successfully updated group");
+                    reply.putField("Group successfully updated!");
                 }
                 break;
             case GET_GROUP:
@@ -207,7 +206,7 @@ public class Processor{
                 daoGroup = new DaoGroup("file.db");
                 Group resGroup = daoGroup.getGroup(group_id1);
                 if(resGroup == null){
-                    reply.putField("No such group");
+                    reply.putField("No such group!");
                 }
                 else{
                     reply.putObject(resGroup.toJSON().toString());
@@ -217,10 +216,10 @@ public class Processor{
                 daoGroup = new DaoGroup("file.db");
                 List<Group> groups = daoGroup.getAll();
                 if(groups == null){
-                    reply.putField("Cant get groups");
+                    reply.putField("Failed to get groups!");
                 }
                 else{
-                    reply.putObject(daoGroup.toJSONObject(groups).toString());
+                    reply.putObject(Group.toJSONObject(groups).toString());
                 }
                 break;
             default:
@@ -228,9 +227,7 @@ public class Processor{
         }
 
         System.out.println("Message from client: " + new String(packet.getBMsq().getMessage(), StandardCharsets.UTF_8)
-                + "\t\t\t with user ID: " + packet.getSrcId()
                 + "\t\t\t and with packet ID: " + packet.getbPktId());
-
 
         Message answerMessage = new Message(packet.getBMsq().getcType(), packet.getBMsq().getbUserId(), reply.toString().getBytes(StandardCharsets.UTF_8));
         Packet answerPacket = new Packet(packet.getSrcId(), packet.getbPktId(), answerMessage);

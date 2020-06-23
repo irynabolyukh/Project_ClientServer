@@ -1,7 +1,6 @@
 package client_server.dao;
 
 import client_server.domain.Group;
-import org.json.JSONObject;
 
 import java.sql.*;
 import java.util.*;
@@ -48,7 +47,6 @@ public class DaoGroup {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
-            //throw new RuntimeException("Can't get group", e);
         }
     }
 
@@ -64,7 +62,6 @@ public class DaoGroup {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
-            //throw new RuntimeException("Can't get group", e);
         }
     }
 
@@ -99,7 +96,8 @@ public class DaoGroup {
                 preparedStatement.executeUpdate();
                 return group.getId();
             } catch (SQLException e) {
-                throw new RuntimeException("Can't update group", e);
+                e.printStackTrace();
+                return -1;
             }
         }
         return -1;
@@ -113,7 +111,6 @@ public class DaoGroup {
         } catch (SQLException e) {
             e.printStackTrace();
             return -1;
-//            throw new RuntimeException("Can't delete group", e);
         }
     }
 
@@ -133,7 +130,6 @@ public class DaoGroup {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
-//            throw new RuntimeException("Can't get list of groups", e);
         }
     }
 
@@ -177,20 +173,6 @@ public class DaoGroup {
         } catch (SQLException e) {
             throw new RuntimeException("Can't find group", e);
         }
-    }
-
-    public JSONObject toJSONObject(List<Group> groups) {
-        StringBuffer stringBuffer = new StringBuffer();
-
-        stringBuffer.append("{\"list\":[");
-
-        for (Group g : groups) {
-            stringBuffer.append(g.toJSON().toString() + ", ");
-        }
-        stringBuffer.delete(stringBuffer.length() - 2, stringBuffer.length() - 1);
-        stringBuffer.append("]}");
-
-        return new JSONObject(stringBuffer.toString());
     }
 }
 

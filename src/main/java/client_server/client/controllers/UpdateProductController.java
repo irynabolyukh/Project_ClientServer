@@ -106,7 +106,6 @@ public class UpdateProductController {
         Message.cTypes[] val = Message.cTypes.values();
         Message.cTypes command_type = val[command];
 
-
         if (command_type == GET_LIST_GROUPS) {
             String message = new String(receivedPacket.getBMsq().getMessage(), StandardCharsets.UTF_8);
             JSONObject information = new JSONObject(message);
@@ -130,6 +129,7 @@ public class UpdateProductController {
                 System.out.println(groups.get(0).toString());
             } catch (JSONException e) {
                 e.printStackTrace();
+                statusLabel.setText("Failed to get list of groups!");
             }
         }
     }
@@ -154,7 +154,7 @@ public class UpdateProductController {
                 e.printStackTrace();
             }
         } else {
-            statusLabel.setText("Can't update product.");
+            statusLabel.setText("Failed to update product!");
         }
     }
 }

@@ -4,7 +4,6 @@ import client_server.domain.Group;
 import client_server.domain.Product;
 import client_server.domain.ProductFilter;
 import client_server.domain.ProductStatistics;
-import org.json.JSONObject;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -50,7 +49,8 @@ public class DaoProduct {
     public Product getProduct(final int id){
         try(final Statement statement = connection.createStatement()){
 
-            final String sql = String.format("select * from 'products' where id = %s", id);
+            final String sql = String.format("select id, name, ROUND(price, 2) as price, ROUND(amount, 3) as amount, description, " +
+                                             "manufacturer, group_id from 'products' where id = %s", id);
             final ResultSet resultSet = statement.executeQuery(sql);
 
             Product product = new Product(resultSet.getInt("id"),
@@ -64,7 +64,6 @@ public class DaoProduct {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
-//            throw new RuntimeException("Can't get product", e);
         }
     }
 
@@ -89,7 +88,6 @@ public class DaoProduct {
             } catch (SQLException e) {
                 e.printStackTrace();
                 return -1;
-//                throw new RuntimeException("Can't insert product", e);
             }
         }
         return -1;
@@ -117,7 +115,6 @@ public class DaoProduct {
             } catch (SQLException e) {
                 e.printStackTrace();
                 return -1;
-//                throw new RuntimeException("Can't update product", e);
             }
         }
         else{
@@ -135,7 +132,6 @@ public class DaoProduct {
         } catch (SQLException e) {
             e.printStackTrace();
             return -1;
-            //throw new RuntimeException("Can't delete product", e);
         }
     }
 
@@ -198,7 +194,8 @@ public class DaoProduct {
                     .collect(Collectors.joining(" AND "));
 
             final String where = query.isEmpty() ? "" : " where "+query;
-            final String sql = String.format("select * from 'products' %s limit %s offset %s", where, size, page * size);
+            final String sql = String.format("select id, name, ROUND(price, 2) as price, ROUND(amount,3) as amount, description, manufacturer, group_id " +
+                                             "from 'products' %s limit %s offset %s", where, size, page * size);
             final ResultSet resultSet = statement.executeQuery(sql);
 
             final List<Product> products = new ArrayList<>();
@@ -215,14 +212,14 @@ public class DaoProduct {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
-            //throw new RuntimeException("Can't create table", e);
         }
     }
 
     public List<ProductStatistics> getStatisticsList(int group_id){
         try(final Statement statement = connection.createStatement()){
 
-            final String sql = String.format("select id, name, price, amount, description, manufacturer, price * amount as total_cost" +
+            final String sql = String.format("select id, name, ROUND(price, 2) as price, ROUND(amount, 3) as amount, description, " +
+                    "manufacturer, ROUND(price * amount, 2)as total_cost" +
                     " from 'products' where group_id = %s", group_id);
             final ResultSet resultSet = statement.executeQuery(sql);
 
@@ -240,14 +237,14 @@ public class DaoProduct {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
-            //throw new RuntimeException("Can't create table", e);
         }
     }
 
     public Product getProductByName(final String name){
         try(final Statement statement = connection.createStatement()){
 
-            final String sql = String.format("select * from 'products' where name = '%s'", name);
+            final String sql = String.format("select id, name, ROUND(price, 2) as price, ROUND(amount, 3) as amount, description, " +
+                                        "manufacturer, group_id from 'products' where name = '%s'", name);
             final ResultSet resultSet = statement.executeQuery(sql);
 
             Product product = new Product(resultSet.getInt("id"),
@@ -261,7 +258,6 @@ public class DaoProduct {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
-//            throw new RuntimeException("Can't get product", e);
         }
     }
 
@@ -308,7 +304,6 @@ public class DaoProduct {
         } catch (SQLException e) {
             e.printStackTrace();
             return -1;
-//            throw new RuntimeException("Can't delete products", e);
         }
     }
 

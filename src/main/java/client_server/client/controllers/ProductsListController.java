@@ -397,11 +397,11 @@ public class ProductsListController {
 
             } catch (JSONException e) {
                 e.printStackTrace();
-                statusLabel.setText("Can't show products!");
+                statusLabel.setText("Failed to get list of products!");
             }
 
         } else {
-            statusLabel.setText("Can't show products!");
+            statusLabel.setText("Failed to get list of products!");
         }
     }
 }

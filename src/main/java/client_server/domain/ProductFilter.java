@@ -73,10 +73,9 @@ public class ProductFilter {
             arr = "[";
 
             for (int i = 0; i < objArr.length - 1; i++) {
-                //intArr[i] = ((Integer) objArr[i]);
-                arr += (Integer) objArr[i] + ", ";
+                arr +=  objArr[i] + ", ";
             }
-            arr += (Integer) objArr[objArr.length - 1] + "]";
+            arr += objArr[objArr.length - 1] + "]";
         }
         String manuf;
 
@@ -90,7 +89,6 @@ public class ProductFilter {
         JSONObject json = new JSONObject("{"+"\"ids\":"+arr+", \"query\":\""+query+
                 "\", \"fromPrice\":"+ fromPrice+", \"toPrice\":"+toPrice+
                 ", \"manufacturer\":"+ manuf+", \"group_id\":"+ group_id+"}");
-//        System.out.println(json);
         return json;
     }
 }

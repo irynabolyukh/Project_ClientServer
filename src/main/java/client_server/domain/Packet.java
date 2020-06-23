@@ -86,8 +86,6 @@ public class Packet {
     public byte[] toPacket() {
         Message message = getBMsq();
 
-        //message.encode();
-
         byte[] packetPartFirst = ByteBuffer.allocate(packetPartFirstLength)
                 .put(bMagic)
                 .put(srcId)
