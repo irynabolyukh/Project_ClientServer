@@ -25,7 +25,7 @@
     <children>
       <HBox alignment="TOP_CENTER" prefHeight="32.0" prefWidth="760.0">
          <children>
-            <Label prefHeight="30.0" prefWidth="488.0" text="Products list">
+            <Label prefHeight="29.0" prefWidth="309.0" text="Products list">
                <font>
                   <Font size="18.0" />
                </font>
@@ -33,7 +33,15 @@
                   <Insets left="20.0" />
                </padding>
             </Label>
-            <Button mnemonicParsing="false" onAction="#toGroupList" prefHeight="30.0" prefWidth="216.0" text="To groups list">
+            <Button mnemonicParsing="false" onAction="#toGroupList" prefHeight="29.0" prefWidth="141.0" text="To groups list">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="addUserBtn" mnemonicParsing="false" onAction="#addUser" prefHeight="32.0" prefWidth="103.0" text="Add User">
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -56,8 +64,14 @@
         <HBox alignment="CENTER" prefHeight="54.0" prefWidth="747.0">
             <children>
                 <Button fx:id="addNewProductBtn" mnemonicParsing="false" onAction="#addNewProductWindow" prefHeight="54.0" prefWidth="133.0" text="Add new product" />
-                <Button fx:id="deleteProductBtn" mnemonicParsing="false" onAction="#deleteProduct" prefHeight="54.0" prefWidth="133.0" text="Delete product" />
-            <Button fx:id="updateProductBtn" mnemonicParsing="false" onAction="#updateProductWindow" prefHeight="54.0" prefWidth="133.0" text="Update product" />
+                <Button fx:id="deleteProductBtn" mnemonicParsing="false" onAction="#deleteProduct" prefHeight="54.0" prefWidth="133.0" text="Delete product">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin></Button>
+            <Button fx:id="updateProductBtn" mnemonicParsing="false" onAction="#updateProductWindow" prefHeight="54.0" prefWidth="133.0" text="Update product">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin></Button>
             </children>
         </HBox>
         <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
@@ -97,7 +111,10 @@
       <HBox alignment="CENTER" prefHeight="54.0" prefWidth="747.0">
          <children>
             <Button mnemonicParsing="false" onAction="#filterProducts" prefHeight="54.0" prefWidth="133.0" text="Filter" />
-            <Button mnemonicParsing="false" onAction="#showAllProducts" prefHeight="54.0" prefWidth="133.0" text="Show all" />
+            <Button mnemonicParsing="false" onAction="#showAllProducts" prefHeight="54.0" prefWidth="133.0" text="Show all">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin></Button>
          </children>
       </HBox>
         <TableView fx:id="productsTable" prefHeight="451.0" prefWidth="750.0">

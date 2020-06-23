@@ -26,10 +26,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static client_server.client.controllers.LoginWindowController.addingUser;
 import static client_server.domain.Message.cTypes.*;
 
 public class ProductsListController {
 
+    @FXML
+    private Button addUserBtn;
 
     @FXML
     private Button addNewProductBtn;
@@ -87,6 +90,12 @@ public class ProductsListController {
 
     @FXML
     private Label statusLabel;
+
+
+    @FXML
+    void addUser(ActionEvent event) throws MalformedURLException {
+        addingUser(statusLabel);
+    }
 
     @FXML
     void addAmount(ActionEvent event) throws MalformedURLException {
@@ -342,10 +351,11 @@ public class ProductsListController {
 
     @FXML
     void initialize() {
-        if (GlobalContext.role.equals("user")) {
+        if (!GlobalContext.role.equals("admin")) {
             addNewProductBtn.setDisable(true);
             deleteProductBtn.setDisable(true);
             updateProductBtn.setDisable(true);
+            addUserBtn.setDisable(true);
         }
 
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));

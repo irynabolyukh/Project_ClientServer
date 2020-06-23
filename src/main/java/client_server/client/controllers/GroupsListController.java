@@ -28,9 +28,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static client_server.client.controllers.LoginWindowController.addingUser;
 import static client_server.domain.Message.cTypes.*;
 
 public class GroupsListController {
+
+    @FXML
+    private Button addUserBtn;
 
     @FXML
     private Button addNewGroupBtn;
@@ -65,6 +69,11 @@ public class GroupsListController {
     @FXML
     private Label statusLabel;
 
+
+    @FXML
+    void addUser(ActionEvent event) throws MalformedURLException {
+        addingUser(statusLabel);
+    }
 
     @FXML
     void addNewGroupWindow(ActionEvent event) throws MalformedURLException {
@@ -280,10 +289,11 @@ public class GroupsListController {
 
     @FXML
     void initialize() {
-        if (GlobalContext.role.equals("user")) {
+        if (!GlobalContext.role.equals("admin")) {
             addNewGroupBtn.setDisable(true);
             deleteGroupBtn.setDisable(true);
             updateGroupBtn.setDisable(true);
+            addUserBtn.setDisable(true);
         }
 
         descrCol.setCellValueFactory(new PropertyValueFactory<>("description"));
