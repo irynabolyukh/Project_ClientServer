@@ -4,7 +4,6 @@ import client_server.dao.DaoGroup;
 import client_server.dao.DaoProduct;
 import client_server.dao.UserDao;
 import client_server.domain.*;
-import javafx.collections.ObservableList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

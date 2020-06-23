@@ -13,10 +13,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import static client_server.domain.Message.cTypes.UPDATE_PRODUCT;
 
 public class DeductAmountController {
 
@@ -55,7 +51,6 @@ public class DeductAmountController {
             }
         }
     }
-
 
 
     @FXML
