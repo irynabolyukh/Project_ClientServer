@@ -18,10 +18,6 @@ public class Message {
     public static final int MAX_MESSAGE_SIZE = 255;
     public static final int BYTES_MAX_SIZE = BYTES_WITHOUT_MESSAGE + MAX_MESSAGE_SIZE;
 
-    public byte[] getWhole() {
-        return whole;
-    }
-
     public byte[] getMessage() { return message; }
 
     public Integer getbUserId() { return bUserId; }

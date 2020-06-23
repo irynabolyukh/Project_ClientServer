@@ -324,10 +324,10 @@ public class GroupsListController {
 
             } catch (JSONException e) {
                 e.printStackTrace();
-                statusLabel.setText("Can't show groups.");
+                statusLabel.setText("Failed to get groups!");
             }
         } else {
-            statusLabel.setText("Can't show groups.");
+            statusLabel.setText("Failed to get groups!");
         }
     }
 }

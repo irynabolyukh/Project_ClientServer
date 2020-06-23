@@ -121,7 +121,6 @@ public class GroupStatisticsController {
         }
 
 
-
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
@@ -165,7 +164,7 @@ public class GroupStatisticsController {
 
                 productsTable.getItems().clear();
                 productsTable.getItems().addAll(products);
-                totalCostLabel.setText(totalCostLabel.getText() + totalGroupCost.toString());
+                totalCostLabel.setText("Total cost of products in group: " + totalGroupCost.toString());
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -173,7 +172,7 @@ public class GroupStatisticsController {
             }
 
         } else {
-            statusLabel.setText("Can't show statistics!");
+            statusLabel.setText("Failed to calculate statistics!");
         }
     }
 

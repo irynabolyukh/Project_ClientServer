@@ -24,17 +24,14 @@ public class StoreClientTCP {
     public Packet sendPacket(byte[] packet) {
         final int reconnect_num = 1;
 
-//        new Thread(() -> {
             try (final Socket socket = new Socket(InetAddress.getByName(null), CLIENT_PORT)) {
                 clientTCP(socket,packet);
             }  catch (IOException e) {
-//                e.printStackTrace();
                 System.out.println("Reconnecting");
                 reconnect(packet, reconnect_num);
             }
 
             return response;
-//        }).start();
     }
 
     private void reconnect(byte[] packet, int reconnect_num) {
@@ -43,7 +40,6 @@ public class StoreClientTCP {
             socket.setSoTimeout(3_000*reconnect_num);
             clientTCP(socket, packet);
         } catch (IOException e) {
-            // e.printStackTrace();
             System.out.println("Reconnecting\tSERVER IS OFFLINE!!!");
 
             if(reconnect_num == RECONNECT_MAX){

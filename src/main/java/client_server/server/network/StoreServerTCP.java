@@ -6,33 +6,16 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketTimeoutException;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class StoreServerTCP {
 
     private static final int SERVER_PORT = 2222;
-    private static final AtomicInteger SENT = new AtomicInteger(0);
 
     public static void main(String[] args) {
 
-        final AtomicBoolean isRun = new AtomicBoolean(true);
-
-//        new Thread(() ->  {
-//            try{
-//                Thread.sleep(10_000L);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//            isRun.set(false);
-//        }).start();
-
         try (final ServerSocket serverSocket = new ServerSocket(SERVER_PORT)) {
 
-            serverSocket.setSoTimeout(1000_000);
-
-            while (isRun.get()) {
+            while (true) {
                 try{
                     Socket socket = serverSocket.accept();
 
@@ -47,15 +30,11 @@ public class StoreServerTCP {
                             final OutputStream outputStream = socket.getOutputStream();
                             outputStream.write(Processor.process(fullPacket));
 
-                            SENT.incrementAndGet();
                             outputStream.flush();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }).start();
-                }catch (SocketTimeoutException e) {
-                    System.out.println("Socket timeout");
-//                    e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -63,6 +42,5 @@ public class StoreServerTCP {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("\n\nAMOUNT of SENT: " + SENT.get());
     }
 }

@@ -61,9 +61,10 @@ public class UpdateGroupController {
                     statusLabel.setText(information.getString("message"));
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    statusLabel.setText("Failed to update group!");
                 }
             } else {
-                statusLabel.setText("Can't updateProduct group.");
+                statusLabel.setText("Failed to update group!");
             }
         }
     }

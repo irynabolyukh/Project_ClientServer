@@ -66,7 +66,6 @@ public class UserDao {
         } catch (final SQLException e) {
             e.printStackTrace();
             return null;
-//            throw new RuntimeException("Can't get user by login: " + login, e);
         }
     }
 
