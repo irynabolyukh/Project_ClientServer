@@ -233,7 +233,7 @@ public class MainTest{
     //FOR GROUPS
     @Test
     void check_insert_and_get_group(){
-        Group group = new Group(100, "крупи", "смачно");
+        Group group = new Group(100, "не крупи", "смачно");
 
         daoGroup.insertGroup(group);
         Group insertedGroup = daoGroup.getGroup(100);
@@ -244,7 +244,7 @@ public class MainTest{
     @Test
     void check_update_and_get_group(){
 
-        Group group = new Group(100, "крупи", "смачно");
+        Group group = new Group(100, "не крупи", "смачно");
         Group group2 = new Group(100, "мийні засоби", "не смачно");
 
         daoGroup.insertGroup(group);
