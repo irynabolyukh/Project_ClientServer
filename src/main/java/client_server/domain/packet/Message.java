@@ -1,7 +1,6 @@
-package client_server.domain;
+package client_server.domain.packet;
 
 import lombok.Data;
-import client_server.entities.DeEncriptor;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;

@@ -28,5 +28,11 @@ public class User {
         return json;
     }
 
-
+    public boolean equals(User u) {
+        if (this.login.equals(u.getLogin()) && this.password.equals(u.getPassword())
+                && this.role.equals(u.getRole())) {
+            return true;
+        }
+        return false;
+    }
 }

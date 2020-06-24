@@ -1,17 +1,15 @@
 package client_server.client.controllers;
 
 import client_server.client.GlobalContext;
-import client_server.domain.Message;
-import client_server.domain.Packet;
+import client_server.domain.packet.Message;
+import client_server.domain.packet.Packet;
 import client_server.domain.UserCredentials;
 import com.google.common.primitives.UnsignedLong;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.json.JSONException;
@@ -24,7 +22,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ResourceBundle;
 
-import static client_server.domain.Message.cTypes.LOGIN;
+import static client_server.domain.packet.Message.cTypes.LOGIN;
 
 public class LoginWindowController {
 

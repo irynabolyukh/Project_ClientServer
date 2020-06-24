@@ -1,4 +1,4 @@
-package client_server.domain;
+package client_server.domain.packet;
 
 import com.github.snksoft.crc.CRC;
 import com.google.common.primitives.UnsignedLong;

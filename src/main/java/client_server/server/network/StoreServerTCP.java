@@ -1,5 +1,5 @@
 package client_server.server.network;
-import client_server.entities.Processor;
+import client_server.proccessing.Processor;
 
 import java.io.IOException;
 import java.io.InputStream;

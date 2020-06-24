@@ -1,9 +1,11 @@
-package client_server.entities;
+package client_server.proccessing;
 
 import client_server.dao.DaoGroup;
 import client_server.dao.DaoProduct;
 import client_server.dao.UserDao;
 import client_server.domain.*;
+import client_server.domain.packet.Message;
+import client_server.domain.packet.Packet;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;

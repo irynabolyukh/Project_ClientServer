@@ -1,4 +1,4 @@
-package client_server.domain;
+package client_server.proccessing;
 
 
 public class JsonResponse{
