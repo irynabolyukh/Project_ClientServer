@@ -364,7 +364,7 @@ public class ProductsListController {
             addNewProductBtn.setDisable(true);
             deleteProductBtn.setDisable(true);
             updateProductBtn.setDisable(true);
-            addUserBtn.setDisable(true);
+            addUserBtn.setVisible(false);
         }
 
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));

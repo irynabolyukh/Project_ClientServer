@@ -98,7 +98,7 @@ public class GroupStatisticsController {
         if (command_type == GET_LIST_GROUPS) {
             String message = new String(receivedPacket.getBMsq().getMessage(), StandardCharsets.UTF_8);
             JSONObject information = new JSONObject(message);
-            System.out.println("command");
+
             try {
                 JSONObject list = information.getJSONObject("object");
                 JSONArray array = list.getJSONArray("list");
@@ -116,7 +116,6 @@ public class GroupStatisticsController {
 
                 groupIdChoice.setItems(groups);
 
-                System.out.println(groups.get(0).toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
