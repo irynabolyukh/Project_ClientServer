@@ -207,6 +207,7 @@ public class Processor{
                 Group group1 = new Group( information.getInt("id"),information.getString("name")
                         ,information.getString("description"));
                 daoGroup = new DaoGroup("file.db");
+//                Group getByName = daoGroup.getGroupByName(group1.getName());
                 success = daoGroup.updateGroup(group1);
                 if(success == -1){
                     reply.putField("Invalid name of group!");

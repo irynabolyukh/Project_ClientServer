@@ -124,6 +124,7 @@ public class MainTest{
 
         daoProduct.insertProduct(product1);
         System.out.println(daoProduct.getProduct(1));
+
         daoProduct.updateProduct(product2);
         System.out.println(daoProduct.getProduct(1));
 
@@ -133,6 +134,7 @@ public class MainTest{
 //        }
 
         Product updatedProduct = daoProduct.getProduct(1);
+        System.out.println(updatedProduct);
 
         assert(product2.equals(updatedProduct));
     }

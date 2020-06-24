@@ -72,7 +72,8 @@ public class Product {
 
     public boolean equals(Product p) {
         if (this.id.equals(p.getId()) && this.name.equals(p.getName()) && this.amount == p.getAmount()
-                && this.price == p.getPrice() && this.description.equals(p.getDescription()) && this.manufacturer.equals(p.getManufacturer())) {
+                && this.price == p.getPrice() && this.description.equals(p.getDescription())
+                && this.manufacturer.equals(p.getManufacturer()) && this.group_id.equals(p.getGroup_id())) {
             return true;
         }
         return false;

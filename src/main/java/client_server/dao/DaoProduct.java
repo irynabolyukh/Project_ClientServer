@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 public class DaoProduct {
 
     private final Connection connection;
-    private final String database = "test.db";
+    private final String database = "file.db";
 
     public DaoProduct(final String dbFile) {
         try {
@@ -95,14 +95,14 @@ public class DaoProduct {
         return -1;
     }
 
-    public int updateProduct(Product product) {
+    public int updateProduct(Product product){
         Product product1 = getProductByName(product.getName());
 
         DaoGroup daoGroup = new DaoGroup(database);
         Group group = daoGroup.getGroup(product.getGroup_id());
 
-        if (isNameMentionedOnce(product.getName()) && (product.getId() == product1.getId())
-                && (product.getAmount() >= 0) && (product.getPrice() >= 0) && group != null) {
+        if((product1 == null || product.getId()==product1.getId())
+                && (product.getAmount()>=0) && (product.getPrice()>=0) && group != null){
             try (final PreparedStatement preparedStatement =
                          connection.prepareStatement("update 'products' set name = ?, price = ?, amount = ?, description = ?, manufacturer = ?, group_id = ?  where id = ?")) {
                 preparedStatement.setString(1, product.getName());
@@ -118,7 +118,8 @@ public class DaoProduct {
                 e.printStackTrace();
                 return -1;
             }
-        } else {
+        }
+        else{
             return -1;
         }
     }
@@ -143,18 +144,6 @@ public class DaoProduct {
             );
             resultSet.next();
             return resultSet.getInt("num_of_products") == 0;
-        } catch (SQLException e) {
-            throw new RuntimeException("Can't check name", e);
-        }
-    }
-
-    public boolean isNameMentionedOnce(final String productName) {
-        try (final Statement statement = connection.createStatement()) {
-            final ResultSet resultSet = statement.executeQuery(
-                    String.format("select count(*) as num_of_products from 'products' where name = '%s'", productName)
-            );
-            resultSet.next();
-            return resultSet.getInt("num_of_products") == 1;
         } catch (SQLException e) {
             throw new RuntimeException("Can't check name", e);
         }
@@ -244,7 +233,7 @@ public class DaoProduct {
     public Product getProductByName(final String name) {
         try (final Statement statement = connection.createStatement()) {
 
-            final String sql = String.format("select id, name, ROUND(price, 2) as price, ROUND(amount, 3) as amount, description, " +
+            final String sql = String.format("select id, name, price, amount, description, " +
                     "manufacturer, group_id from 'products' where name = '%s'", name);
             final ResultSet resultSet = statement.executeQuery(sql);
 
