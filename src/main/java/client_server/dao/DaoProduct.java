@@ -16,11 +16,12 @@ import java.util.stream.Stream;
 public class DaoProduct {
 
     private final Connection connection;
+    private final String database = "test.db";
 
-    public DaoProduct(final String dbFile){
-        try{
+    public DaoProduct(final String dbFile) {
+        try {
             Class.forName("org.sqlite.JDBC");
-            this.connection = DriverManager.getConnection("jdbc:sqlite:"+dbFile);
+            this.connection = DriverManager.getConnection("jdbc:sqlite:" + dbFile);
         } catch (ClassNotFoundException e) {
             System.out.println("Can't load SQLite JDBC class");
             throw new RuntimeException("Can't find class", e);
@@ -34,7 +35,7 @@ public class DaoProduct {
 
     private void initTable() {
 
-        try(final Statement statement = connection.createStatement()){
+        try (final Statement statement = connection.createStatement()) {
             String query = "create table if not exists 'products' " +
                     "('id' INTEGER PRIMARY KEY AUTOINCREMENT, 'name' text not null, 'price' decimal not null," +
                     " 'amount' decimal not null, 'description' text not null, 'manufacturer' text not null, " +
@@ -46,11 +47,11 @@ public class DaoProduct {
 
     }
 
-    public Product getProduct(final int id){
-        try(final Statement statement = connection.createStatement()){
+    public Product getProduct(final int id) {
+        try (final Statement statement = connection.createStatement()) {
 
             final String sql = String.format("select id, name, ROUND(price, 2) as price, ROUND(amount, 3) as amount, description, " +
-                                             "manufacturer, group_id from 'products' where id = %s", id);
+                    "manufacturer, group_id from 'products' where id = %s", id);
             final ResultSet resultSet = statement.executeQuery(sql);
 
             Product product = new Product(resultSet.getInt("id"),
@@ -67,12 +68,13 @@ public class DaoProduct {
         }
     }
 
-    public int insertProduct(final Product product){
-        DaoGroup daoGroup = new DaoGroup("file.db");
-        Group group = daoGroup.getGroup(product.getId());
-        if(isNameUnique(product.getName()) && group != null){
+    public int insertProduct(final Product product) {
+        DaoGroup daoGroup = new DaoGroup(database);
+        Group group = daoGroup.getGroup(product.getGroup_id());
+
+        if (isNameUnique(product.getName()) && group != null) {
             String query = "insert into 'products'" + " ('name', 'price', 'amount', 'description', 'manufacturer', 'group_id') values (?, ?, ?, ?, ?, ?);";
-            try(final PreparedStatement insertStatement = connection.prepareStatement(query)) {
+            try (final PreparedStatement insertStatement = connection.prepareStatement(query)) {
 
                 insertStatement.setString(1, product.getName());
                 insertStatement.setDouble(2, product.getPrice());
@@ -93,14 +95,14 @@ public class DaoProduct {
         return -1;
     }
 
-    public int updateProduct(Product product){
+    public int updateProduct(Product product) {
         Product product1 = getProductByName(product.getName());
 
-        DaoGroup daoGroup = new DaoGroup("file.db");
-        Group group = daoGroup.getGroup(product.getId());
+        DaoGroup daoGroup = new DaoGroup(database);
+        Group group = daoGroup.getGroup(product.getGroup_id());
 
-        if(isNameMentionedOnce(product.getName()) && (product.getId()==product1.getId())
-                && (product.getAmount()>=0) && (product.getPrice()>=0) && group != null){
+        if (isNameMentionedOnce(product.getName()) && (product.getId() == product1.getId())
+                && (product.getAmount() >= 0) && (product.getPrice() >= 0) && group != null) {
             try (final PreparedStatement preparedStatement =
                          connection.prepareStatement("update 'products' set name = ?, price = ?, amount = ?, description = ?, manufacturer = ?, group_id = ?  where id = ?")) {
                 preparedStatement.setString(1, product.getName());
@@ -116,15 +118,14 @@ public class DaoProduct {
                 e.printStackTrace();
                 return -1;
             }
-        }
-        else{
+        } else {
             return -1;
         }
     }
 
-    public int deleteProduct(int id){
+    public int deleteProduct(int id) {
 
-        try(final PreparedStatement preparedStatement = connection.prepareStatement("delete from 'products' where id = ?")) {
+        try (final PreparedStatement preparedStatement = connection.prepareStatement("delete from 'products' where id = ?")) {
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
 
@@ -135,8 +136,8 @@ public class DaoProduct {
         }
     }
 
-    public boolean isNameUnique(final String productName){
-        try(final Statement statement = connection.createStatement()){
+    public boolean isNameUnique(final String productName) {
+        try (final Statement statement = connection.createStatement()) {
             final ResultSet resultSet = statement.executeQuery(
                     String.format("select count(*) as num_of_products from 'products' where name = '%s'", productName)
             );
@@ -147,8 +148,8 @@ public class DaoProduct {
         }
     }
 
-    public boolean isNameMentionedOnce(final String productName){
-        try(final Statement statement = connection.createStatement()){
+    public boolean isNameMentionedOnce(final String productName) {
+        try (final Statement statement = connection.createStatement()) {
             final ResultSet resultSet = statement.executeQuery(
                     String.format("select count(*) as num_of_products from 'products' where name = '%s'", productName)
             );
@@ -159,12 +160,12 @@ public class DaoProduct {
         }
     }
 
-    public List<Product> getAll(final int page, final int size){
+    public List<Product> getAll(final int page, final int size) {
         return getList(page, size, new ProductFilter());
     }
 
-    public void deleteAll(){
-        try(final Statement statement = connection.createStatement()){
+    public void deleteAll() {
+        try (final Statement statement = connection.createStatement()) {
             String query = "delete from 'products'";
             statement.execute(query);
         } catch (SQLException e) {
@@ -172,8 +173,8 @@ public class DaoProduct {
         }
     }
 
-    public void deleteTable(){
-        try(final Statement statement = connection.createStatement()){
+    public void deleteTable() {
+        try (final Statement statement = connection.createStatement()) {
             String query = "drop table 'products'";
             statement.execute(query);
         } catch (SQLException e) {
@@ -181,8 +182,8 @@ public class DaoProduct {
         }
     }
 
-    public List<Product> getList(final int page, final int size, final ProductFilter filter){
-        try(final Statement statement = connection.createStatement()){
+    public List<Product> getList(final int page, final int size, final ProductFilter filter) {
+        try (final Statement statement = connection.createStatement()) {
             final String query = Stream.of(
                     in("id", filter.getIds()),
                     gte("price", filter.getFromPrice()),
@@ -193,14 +194,14 @@ public class DaoProduct {
                     .filter(Objects::nonNull)
                     .collect(Collectors.joining(" AND "));
 
-            final String where = query.isEmpty() ? "" : " where "+query;
+            final String where = query.isEmpty() ? "" : " where " + query;
             final String sql = String.format("select id, name, ROUND(price, 2) as price, ROUND(amount,3) as amount, description, manufacturer, group_id " +
-                                             "from 'products' %s limit %s offset %s", where, size, page * size);
+                    "from 'products' %s limit %s offset %s", where, size, page * size);
             final ResultSet resultSet = statement.executeQuery(sql);
 
             final List<Product> products = new ArrayList<>();
-            while(resultSet.next()){
-                products.add( new Product(resultSet.getInt("id"),
+            while (resultSet.next()) {
+                products.add(new Product(resultSet.getInt("id"),
                         resultSet.getString("name"),
                         resultSet.getDouble("price"),
                         resultSet.getDouble("amount"),
@@ -215,8 +216,8 @@ public class DaoProduct {
         }
     }
 
-    public List<ProductStatistics> getStatisticsList(int group_id){
-        try(final Statement statement = connection.createStatement()){
+    public List<ProductStatistics> getStatisticsList(int group_id) {
+        try (final Statement statement = connection.createStatement()) {
 
             final String sql = String.format("select id, name, ROUND(price, 2) as price, ROUND(amount, 3) as amount, description, " +
                     "manufacturer, ROUND(price * amount, 2)as total_cost" +
@@ -224,8 +225,8 @@ public class DaoProduct {
             final ResultSet resultSet = statement.executeQuery(sql);
 
             final List<ProductStatistics> products = new ArrayList<>();
-            while(resultSet.next()){
-                products.add( new ProductStatistics(resultSet.getInt("id"),
+            while (resultSet.next()) {
+                products.add(new ProductStatistics(resultSet.getInt("id"),
                         resultSet.getString("name"),
                         resultSet.getDouble("price"),
                         resultSet.getDouble("amount"),
@@ -240,11 +241,11 @@ public class DaoProduct {
         }
     }
 
-    public Product getProductByName(final String name){
-        try(final Statement statement = connection.createStatement()){
+    public Product getProductByName(final String name) {
+        try (final Statement statement = connection.createStatement()) {
 
             final String sql = String.format("select id, name, ROUND(price, 2) as price, ROUND(amount, 3) as amount, description, " +
-                                        "manufacturer, group_id from 'products' where name = '%s'", name);
+                    "manufacturer, group_id from 'products' where name = '%s'", name);
             final ResultSet resultSet = statement.executeQuery(sql);
 
             Product product = new Product(resultSet.getInt("id"),
@@ -255,49 +256,50 @@ public class DaoProduct {
                     resultSet.getString("manufacturer"),
                     resultSet.getInt("group_id"));
             return product;
+
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    private static String in(final String fieldName, final Collection<?> collection){
-        if(collection == null || collection.isEmpty()){
+    private static String in(final String fieldName, final Collection<?> collection) {
+        if (collection == null || collection.isEmpty()) {
             return null;
         }
         return fieldName + " IN (" + collection.stream().map(Objects::toString).collect(Collectors.joining(", ")) + ")";
     }
 
-    private static String gte(final String fieldName, final Double value){
-        if(value == null){
+    private static String gte(final String fieldName, final Double value) {
+        if (value == null) {
             return null;
         }
         return fieldName + " >= " + value;
     }
 
-    private static String manufacturer(final String fieldName, final String value){
-        if(value == null){
+    private static String manufacturer(final String fieldName, final String value) {
+        if (value == null) {
             return null;
         }
-        return fieldName + " = '" + value +"'";
+        return fieldName + " = '" + value + "'";
     }
 
-    private static String group(final String fieldName, final Integer value){
-        if(value == null){
+    private static String group(final String fieldName, final Integer value) {
+        if (value == null) {
             return null;
         }
         return fieldName + " = " + value;
     }
 
-    private static String lte(final String fieldName, final Double value){
-        if(value == null){
+    private static String lte(final String fieldName, final Double value) {
+        if (value == null) {
             return null;
         }
         return fieldName + " <= " + value;
     }
 
-    public int deleteAllInGroup(int group_id){
-        try(final Statement statement = connection.createStatement()){
+    public int deleteAllInGroup(int group_id) {
+        try (final Statement statement = connection.createStatement()) {
             String query = String.format("delete from 'products' where group_id = '%s'", group_id);
             statement.execute(query);
             return 1;

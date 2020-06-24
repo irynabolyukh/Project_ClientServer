@@ -2,10 +2,13 @@ package client_server;
 
 import client_server.dao.DaoGroup;
 import client_server.dao.DaoProduct;
+import client_server.dao.UserDao;
 import client_server.domain.*;
 import client_server.entities.DeEncriptor;
 import com.google.common.primitives.UnsignedLong;
 import org.apache.commons.codec.binary.Hex;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.crypto.BadPaddingException;
@@ -20,6 +23,27 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class MainTest{
+
+    private DaoGroup daoGroup;
+    private DaoProduct daoProduct;
+    private UserDao userDao;
+    private String database = "test.db";
+
+    @BeforeEach
+    void init() {
+        daoGroup = new DaoGroup(database);
+        daoProduct = new DaoProduct(database);
+        userDao = new UserDao(database);
+        Group group = new Group(23,"крупи", "корисно");
+        daoGroup.insertGroup(group);
+    }
+
+    @AfterEach
+    void cleanUp() {
+        userDao.deleteTable();
+        daoProduct.deleteTable();
+        daoGroup.deleteTable();
+    }
 
     @Test
     void checkWhether_InvalidMagicByte() {
@@ -49,7 +73,9 @@ public class MainTest{
     }
 
     @Test
-    void check_DeEncriptor_forPacket() throws NoSuchPaddingException, InvalidKeyException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException {
+    void check_DeEncriptor_forPacket() throws NoSuchPaddingException, InvalidKeyException,
+            NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException,
+            InvalidAlgorithmParameterException {
         Message originalMessage = new Message(1,1, new String("hello from user").getBytes());
         byte[] origMessageToBytes = DeEncriptor.decode(originalMessage.toPacketPart());
 
@@ -81,70 +107,68 @@ public class MainTest{
     //FOR PRODUCTS
     @Test
     void check_insert_and_get_product(){
-        Product product = new Product(1,"гречка",234.5,324,"good","rodyna",1);
-        DaoProduct  daoProduct = new DaoProduct("test.db");
+        Product product = new Product(1,"гречка",234.5,324,"good","rodyna",23);
 
         daoProduct.insertProduct(product);
+
         Product insertedProduct = daoProduct.getProduct(1);
 
         assert(product.equals(insertedProduct));
-
-        daoProduct.deleteTable();
     }
 
     @Test
     void check_update_and_get_product(){
-        Product product1 = new Product(1,"гречка",234.5,324,"good","rodyna",1);
-        Product product2 = new Product(1,"пшоно",234.5,324,"good","rodyna",1);
 
-        DaoProduct  daoProduct = new DaoProduct("test.db");
+        Product product1 = new Product(1,"гречка",234.5,324,"good","rodyna",23);
+        Product product2 = new Product(1,"пшоно",234.5,324,"good","rodyna",23);
+
         daoProduct.insertProduct(product1);
+        System.out.println(daoProduct.getProduct(1));
         daoProduct.updateProduct(product2);
+        System.out.println(daoProduct.getProduct(1));
+
+//        List<Product> products = daoProduct.getAll(0,10);
+//        for(int i=0;i<products.size();i++){
+//            System.out.println(products.get(i));
+//        }
 
         Product updatedProduct = daoProduct.getProduct(1);
 
         assert(product2.equals(updatedProduct));
-
-        daoProduct.deleteTable();
     }
 
     @Test
     void check_get_product(){
-        DaoProduct daoProduct = new DaoProduct("test.db");
-        assertThrows(
-                java.lang.RuntimeException.class,
-                () -> daoProduct.getProduct(1)
-        );
-        daoProduct.deleteTable();
+        assert(daoProduct.getProduct(3456) == null);
     }
 
     @Test
     void check_get_All_Products(){
+
         int expected = 5;
 
-        final DaoProduct daoProduct = new DaoProduct("test.db");
         for(int i = 0; i < expected; i++){
-            daoProduct.insertProduct(new Product("гречка"+i , Math.random()*100,Math.random()*100,"very good", "Summer",1));
+            daoProduct.insertProduct(new Product("гречка"+i , Math.random()*100,Math.random()*100,"very good", "Summer",23));
         }
 
         List<Product> products = daoProduct.getAll(0,10);
 
         assert(expected == products.size());
-
-        daoProduct.deleteTable();
     }
 
     @Test
     void check_filter_for_Product(){
+        Group group = new Group(2,"напої", "освіжаючі");
+        daoGroup.insertGroup(group);
+
         ProductFilter filter = new ProductFilter();
         filter.setManufacturer("Summer");
-        filter.setGroup_id(1);
+        filter.setGroup_id(23);
 
         int expected = 5;
 
-        final DaoProduct daoProduct = new DaoProduct("test.db");
         for(int i = 0; i < expected; i++){
-            daoProduct.insertProduct(new Product("гречка"+i , Math.random()*100,Math.random()*100,"very good", "Summer",1));
+            daoProduct.insertProduct(new Product("гречка"+i , Math.random()*100,Math.random()*100,"very good", "Summer",23));
         }
         for(int i = 5; i < 10; i++){
             daoProduct.insertProduct(new Product("мінеральна"+i , Math.random()*100,Math.random()*100,"good", "Rodyna",2));
@@ -153,37 +177,27 @@ public class MainTest{
         List<Product> products = daoProduct.getList(0,10, filter);
 
         assert(expected == products.size());
-
-        daoProduct.deleteTable();
     }
 
     @Test
     void check_delete_product(){
 
-        Product product1 = new Product(1,"гречка",234.5,324,"good","rodyna",1);
-        Product product2 = new Product(2,"пшоно",234.5,324,"good","rodyna",1);
+        Product product = new Product(1,"гречка",234.5,324,"good","rodyna",23);
 
-        DaoProduct  daoProduct = new DaoProduct("test.db");
-        daoProduct.insertProduct(product1);
-        daoProduct.insertProduct(product2);
+        daoProduct.insertProduct(product);
         daoProduct.deleteProduct(1);
 
-        assertThrows(
-                java.lang.RuntimeException.class,
-                () -> daoProduct.getProduct(1)
-        );
+        assert(daoProduct.getProduct(1) == null);
 
-        daoProduct.deleteTable();
     }
 
     @Test
     void check_delete_all_products(){
 
-        Product product1 = new Product(1,"гречка",234.5,324,"good","rodyna",1);
-        Product product2 = new Product(2,"пшоно",234.5,324,"good","rodyna",1);
-        Product product3 = new Product(3,"пшоно2",234.5,324,"good","rodyna",1);
+        Product product1 = new Product(1,"гречка",234.5,324,"good","rodyna",23);
+        Product product2 = new Product(2,"пшоно",234.5,324,"good","rodyna",23);
+        Product product3 = new Product(3,"пшоно2",234.5,324,"good","rodyna",23);
 
-        DaoProduct  daoProduct = new DaoProduct("test.db");
         daoProduct.insertProduct(product1);
         daoProduct.insertProduct(product2);
         daoProduct.insertProduct(product3);
@@ -193,31 +207,28 @@ public class MainTest{
         List<Product> products = daoProduct.getAll(0, 10);
 
         assert(products.size()==0);
-
-        daoProduct.deleteTable();
     }
 
     @Test
     void check_delete_all_products_in_group(){
+        Group group = new Group(2,"напої", "освіжаючі");
+        daoGroup.insertGroup(group);
 
-        Product product1 = new Product(1,"гречка",234.5,324,"good","rodyna",1);
-        Product product2 = new Product(2,"пшоно",234.5,324,"good","rodyna",1);
-        Product product3 = new Product(3,"пшоно2",234.5,324,"good","rodyna",2);
+        Product product1 = new Product(1,"мінеральна",234.5,324,"good","rodyna",2);
+        Product product2 = new Product(2,"пшоно",234.5,324,"good","rodyna",23);
+        Product product3 = new Product(3,"гречка",234.5,324,"good","rodyna",23);
 
-        DaoProduct daoProduct = new DaoProduct("test.db");
         daoProduct.insertProduct(product1);
         daoProduct.insertProduct(product2);
         daoProduct.insertProduct(product3);
 
-        daoProduct.deleteAllInGroup(1);
+        daoProduct.deleteAllInGroup(23);
 
         ProductFilter filter = new ProductFilter();
-        filter.setGroup_id(1);
+        filter.setGroup_id(23);
         List<Product> products = daoProduct.getList(0, 10, filter);
 
         assert(products.size()==0 && daoProduct.getAll(0,10).size()==1);
-
-        daoProduct.deleteTable();
     }
 
 
@@ -225,14 +236,11 @@ public class MainTest{
     @Test
     void check_insert_and_get_group(){
         Group group = new Group(100, "крупи", "смачно");
-        DaoGroup daoGroup = new DaoGroup("test.db");
 
         daoGroup.insertGroup(group);
         Group insertedGroup = daoGroup.getGroup(100);
 
         assert(group.equals(insertedGroup));
-
-        daoGroup.deleteTable();
     }
 
     @Test
@@ -240,7 +248,6 @@ public class MainTest{
 
         Group group = new Group(100, "крупи", "смачно");
         Group group2 = new Group(100, "мийні засоби", "не смачно");
-        DaoGroup daoGroup = new DaoGroup("test.db");
 
         daoGroup.insertGroup(group);
         daoGroup.updateGroup(group2);
@@ -249,34 +256,24 @@ public class MainTest{
 
         assert(group2.equals(updatedGroup));
 
-        daoGroup.deleteTable();
     }
 
     @Test
     void check_get_group(){
-        DaoGroup daoGroup = new DaoGroup("test.db");
-        assertThrows(
-                java.lang.RuntimeException.class,
-                () -> daoGroup.getGroup(1)
-        );
-
-        daoGroup.deleteTable();
+        assert( daoGroup.getGroup(1) == null);
     }
 
     @Test
     void check_get_All_Groups(){
         int expected = 5;
 
-        final DaoGroup daoGroup = new DaoGroup("test.db");
-        for(int i = 0; i < expected; i++){
+        for(int i = 1; i < expected; i++){
             daoGroup.insertGroup(new Group(i ,"Фрукти"+i, "смачні"));
         }
 
         List<Group> groups = daoGroup.getAll();
 
         assert(expected == groups.size());
-
-        daoGroup.deleteTable();
     }
 
     @Test
@@ -284,18 +281,12 @@ public class MainTest{
 
         Group group = new Group(100, "крупи", "смачно");
         Group group2 = new Group(10, "мийні засоби", "не смачно");
-        DaoGroup daoGroup = new DaoGroup("test.db");
 
         daoGroup.insertGroup(group);
         daoGroup.insertGroup(group2);
         daoGroup.deleteGroup(100);
 
-        assertThrows(
-                java.lang.RuntimeException.class,
-                () -> daoGroup.getGroup(100)
-        );
-
-        daoGroup.deleteTable();
+        assert(daoGroup.getGroup(100)==null);
     }
 
     @Test
@@ -304,7 +295,6 @@ public class MainTest{
         Group group = new Group(100, "крупи", "смачно");
         Group group2 = new Group(10, "мийні засоби", "не смачно");
         Group group3 = new Group(11, "одяг", "не смачно");
-        DaoGroup daoGroup = new DaoGroup("test.db");
 
         daoGroup.insertGroup(group);
         daoGroup.insertGroup(group2);
@@ -315,8 +305,6 @@ public class MainTest{
         List<Group> groups = daoGroup.getAll();
 
         assert(groups.size()==0);
-
-        daoGroup.deleteTable();
     }
 
 }
