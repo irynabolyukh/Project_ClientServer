@@ -1,7 +1,8 @@
 package client_server;
 
-import client_server.domain.*;
-import client_server.entities.DeEncriptor;
+import client_server.domain.packet.Message;
+import client_server.domain.packet.Packet;
+import client_server.domain.packet.DeEncriptor;
 import com.google.common.primitives.UnsignedLong;
 import org.apache.commons.codec.binary.Hex;
 import org.junit.jupiter.api.Test;

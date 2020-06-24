@@ -6,8 +6,8 @@ import java.util.ResourceBundle;
 
 import client_server.client.GlobalContext;
 import client_server.domain.Group;
-import client_server.domain.Message;
-import client_server.domain.Packet;
+import client_server.domain.packet.Message;
+import client_server.domain.packet.Packet;
 import client_server.domain.Product;
 import com.google.common.primitives.UnsignedLong;
 import javafx.collections.FXCollections;
@@ -21,7 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static client_server.domain.Message.cTypes.*;
+import static client_server.domain.packet.Message.cTypes.*;
 
 public class AddProductController {
 

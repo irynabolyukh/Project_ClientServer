@@ -5,9 +5,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.ResourceBundle;
 
 import client_server.client.GlobalContext;
-import client_server.domain.Group;
-import client_server.domain.Message;
-import client_server.domain.Packet;
+import client_server.domain.packet.Message;
+import client_server.domain.packet.Packet;
 import client_server.domain.User;
 import com.google.common.primitives.UnsignedLong;
 import javafx.event.ActionEvent;
@@ -17,8 +16,7 @@ import javafx.scene.control.TextField;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static client_server.domain.Message.cTypes.ADD_USER;
-import static client_server.domain.Message.cTypes.INSERT_GROUP;
+import static client_server.domain.packet.Message.cTypes.ADD_USER;
 
 public class AddUserController {
 

@@ -8,6 +8,8 @@ import java.util.ResourceBundle;
 
 import client_server.client.GlobalContext;
 import client_server.domain.*;
+import client_server.domain.packet.Message;
+import client_server.domain.packet.Packet;
 import com.google.common.primitives.UnsignedLong;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,7 +24,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static client_server.domain.Message.cTypes.*;
+import static client_server.domain.packet.Message.cTypes.*;
 
 public class GroupStatisticsController {
 

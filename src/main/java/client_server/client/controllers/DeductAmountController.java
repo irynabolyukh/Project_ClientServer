@@ -1,14 +1,9 @@
 package client_server.client.controllers;
 
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.ResourceBundle;
 
-import client_server.client.GlobalContext;
-import client_server.domain.Message;
-import client_server.domain.Packet;
 import client_server.domain.Product;
-import com.google.common.primitives.UnsignedLong;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
