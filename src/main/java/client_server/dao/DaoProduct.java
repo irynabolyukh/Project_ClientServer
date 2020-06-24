@@ -270,7 +270,7 @@ public class DaoProduct {
         if (value == null) {
             return null;
         }
-        return fieldName + " = '" + value + "'";
+        return fieldName + " LIKE '%" + value + "%'";
     }
 
     private static String group(final String fieldName, final Integer value) {

@@ -1,9 +1,5 @@
 package client_server.client;
 
-//import client_server.dao.DaoGroup;
-//import client_server.dao.DaoProduct;
-//import client_server.domain.Group;
-//import client_server.domain.Product;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,8 +9,6 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-
-//public class Main{
 
 public class Main extends Application {
 
@@ -37,19 +31,5 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
-//    public static void main(String[] args) {
-//
-//        final DaoGroup daoGroup = new DaoGroup("file.db");
-//        for(int i = 0; i < 30; i++){
-//            daoGroup.insertGroup(new Group( i, "very good"+i, "Rodyna"));
-//        }
-//
-//        final DaoProduct daoProduct = new DaoProduct("file.db");
-//        daoProduct.deleteTable();
-//        for(int i = 0; i < 30; i++){
-//            daoProduct.insertProduct(new Product(i,"гречка"+i , Math.random()*1000,Math.random()*1000,"very good", "Rodyna",i));
-//        }
-//   }
 
 }

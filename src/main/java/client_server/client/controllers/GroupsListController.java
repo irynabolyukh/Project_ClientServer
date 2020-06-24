@@ -72,11 +72,15 @@ public class GroupsListController {
 
     @FXML
     void addUser(ActionEvent event) throws MalformedURLException {
+        statusLabel.setText("");
+
         addingUser(statusLabel);
     }
 
     @FXML
     void addNewGroupWindow(ActionEvent event) throws MalformedURLException {
+        statusLabel.setText("");
+
         URL url = new File("src/main/java/client_server/client/views/add_new_group.fxml").toURI().toURL();
         Parent root = null;
         try {
@@ -100,6 +104,8 @@ public class GroupsListController {
 
     @FXML
     void updateGroupWindow(ActionEvent event) throws MalformedURLException {
+        statusLabel.setText("");
+
         Group group = groupsTable.getSelectionModel().getSelectedItem();
 
         if(group != null) {
@@ -300,14 +306,13 @@ public class GroupsListController {
             addNewGroupBtn.setDisable(true);
             deleteGroupBtn.setDisable(true);
             updateGroupBtn.setDisable(true);
-            addUserBtn.setDisable(true);
+            addUserBtn.setVisible(false);
         }
 
         descrCol.setCellValueFactory(new PropertyValueFactory<>("description"));
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        System.out.println("init");
         resetTable();
     }
 
@@ -325,7 +330,7 @@ public class GroupsListController {
         if (command_type == GET_LIST_GROUPS) {
             String message = new String(receivedPacket.getBMsq().getMessage(), StandardCharsets.UTF_8);
             JSONObject information = new JSONObject(message);
-            System.out.println("command");
+
             try {
                 JSONObject list = information.getJSONObject("object");
                 JSONArray array = list.getJSONArray("list");
