@@ -50,11 +50,11 @@ public class DaoGroup {
         }
     }
 
+
     public Group getGroupByName(final String name) {
         try (final Statement statement = connection.createStatement()) {
             final String sql = String.format("select * from 'groups' where name = '%s'", name);
             final ResultSet resultSet = statement.executeQuery(sql);
-
             Group group = new Group(resultSet.getInt("id"),
                     resultSet.getString("name"),
                     resultSet.getString("description"));
@@ -62,8 +62,10 @@ public class DaoGroup {
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
+//            throw new RuntimeException("Can't get group", e);
         }
     }
+
 
     public int insertGroup(final Group group) {
         if (isNameUnique(group.getName())) {
@@ -87,7 +89,7 @@ public class DaoGroup {
 
     public int updateGroup(Group group) {
         Group group1 = getGroupByName(group.getName());
-        if (isNameMentionedOnce(group.getName()) && (group.getId() == group1.getId())) {
+        if (group1 == null || group.getId() == group1.getId()) {
             try (final PreparedStatement preparedStatement =
                          connection.prepareStatement("update 'groups' set name = ?, description = ?  where id = ?")) {
                 preparedStatement.setString(1, group.getName());
@@ -158,18 +160,6 @@ public class DaoGroup {
             );
             resultSet.next();
             return resultSet.getInt("num_of_groups") == 0;
-        } catch (SQLException e) {
-            throw new RuntimeException("Can't find group", e);
-        }
-    }
-
-    public boolean isNameMentionedOnce(final String groupName) {
-        try (final Statement statement = connection.createStatement()) {
-            final ResultSet resultSet = statement.executeQuery(
-                    String.format("select count(*) as num_of_groups from 'groups' where name = '%s'", groupName)
-            );
-            resultSet.next();
-            return resultSet.getInt("num_of_groups") == 1;
         } catch (SQLException e) {
             throw new RuntimeException("Can't find group", e);
         }
