@@ -4,6 +4,7 @@ import client_server.dao.DaoGroup;
 import client_server.dao.DaoProduct;
 import client_server.dao.UserDao;
 import client_server.domain.*;
+import javafx.collections.ObservableList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -137,7 +138,19 @@ public class Processor{
                     reply.putField("Invalid filters");
                 }
                 else{
-                    reply.putObject(daoProduct.toJSONObject(products).toString());
+                    reply.putObject(Product.toJSONObject(products).toString());
+                }
+                break;
+
+            case GET_PRODUCTS_STATISTICS:
+                daoProduct = new DaoProduct("file.db");
+                List<ProductStatistics> productStatistics = daoProduct.getStatisticsList(Integer.parseInt(message));
+
+                if(productStatistics == null){
+                    reply.putField("Can't show statistics");
+                }
+                else{
+                    reply.putObject(ProductStatistics.toJSONObject(productStatistics).toString());
                 }
                 break;
 

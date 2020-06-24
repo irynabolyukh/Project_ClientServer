@@ -3,6 +3,7 @@ package client_server.dao;
 import client_server.domain.Group;
 import client_server.domain.Product;
 import client_server.domain.ProductFilter;
+import client_server.domain.ProductStatistics;
 import org.json.JSONObject;
 
 import java.sql.*;
@@ -218,6 +219,31 @@ public class DaoProduct {
         }
     }
 
+    public List<ProductStatistics> getStatisticsList(int group_id){
+        try(final Statement statement = connection.createStatement()){
+
+            final String sql = String.format("select id, name, price, amount, description, manufacturer, price * amount as total_cost" +
+                    " from 'products' where group_id = %s", group_id);
+            final ResultSet resultSet = statement.executeQuery(sql);
+
+            final List<ProductStatistics> products = new ArrayList<>();
+            while(resultSet.next()){
+                products.add( new ProductStatistics(resultSet.getInt("id"),
+                        resultSet.getString("name"),
+                        resultSet.getDouble("price"),
+                        resultSet.getDouble("amount"),
+                        resultSet.getString("description"),
+                        resultSet.getString("manufacturer"),
+                        resultSet.getDouble("total_cost")));
+            }
+            return products;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+            //throw new RuntimeException("Can't create table", e);
+        }
+    }
+
     public Product getProductByName(final String name){
         try(final Statement statement = connection.createStatement()){
 
@@ -286,16 +312,4 @@ public class DaoProduct {
         }
     }
 
-    public JSONObject toJSONObject(List<Product> products){
-        StringBuffer stringBuffer = new StringBuffer();
-
-        stringBuffer.append("{\"list\":[");
-
-        for (Product g: products) {
-            stringBuffer.append(g.toJSON().toString() + ", ");
-        }
-        stringBuffer.delete(stringBuffer.length()-1, stringBuffer.length()-1);
-        stringBuffer.append("]}");
-        return new JSONObject(stringBuffer.toString());
-    }
 }

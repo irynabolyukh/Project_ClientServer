@@ -36,6 +36,7 @@ public class Message {
         UPDATE_PRODUCT,
         GET_PRODUCT,
         GET_LIST_PRODUCTS,
+        GET_PRODUCTS_STATISTICS,
         DELETE_ALL_IN_GROUP, // видалити всі продукти з даної групи
         INSERT_GROUP,
         DELETE_GROUP, // видалити всю групу і її рядочки

@@ -371,7 +371,6 @@ public class ProductsListController {
         Message msg = new Message(GET_LIST_PRODUCTS.ordinal(), 1, jsonObj.toString().getBytes(StandardCharsets.UTF_8));
 
         Packet packet = new Packet((byte) 1, UnsignedLong.valueOf(GlobalContext.packetId++), msg);
-        System.out.println("reset");
 
         Packet receivedPacket = GlobalContext.clientTCP.sendPacket(packet.toPacket());
 
@@ -383,7 +382,6 @@ public class ProductsListController {
         if (command_type == GET_LIST_PRODUCTS) {
             String message = new String(receivedPacket.getBMsq().getMessage(), StandardCharsets.UTF_8);
             JSONObject information = new JSONObject(message);
-            System.out.println("command");
             try {
                 JSONObject list = information.getJSONObject("object");
                 JSONArray array = list.getJSONArray("list");

@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor(staticName = "empty")
 @AllArgsConstructor
@@ -46,6 +48,19 @@ public class Product {
                 "\", \"group_id\":" + group_id + "}");
 
         return json;
+    }
+
+    public static JSONObject toJSONObject(List<Product> products){
+        StringBuffer stringBuffer = new StringBuffer();
+
+        stringBuffer.append("{\"list\":[");
+
+        for (Product g: products) {
+            stringBuffer.append(g.toJSON().toString() + ", ");
+        }
+        stringBuffer.delete(stringBuffer.length()-1, stringBuffer.length()-1);
+        stringBuffer.append("]}");
+        return new JSONObject(stringBuffer.toString());
     }
 
     @Override
