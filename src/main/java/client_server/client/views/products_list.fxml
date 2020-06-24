@@ -13,7 +13,8 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="554.0" prefWidth="782.0" spacing="10" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client_server.client.controllers.ProductsListController">
+
+<VBox prefHeight="554.0" prefWidth="782.0" spacing="10" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client_server.client.controllers.ProductsListController">
     <style>
         -fx-padding: 10;
         -fx-border-style: solid inside;
@@ -33,15 +34,15 @@
                   <Insets left="20.0" />
                </padding>
             </Label>
-            <Button mnemonicParsing="false" onAction="#toGroupList" prefHeight="29.0" prefWidth="141.0" text="To groups list">
+            <Button fx:id="addUserBtn" mnemonicParsing="false" onAction="#addUser" prefHeight="32.0" prefWidth="103.0" text="Add User">
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="addUserBtn" mnemonicParsing="false" onAction="#addUser" prefHeight="32.0" prefWidth="103.0" text="Add User">
-               <HBox.margin>
-                  <Insets left="20.0" />
-               </HBox.margin>
+            <Button mnemonicParsing="false" onAction="#toGroupList" prefHeight="29.0" prefWidth="141.0" text="To groups list">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -67,11 +68,13 @@
                 <Button fx:id="deleteProductBtn" mnemonicParsing="false" onAction="#deleteProduct" prefHeight="54.0" prefWidth="133.0" text="Delete product">
                <HBox.margin>
                   <Insets left="10.0" />
-               </HBox.margin></Button>
+               </HBox.margin>
+            </Button>
             <Button fx:id="updateProductBtn" mnemonicParsing="false" onAction="#updateProductWindow" prefHeight="54.0" prefWidth="133.0" text="Update product">
                <HBox.margin>
                   <Insets left="10.0" />
-               </HBox.margin></Button>
+               </HBox.margin>
+            </Button>
             </children>
         </HBox>
         <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
@@ -114,7 +117,8 @@
             <Button mnemonicParsing="false" onAction="#showAllProducts" prefHeight="54.0" prefWidth="133.0" text="Show all">
                <HBox.margin>
                   <Insets left="10.0" />
-               </HBox.margin></Button>
+               </HBox.margin>
+            </Button>
          </children>
       </HBox>
         <TableView fx:id="productsTable" prefHeight="451.0" prefWidth="750.0">
@@ -144,7 +148,7 @@
             <TableColumn fx:id="groupIdCol" minWidth="0.0" prefWidth="90.0" text="Group ID" />
             </columns>
         </TableView>
-      <HBox prefWidth="749.0">
+      <HBox alignment="TOP_CENTER" prefWidth="749.0">
          <children>
             <Label fx:id="statusLabel" prefHeight="30.0" prefWidth="608.0" textFill="#e10000">
                <padding>
