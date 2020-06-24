@@ -176,6 +176,13 @@ public class ProductsListController {
         Stage stage = new Stage();
         stage.setTitle("New Product");
         stage.setScene(new Scene(root));
+
+        stage.setOnHiding(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent we) {
+                resetTable();
+            }
+        });
+
         stage.show();
     }
 

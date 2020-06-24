@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 public class DaoProduct {
 
     private final Connection connection;
-    private final String database = "file.db";
+    public String database = "file.db";
 
     public DaoProduct(final String dbFile) {
         try {

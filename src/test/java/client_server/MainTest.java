@@ -33,6 +33,7 @@ public class MainTest{
     void init() {
         daoGroup = new DaoGroup(database);
         daoProduct = new DaoProduct(database);
+        daoProduct.database = database;
         userDao = new UserDao(database);
         Group group = new Group(23,"крупи", "корисно");
         daoGroup.insertGroup(group);
@@ -127,11 +128,6 @@ public class MainTest{
 
         daoProduct.updateProduct(product2);
         System.out.println(daoProduct.getProduct(1));
-
-//        List<Product> products = daoProduct.getAll(0,10);
-//        for(int i=0;i<products.size();i++){
-//            System.out.println(products.get(i));
-//        }
 
         Product updatedProduct = daoProduct.getProduct(1);
         System.out.println(updatedProduct);
