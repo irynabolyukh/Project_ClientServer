@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="498.0" prefWidth="782.0" spacing="10" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client_server.client.controllers.GroupsListController">
+<VBox prefHeight="498.0" prefWidth="782.0" spacing="10" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client_server.client.controllers.GroupsListController">
     <style>
         -fx-padding: 10;
         -fx-border-style: solid inside;
@@ -33,19 +33,19 @@
                         <Insets left="20.0" />
                     </padding>
                 </Label>
-                <Button mnemonicParsing="false" onAction="#toProductsList" prefHeight="32.0" prefWidth="151.0" text="To products list">
-                    <font>
-                        <Font name="System Bold" size="12.0" />
-                    </font>
-                </Button>
             <Button fx:id="addUserBtn" mnemonicParsing="false" onAction="#addUser" prefHeight="29.0" prefWidth="119.0" text="Add User">
                <HBox.margin>
-                  <Insets left="20.0" />
+                  <Insets right="20.0" />
                </HBox.margin>
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
+                <Button mnemonicParsing="false" onAction="#toProductsList" prefHeight="32.0" prefWidth="151.0" text="To products list">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Button>
                 <Button mnemonicParsing="false" onAction="#logOut" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: red;" text="Log out" textFill="WHITE">
                     <font>
                         <Font name="System Bold" size="13.0" />
