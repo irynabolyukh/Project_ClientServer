@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="554.0" prefWidth="782.0" spacing="10" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client_server.client.controllers.GroupStatisticsController">
+<VBox prefHeight="554.0" prefWidth="782.0" spacing="10" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client_server.client.controllers.GroupStatisticsController">
     <style>
         -fx-padding: 10;
         -fx-border-style: solid inside;
@@ -27,7 +27,7 @@
          <children>
             <Label fx:id="groupNameLabel" prefHeight="27.0" prefWidth="193.0" text="Statistics for group ">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
                <padding>
                   <Insets left="20.0" />
@@ -54,7 +54,7 @@
          <children>
             <Label fx:id="totalCostLabel" prefHeight="44.0" prefWidth="751.0" text="Total cost of products in group: ">
                <font>
-                  <Font size="14.0" />
+                  <Font name="System Bold" size="14.0" />
                </font>
                <padding>
                   <Insets left="20.0" />

@@ -46,8 +46,7 @@ public class StoreClientTCP {
                 System.out.println("SERVER IS DEAD:(");
             }
             else{
-                int reconnect = reconnect_num + 1;
-                reconnect(packet, reconnect);
+                reconnect(packet, ++reconnect_num);
             }
         }
     }
