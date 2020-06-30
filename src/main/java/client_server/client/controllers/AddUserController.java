@@ -5,12 +5,16 @@ import java.nio.charset.StandardCharsets;
 import java.util.ResourceBundle;
 
 import client_server.client.GlobalContext;
+import client_server.domain.Group;
 import client_server.domain.packet.Message;
 import client_server.domain.packet.Packet;
 import client_server.domain.User;
 import com.google.common.primitives.UnsignedLong;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import org.json.JSONException;
@@ -33,18 +37,18 @@ public class AddUserController {
     private TextField passwordField;
 
     @FXML
-    private TextField roleField;
+    private ChoiceBox<String> roleChoice;
 
     @FXML
     private Label statusLabel;
 
     @FXML
     void createUser(ActionEvent event) {
-        if (loginField.getText().isEmpty() || passwordField.getText().isEmpty() || roleField.getText().isEmpty()) {
+        if (loginField.getText().isEmpty() || passwordField.getText().isEmpty() || roleChoice.getValue().isEmpty()) {
             statusLabel.setText("Fill out all fields before adding.");
         } else {
 
-            User user = new User(loginField.getText(), passwordField.getText(), roleField.getText());
+            User user = new User(loginField.getText(), passwordField.getText(), roleChoice.getValue());
             Message msg = new Message(Message.cTypes.ADD_USER.ordinal(), 1, user.toJSON().toString().getBytes(StandardCharsets.UTF_8));
 
             Packet packet = new Packet((byte) 1, UnsignedLong.valueOf(GlobalContext.packetId++), msg);
@@ -72,6 +76,11 @@ public class AddUserController {
 
     @FXML
     void initialize() {
+        ObservableList<String> roles = FXCollections.observableArrayList();
+        roles.add("admin");
+        roles.add("user");
+        roles.add("worker");
 
+        roleChoice.setItems(roles);
     }
 }
