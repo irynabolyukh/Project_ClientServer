@@ -42,43 +42,49 @@ public class LoginWindowController {
     private Label statusLabel;
 
     public void processLogin() throws IOException {
-        System.out.println("Process login");
+//        System.out.println("Process login");
+        statusLabel.setText("");
 
-        UserCredentials user = new UserCredentials(loginField.getText(), DigestUtils.md5Hex(passwordField.getText()));
-        Message msg = new Message(LOGIN.ordinal(), 1, user.toJSON().toString().getBytes(StandardCharsets.UTF_8));
+        if (loginField.getText().isEmpty() || passwordField.getText().isEmpty()) {
+            statusLabel.setText("Fill out all fields to log in.");
+        } else {
 
-        Packet packet = new Packet((byte)1, UnsignedLong.valueOf(GlobalContext.packetId++), msg);
-        Packet receivedPacket = GlobalContext.clientTCP.sendPacket(packet.toPacket());
+            UserCredentials user = new UserCredentials(loginField.getText(), DigestUtils.md5Hex(passwordField.getText()));
+            Message msg = new Message(LOGIN.ordinal(), 1, user.toJSON().toString().getBytes(StandardCharsets.UTF_8));
 
-        int command = receivedPacket.getBMsq().getcType();
-        Message.cTypes [] val = Message.cTypes.values();
-        Message.cTypes command_type = val[command];
+            Packet packet = new Packet((byte) 1, UnsignedLong.valueOf(GlobalContext.packetId++), msg);
+            Packet receivedPacket = GlobalContext.clientTCP.sendPacket(packet.toPacket());
 
-        boolean loggedIn = false;
+            int command = receivedPacket.getBMsq().getcType();
+            Message.cTypes[] val = Message.cTypes.values();
+            Message.cTypes command_type = val[command];
 
-        if(command_type == LOGIN){
-            String message = new String(receivedPacket.getBMsq().getMessage(), StandardCharsets.UTF_8);
-            JSONObject information = new JSONObject(message);
+            boolean loggedIn = false;
 
-            try{
-                JSONObject object = information.getJSONObject("object");
-                GlobalContext.role = object.getString("role");
-                loggedIn = true;
-            }catch(JSONException e){
-                statusLabel.setText(information.getString("message"));
+            if (command_type == LOGIN) {
+                String message = new String(receivedPacket.getBMsq().getMessage(), StandardCharsets.UTF_8);
+                JSONObject information = new JSONObject(message);
+
+                try {
+                    JSONObject object = information.getJSONObject("object");
+                    GlobalContext.role = object.getString("role");
+                    loggedIn = true;
+                } catch (JSONException e) {
+                    statusLabel.setText(information.getString("message"));
+                }
+
+            } else {
+                statusLabel.setText("Failed to log in.");
             }
 
-        }else{
-            statusLabel.setText("Failed to log in.");
-        }
-
-        if(loggedIn){
-            FXMLLoader loader = new FXMLLoader();
-            Stage stage = (Stage) loginField.getScene().getWindow();
-            URL url = new File("src/main/java/client_server/client/views/products_list.fxml").toURI().toURL();
-            Parent root = FXMLLoader.load(url);
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
+            if (loggedIn) {
+                FXMLLoader loader = new FXMLLoader();
+                Stage stage = (Stage) loginField.getScene().getWindow();
+                URL url = new File("src/main/java/client_server/client/views/products_list.fxml").toURI().toURL();
+                Parent root = FXMLLoader.load(url);
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+            }
         }
     }
 

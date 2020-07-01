@@ -57,10 +57,10 @@ public class Processor{
                         reply.putObject("{\"role\":\""+user.getRole()+"\"}");
                     }
                     else{
-                        reply.putField("Wrong password!");
+                        reply.putField("Wrong login or password!");
                     }
                 }else{
-                    reply.putField("No such user!");
+                    reply.putField("Wrong login or password!");
                 }
                 break;
             case INSERT_PRODUCT:
